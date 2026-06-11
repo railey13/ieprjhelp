@@ -18,15 +18,25 @@ public class TurnBasedSystem : MonoBehaviour
     }
 
    
-    void BattleStart()
+    private void BattleStart()
     {
-        GameObject Player = Instantiate(PlayerPrefab,PlayerPosition);
+
+        Debug.Log("Spawning Player");
+        GameObject Player = Instantiate(PlayerPrefab,PlayerPosition.position,Quaternion.identity);
+
+        Debug.Log("Spawning Enemy");
         GameObject Enemy = Instantiate(EnemyPrefab,EnemyPosition);
+
         PlayerStats = Player.GetComponent<Stats>();
+        Debug.Log(PlayerStats.Name);
         EnemyStats = Enemy.GetComponent<Stats>();
         
     }
 
+    public void EnemyMove()
+    {
+
+    }
     public void ActionState()
     {
 
