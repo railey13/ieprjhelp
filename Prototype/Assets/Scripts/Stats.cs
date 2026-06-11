@@ -7,7 +7,7 @@ public class Stats : MonoBehaviour
     [SerializeField] public int CurrentHP;
     [SerializeField] public int Damage;
     [SerializeField] public int Speed;
-    [SerializeField] public int PositionX;
-    [SerializeField] public int PositionY;
+    //[SerializeField] public int PositionX;
+    //[SerializeField] public int PositionY;
 
 }
