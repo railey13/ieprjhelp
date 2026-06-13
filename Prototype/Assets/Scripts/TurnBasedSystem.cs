@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class TurnBasedSystem : MonoBehaviour
 {
@@ -9,7 +9,8 @@ public class TurnBasedSystem : MonoBehaviour
     [SerializeField] private Transform PlayerPosition;
     [SerializeField] private Transform EnemyPosition;
 
-
+    private List<PlayerClass> players= new List<PlayerClass>();
+    private List<EnemyClass> enemies = new List<EnemyClass>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,13 +23,32 @@ public class TurnBasedSystem : MonoBehaviour
     {
 
         Debug.Log("Spawning Player");
-        GameObject Player = Instantiate(PlayerPrefab[0], PlayerPosition.position, Quaternion.identity);
+       // GameObject player = Instantiate(PlayerPrefab[0], PlayerPosition.position, Quaternion.identity);
+       for (int i =0; i< PlayerPrefab.Length; i++)
+        {
+            GameObject playerObject = Instantiate(
+                PlayerPrefab[i],
+                PlayerPosition.position + new Vector3(i * 2, 0, 0),
+                Quaternion.identity
+                );
+            players.Add(playerObject.GetComponent<PlayerClass>());
+        }
 
         Debug.Log("Spawning Enemy");
-        GameObject Enemy = Instantiate(EnemyPrefab[0], EnemyPosition);
+        for (int i = 0; i < EnemyPrefab.Length; i++)
+        {
+            GameObject enemyObject = Instantiate(
+                EnemyPrefab[i],
+                EnemyPosition.position + new Vector3(i * 2, 0, 0),
+                Quaternion.identity
+            );
+
+            enemies.Add(enemyObject.GetComponent<EnemyClass>());
+        }
 
 
-
+        
+       
     }
 
     public void EnemyMove()

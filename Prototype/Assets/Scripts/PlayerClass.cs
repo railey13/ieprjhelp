@@ -13,7 +13,7 @@ public class PlayerClass : MonoBehaviour
     }
     public virtual void TakeDamage(int damage)
     {
-        hp-=damage; 
+        hp-=damage;     
     }
     
 }
