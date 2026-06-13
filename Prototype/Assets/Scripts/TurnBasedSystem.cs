@@ -9,8 +9,6 @@ public class TurnBasedSystem : MonoBehaviour
     [SerializeField] private Transform PlayerPosition;
     [SerializeField] private Transform EnemyPosition;
 
-    Stats PlayerStats;
-    Stats EnemyStats;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,9 +25,7 @@ public class TurnBasedSystem : MonoBehaviour
         Debug.Log("Spawning Enemy");
         GameObject Enemy = Instantiate(EnemyPrefab[0], EnemyPosition);
 
-        PlayerStats = Player.GetComponent<Stats>();
-        Debug.Log(PlayerStats.Name);
-        EnemyStats = Enemy.GetComponent<Stats>();
+
 
     }
 
