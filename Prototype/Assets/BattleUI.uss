@@ -1,0 +1,7 @@
+:root {
+}
+
+.unity-button {
+    text-shadow: 0 0 0 rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+}
