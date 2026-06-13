@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class TurnBasedSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject PlayerPrefab;
-    [SerializeField] private GameObject EnemyPrefab;
+    [SerializeField] private GameObject[] PlayerPrefab;
+    [SerializeField] private GameObject[] EnemyPrefab;
 
     [SerializeField] private Transform PlayerPosition;
     [SerializeField] private Transform EnemyPosition;
@@ -17,20 +17,20 @@ public class TurnBasedSystem : MonoBehaviour
         BattleStart();
     }
 
-   
+
     private void BattleStart()
     {
 
         Debug.Log("Spawning Player");
-        GameObject Player = Instantiate(PlayerPrefab,PlayerPosition.position,Quaternion.identity);
+        GameObject Player = Instantiate(PlayerPrefab[0], PlayerPosition.position, Quaternion.identity);
 
         Debug.Log("Spawning Enemy");
-        GameObject Enemy = Instantiate(EnemyPrefab,EnemyPosition);
+        GameObject Enemy = Instantiate(EnemyPrefab[0], EnemyPosition);
 
         PlayerStats = Player.GetComponent<Stats>();
         Debug.Log(PlayerStats.Name);
         EnemyStats = Enemy.GetComponent<Stats>();
-        
+
     }
 
     public void EnemyMove()
