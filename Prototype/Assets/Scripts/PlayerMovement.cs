@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     {
         moving = false; // cant move
         SetCircleVisible(false); // hide circle 
+        SceneManager.LoadScene("Turn Scene");
     }
 
     void HandleWASD()

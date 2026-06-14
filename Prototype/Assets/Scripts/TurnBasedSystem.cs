@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class TurnBasedSystem : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class TurnBasedSystem : MonoBehaviour
         else if (isMove == true)
         {
             Debug.Log("Move");
+            SceneManager.LoadScene("Prototype");
         }
         else 
         {
