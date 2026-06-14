@@ -605,8 +605,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c050c99ce2a3b1d4da4f1466a24488de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystem
-  PlayerPrefab: {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
-  EnemyPrefab: {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
+  PlayerPrefab:
+  - {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
+  - {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
+  - {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
+  EnemyPrefab:
+  - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
+  - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
+  - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
   PlayerPosition: {fileID: 1372866897}
   EnemyPosition: {fileID: 289005473}
 --- !u!4 &1305657442
