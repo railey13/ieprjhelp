@@ -6,6 +6,7 @@ public class PlayerClass : MonoBehaviour
     public int hp;
     public int atk;
     public int speed;
+    public int movement;
 
     public virtual void BasicAttack(EnemyClass target)
     {
