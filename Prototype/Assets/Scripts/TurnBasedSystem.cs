@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TurnBasedSystem : MonoBehaviour
 {
@@ -8,6 +9,16 @@ public class TurnBasedSystem : MonoBehaviour
 
     [SerializeField] private Transform PlayerPosition;
     [SerializeField] private Transform EnemyPosition;
+
+    [SerializeField] private UIDocument doc;
+    private Button PMove;
+    private Button PAttack;
+    private Button PHeal;
+    private Button EndTurn;
+    private bool isMove = false;
+    private bool isAttack = false;
+    private bool isHeal = false;
+
 
     private List<PlayerClass> players= new List<PlayerClass>();
     private List<EnemyClass> enemies = new List<EnemyClass>();
@@ -46,11 +57,38 @@ public class TurnBasedSystem : MonoBehaviour
             enemies.Add(enemyObject.GetComponent<EnemyClass>());
         }
 
+        PMove = doc.rootVisualElement.Q<Button>("Move");
+        PAttack = doc.rootVisualElement.Q<Button>("Attack");
+        PHeal = doc.rootVisualElement.Q<Button>("Heal");
+        EndTurn = doc.rootVisualElement.Q<Button>("EndTurn");
+        PMove.RegisterCallback<ClickEvent>(MoveEnabled);
+        PAttack.RegisterCallback<ClickEvent>(AttackEnabled);
+        PHeal.RegisterCallback<ClickEvent>(HealEnabled);
+        EndTurn.RegisterCallback<ClickEvent>(onEndTurnClicked);
 
-        
-       
+
+
     }
-
+    private void onEndTurnClicked(ClickEvent evt)
+    {
+        if (isAttack == true)
+        {
+            Debug.Log("Attack");
+            //end turn
+        }
+        else if (isHeal == true)
+        {
+            Debug.Log("Healed");
+        }
+        else if (isMove == true)
+        {
+            Debug.Log("Move");
+        }
+        else 
+        {
+            Debug.Log("Not selected any action"); 
+        }
+    }
     public void EnemyMove()
     {
 
@@ -62,6 +100,21 @@ public class TurnBasedSystem : MonoBehaviour
     public void WinLoseState()
     {
 
+    }
+    private void AttackEnabled(ClickEvent evt)
+    {
+        Debug.Log("Attack Clicked");
+        isAttack = true;
+    }
+    private void MoveEnabled(ClickEvent evt)
+    {
+        Debug.Log("Move Clicked");
+        isMove = true;
+    }
+    private void HealEnabled(ClickEvent evt)
+    {
+        Debug.Log("Heal Clicked");
+        isHeal = true;
     }
     
     
