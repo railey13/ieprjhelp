@@ -1,13 +1,11 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/BattleUI.uss?fileID=7433441132597879392&amp;guid=14326483f516c1349837a34bf938cc71&amp;type=3#BattleUI"/>
     <ui:Label text="Player Name" parse-escape-sequences="true" style="text-overflow: clip; -unity-text-align: upper-left;"/>
-    <ui:VisualElement style="flex-grow: 1; width: 918px;">
-        <ui:ProgressBar value="22" title="HP:" style="align-self: flex-start; width: 204px;"/>
-    </ui:VisualElement>
-    <ui:VisualElement style="flex-grow: 1; width: 918px; margin-top: 100px;">
-        <ui:Button text="Move" name="Button" style="height: 41px; width: 178px;"/>
-        <ui:Button text="Attack" data-source-path="" name="" style="-unity-text-align: upper-center; white-space: pre; background-position-x: left 0; background-position-y: bottom 0; height: 38px; width: 178px; -unity-text-auto-size: none;"/>
-        <ui:Button text="Heal" style="height: 41px; width: 177px;"/>
-        <ui:Button text="End Turn" name="Button" style="height: 36px; width: 178px;"/>
+    <ui:ProgressBar value="22" title="HP:" style="align-self: flex-start; width: 204px;"/>
+    <ui:VisualElement style="flex-grow: 1; width: 918px; margin-top: 125px;">
+        <ui:Button text="Move" name="Move" style="height: 41px; width: 178px;"/>
+        <ui:Button text="Attack" data-source-path="" name="Attack" style="-unity-text-align: upper-center; white-space: pre; background-position-x: left 0; background-position-y: bottom 0; height: 38px; width: 178px; -unity-text-auto-size: none;"/>
+        <ui:Button text="Heal" name="Heal" style="height: 41px; width: 177px;"/>
+        <ui:Button text="End Turn" name="EndTurn" style="height: 36px; width: 178px;"/>
     </ui:VisualElement>
 </ui:UXML>
