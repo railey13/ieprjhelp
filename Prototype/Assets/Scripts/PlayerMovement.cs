@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 12f;
 
     [Header("Range Indicator")]
-    [SerializeField] private float circleHeight = 0.05f;
+    [SerializeField] private float circleHeight = 0.05f; //how high above the ground the circle is
     [SerializeField] private Color rangeColor = new Color(0f, 0.6f, 1f, 0.25f); // circle color
 
     [SerializeField] private InputActionAsset inputAsset;
