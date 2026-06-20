@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 origin; // circle anchor
     private bool moving; // true = circle active, player can walk
     private InputAction moveAction;
-    private InputAction cancelAction;
     private InputAction spaceAction;
     private GameObject circleObj;
 
@@ -26,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     { 
         player = GetComponent<PlayerClass>(); 
         moveAction = inputAsset.FindAction("Player/Move");
-        cancelAction = inputAsset.FindAction("Player/Cancel");
         spaceAction = inputAsset.FindAction("Player/Space");
     }
 
@@ -41,18 +39,14 @@ public class PlayerMovement : MonoBehaviour
     {
         moveAction.Enable();
         spaceAction.Enable();
-        cancelAction.Enable();
-        spaceAction.performed += OnConfirmSpacePerformed;
-        cancelAction.performed += OnCancelPerformed;
+        spaceAction.performed += OnConfirmPerformed;
     }
 
     void OnDisable()
     {
         moveAction.Disable();
         spaceAction.Disable();
-        spaceAction.performed -= OnConfirmSpacePerformed;
-        cancelAction.Disable();
-        cancelAction.performed -= OnCancelPerformed;
+        spaceAction.performed -= OnConfirmPerformed;
     }
 
     void Update()
@@ -76,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ConfirmMovement()
     {
-        moving = false; // cant move 
+        moving = false; // cant move
         SetCircleVisible(false); // hide circle 
         SceneManager.LoadScene("Turn Scene");
     }
@@ -122,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // when space is pressed, either open movement or confirm movement
-    void OnConfirmSpacePerformed(InputAction.CallbackContext ctx)
+    void OnConfirmPerformed(InputAction.CallbackContext ctx)
     {
         if (!moving) 
             OpenMovement();
@@ -130,14 +124,5 @@ public class PlayerMovement : MonoBehaviour
             ConfirmMovement();
     }
 
-    // when cancel is pressed, cancel movement
-    void OnCancelPerformed(InputAction.CallbackContext ctx)
-    {
-        if (moving)
-        {
-            moving = false;
-            SetCircleVisible(false);
-            transform.position = origin; // reset position to original
-        }
-    }
 }
+
