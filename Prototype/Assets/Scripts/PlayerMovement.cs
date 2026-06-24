@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Turn System")]
-    [SerializeField] private TurnBasedSystem turnBasedSystem;
+    [SerializeField] private TurnBasedSystemV2 turnBasedSystem;
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
 
@@ -25,9 +25,9 @@ public class PlayerMovement : MonoBehaviour
     private GameObject circleObj;
     private bool resetOrigin = true;
 
-    void Awake() 
-    { 
-        player = GetComponent<PlayerClass>(); 
+    void Awake()
+    {
+        player = GetComponent<PlayerClass>();
         moveAction = inputAsset.FindAction("Player/Move");
         cancelAction = inputAsset.FindAction("Player/Cancel");
         spaceAction = inputAsset.FindAction("Player/Space");
@@ -39,12 +39,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        range = player.movement;
-        BuildCircleVisual();
-        SetCircleVisible(false);
+    Debug.Log(gameObject.name + " PlayerMovement Start() running");
+    range = player.movement;
+    Debug.Log(gameObject.name + " range = " + range);
+    BuildCircleVisual();
+    Debug.Log(gameObject.name + " circleObj built? " + (circleObj != null));
+    SetCircleVisible(false);
     }
 
-        void OnEnable()
+    void OnEnable()
     {
         moveAction.Enable();
         spaceAction.Enable();
@@ -74,12 +77,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void OpenMovement()
     {
-        if (resetOrigin) {
+        if (resetOrigin)
+        {
             origin = transform.position;
             resetOrigin = false;
         }
         // when space, place circle on player
-        circleObj.transform.position = new Vector3( 
+        circleObj.transform.position = new Vector3(
             origin.x, origin.y + circleHeight, origin.z);
 
         SetCircleVisible(true); // show circle during movement 
@@ -99,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (input == Vector2.zero) return;
         // movement
-        Vector3 proposed = transform.position + new Vector3(input.x, 0f, input.y).normalized * moveSpeed * Time.deltaTime; 
+        Vector3 proposed = transform.position + new Vector3(input.x, 0f, input.y).normalized * moveSpeed * Time.deltaTime;
 
         Vector3 offset = proposed - origin;
         offset.y = 0f;
@@ -128,15 +132,15 @@ public class PlayerMovement : MonoBehaviour
         circleObj.GetComponent<MeshRenderer>().material = mat;
     }
 
-    void SetCircleVisible(bool visible) 
-    { 
+    void SetCircleVisible(bool visible)
+    {
         circleObj.SetActive(visible); // makes the circle appear/disappear
     }
 
     // when space is pressed, either open movement or confirm movement
     void OnConfirmSpacePerformed(InputAction.CallbackContext ctx)
     {
-        if (moving) 
+        if (moving)
             ConfirmMovement();
     }
 
@@ -151,9 +155,13 @@ public class PlayerMovement : MonoBehaviour
             turnBasedSystem.OnPlayerMoveCancelled();
         }
     }
-    
+
     public void setResetOrigin(bool value)
     {
         resetOrigin = value;
+    }
+    public void SetTurnBasedSystem(TurnBasedSystemV2 system)
+    {
+        turnBasedSystem = system;
     }
 }

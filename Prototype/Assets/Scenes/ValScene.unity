@@ -174,7 +174,7 @@ MonoBehaviour:
   EnemySpawnPoints:
   - {fileID: 289005473}
   - {fileID: 338284151}
-  doc: {fileID: 0}
+  doc: {fileID: 388397738}
 --- !u!1 &187387053
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,12 +405,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.172, y: 9.02, z: 0.436}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.838, y: 25.276, z: -0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6665832672781957553}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -821,7 +821,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.7
+      value: 19.87
       objectReference: {fileID: 0}
     - target: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -904,11 +904,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.01
+      value: 22.93
       objectReference: {fileID: 0}
     - target: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.96
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -948,10 +948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 330585546}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       insertIndex: -1
@@ -960,11 +957,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6665832672781957555}
   m_SourcePrefab: {fileID: 100100000, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
---- !u!4 &6665832672781957553 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
-  m_PrefabInstance: {fileID: 6665832672781957552}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6665832672781957554 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
@@ -999,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  turnBasedSystem: {fileID: 0}
+  turnBasedSystem: {fileID: 72908618}
   moveSpeed: 12
   circleHeight: 0.05
   rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
@@ -1020,3 +1012,4 @@ SceneRoots:
   - {fileID: 1789596809}
   - {fileID: 1780775755}
   - {fileID: 1177677515}
+  - {fileID: 330585546}

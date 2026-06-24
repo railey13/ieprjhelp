@@ -27,7 +27,7 @@ public class TurnBasedSystem : MonoBehaviour
     private enum TurnPhase { PlayerTurn, EnemyTurn }
     private TurnPhase currentPhase = TurnPhase.PlayerTurn;
 
-    private List<PlayerClass> players= new List<PlayerClass>();
+    private List<PlayerClass> players = new List<PlayerClass>();
     private List<EnemyClass> enemies = new List<EnemyClass>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -147,7 +147,6 @@ public class TurnBasedSystem : MonoBehaviour
         activePlayerMovement.setResetOrigin(true); // allow player movement to reset origin on next turn
         SetUIVisible(true);
     }
-
     public void OnPlayerMoveConfirmed()
     {
         Debug.Log("Player finished moving");
@@ -155,27 +154,20 @@ public class TurnBasedSystem : MonoBehaviour
         WinLoseState();
         if (isGameOver) return;
         SetUIVisible(true);
-        //AdvanceTurn();
     }
+
     public void OnPlayerMoveCancelled()
     {
         Debug.Log("Player cancelled movement");
         selectedAction = TurnAction.None;
         SetUIVisible(true);
     }
-    public void EnemyMove()
-    {
 
-    }
-    public void ActionState()
-    {
-
-    }
     public void WinLoseState()
     {
-        bool anyPlayerAlive = true; // add logic
-        bool anyEnemyAlive = true; // add logic
- 
+        bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
+        bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
+
         if (!anyEnemyAlive)
         {
             Debug.Log("All enemies defeated — Win!");
@@ -187,22 +179,48 @@ public class TurnBasedSystem : MonoBehaviour
             isGameOver = true;
         }
     }
-/*    private void AttackEnabled(ClickEvent evt)
+
+
+    public void EnemyMove()
     {
-        Debug.Log("Attack Clicked");
-        isAttack = true;
+
     }
-    private void MoveEnabled(ClickEvent evt)
+    public void ActionState()
     {
-        Debug.Log("Move Clicked");
-        isMove = true;
+
     }
-    private void HealEnabled(ClickEvent evt)
+    public void WinLossState()
     {
-        Debug.Log("Heal Clicked");
-        isHeal = true;
+        bool anyPlayerAlive = true; // add logic
+        bool anyEnemyAlive = true; // add logic
+
+        if (!anyEnemyAlive)
+        {
+            Debug.Log("All enemies defeated — Win!");
+            isGameOver = true;
+        }
+        else if (!anyPlayerAlive)
+        {
+            Debug.Log("All players defeated — Lose.");
+            isGameOver = true;
+        }
     }
-    */
+    /*    private void AttackEnabled(ClickEvent evt)
+        {
+            Debug.Log("Attack Clicked");
+            isAttack = true;
+        }
+        private void MoveEnabled(ClickEvent evt)
+        {
+            Debug.Log("Move Clicked");
+            isMove = true;
+        }
+        private void HealEnabled(ClickEvent evt)
+        {
+            Debug.Log("Heal Clicked");
+            isHeal = true;
+        }
+        */
 
     private void AttackEnabled(ClickEvent evt)
     {
@@ -228,5 +246,5 @@ public class TurnBasedSystem : MonoBehaviour
         Debug.Log("Heal Clicked");
         selectedAction = TurnAction.Heal;
     }
-    
+
 }

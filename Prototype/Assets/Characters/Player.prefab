@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 6875528252573407792}
   - component: {fileID: 4363157883394692881}
   - component: {fileID: -4501228538576881434}
+  - component: {fileID: 2676809572032231644}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -244,4 +245,21 @@ MonoBehaviour:
   hp: 10
   atk: 10
   speed: 70
-  movement: 70
+  movement: 14
+--- !u!114 &2676809572032231644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879494447931468396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  turnBasedSystem: {fileID: 0}
+  moveSpeed: 12
+  circleHeight: 0.05
+  rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
+  inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
