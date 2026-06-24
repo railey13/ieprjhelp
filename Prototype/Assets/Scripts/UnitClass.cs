@@ -9,6 +9,7 @@ public class UnitClass : MonoBehaviour
     public int atk;
     public int speed;
     public int movement;
+    public int range;
 
     public virtual void TakeDamage(int damage)
     {

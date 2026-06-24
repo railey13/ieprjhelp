@@ -132,6 +132,7 @@ MonoBehaviour:
   atk: 1
   speed: 100
   movement: 5
+  range: 2
 --- !u!114 &-1201196050286662863
 MonoBehaviour:
   m_ObjectHideFlags: 0
