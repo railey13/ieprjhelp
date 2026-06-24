@@ -143,6 +143,8 @@ public class TurnBasedSystem : MonoBehaviour
 
         Debug.Log("Advancing to Player Turn");
         currentPhase = TurnPhase.PlayerTurn;
+        PlayerMovement activePlayerMovement = players[0].GetComponent<PlayerMovement>();
+        activePlayerMovement.setResetOrigin(true); // allow player movement to reset origin on next turn
         SetUIVisible(true);
     }
 
@@ -152,7 +154,8 @@ public class TurnBasedSystem : MonoBehaviour
         selectedAction = TurnAction.None;
         WinLoseState();
         if (isGameOver) return;
-        AdvanceTurn();
+        SetUIVisible(true);
+        //AdvanceTurn();
     }
     public void OnPlayerMoveCancelled()
     {

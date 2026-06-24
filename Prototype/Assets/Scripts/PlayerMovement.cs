@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction cancelAction;
     private InputAction spaceAction;
     private GameObject circleObj;
+    private bool resetOrigin = true;
 
     void Awake() 
     { 
@@ -73,8 +74,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void OpenMovement()
     {
-        origin = transform.position;
-
+        if (resetOrigin) {
+            origin = transform.position;
+            resetOrigin = false;
+        }
         // when space, place circle on player
         circleObj.transform.position = new Vector3( 
             origin.x, origin.y + circleHeight, origin.z);
@@ -147,5 +150,10 @@ public class PlayerMovement : MonoBehaviour
             transform.position = origin; // reset position to original
             turnBasedSystem.OnPlayerMoveCancelled();
         }
+    }
+    
+    public void setResetOrigin(bool value)
+    {
+        resetOrigin = value;
     }
 }
