@@ -13,7 +13,11 @@ public class UnitClass : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         hp -= damage;
-
+        Debug.Log(
+    UnitName +
+    " took " + damage +
+    " damage. Current HP: " + hp
+);
         if (hp <= 0)
         {
             hp = 0;
