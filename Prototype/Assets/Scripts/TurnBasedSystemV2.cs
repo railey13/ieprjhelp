@@ -16,7 +16,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private Button PMove;
     private Button PAttack;
     private Button PHeal;
-    private Button EndTurn;
+    private Button EndTurnBtn;
     // comment the below for enum later
     private bool isMove = false;
     private bool isAttack = false;
@@ -94,12 +94,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
         PHeal = doc.rootVisualElement.Q<Button>("Heal");
-        EndTurn = doc.rootVisualElement.Q<Button>("EndTurn");
+        EndTurnBtn = doc.rootVisualElement.Q<Button>("EndTurnBtn");
 
         PMove.RegisterCallback<ClickEvent>(MoveEnabled);
         PAttack.RegisterCallback<ClickEvent>(AttackEnabled);
         PHeal.RegisterCallback<ClickEvent>(HealEnabled);
-        EndTurn.RegisterCallback<ClickEvent>(onEndTurnClicked);
+        EndTurnBtn.RegisterCallback<ClickEvent>(onEndTurnClicked);
 
         SetUIVisible(true);
 
@@ -145,7 +145,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
 
     private void StartTurn()
-    {
+    {/*
         if (turnOrder == null || turnOrder.Count == 0)
         {
             Debug.LogError("TURN ORDER IS EMPTY — spawn system failed");
@@ -167,10 +167,32 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
 
         Debug.Log("Current Turn: " + unit.UnitName);
+        */
+
+        UnitClass unit = CurrentUnit;
+
+        if (unit == null)
+            return;
+
+        Debug.Log("TURN START: " + unit.UnitName);
+
+        if (unit is PlayerClass)
+        {
+            SetUIVisible(true);
+        }
+        else if (unit is EnemyClass enemy)
+        {
+            SetUIVisible(false);
+            EnemyTakeTurn(enemy);
+        }
     }
 
     private void onEndTurnClicked(ClickEvent evt)
     {
+        if (!(CurrentUnit is PlayerClass))
+            return;
+
+
         switch (selectedAction)
         {
             case TurnAction.Attack:
@@ -188,43 +210,37 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
             case TurnAction.None:
                 Debug.Log("No action selected");
-                return;
+                break;
         }
+        EndTurn();
+       // selectedAction = TurnAction.None;
 
-        selectedAction = TurnAction.None;
-        AdvanceTurn();
+
+        
     }
 
-    private void AdvanceTurn()
+    private void NextTurn()
     {
-        currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
+        if (turnOrder.Count == 0)
+            return;
+        //chat gpt idea of safety check
+        int safety = 0;
 
-        bool isPlayerTurn = CurrentUnit is PlayerClass;
-        SetUIVisible(isPlayerTurn);
+        do
+        {
+            currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
+            safety++;
+
+            if (safety > 100)
+            {
+                Debug.LogError("Infinite loop prevented in NextTurn()");
+                return;
+            }
+
+        } while (turnOrder[currentTurnIndex] == null ||
+                 turnOrder[currentTurnIndex].hp <= 0);
 
         StartTurn();
-
-        if (!isPlayerTurn)
-        {
-            if (CurrentUnit is EnemyClass currentEnemy)
-            {
-                // something
-            }
-
-            WinLoseState();
-            if (isGameOver) return;
-
-            AdvanceTurn(); // chain to next unit
-        }
-        else
-        {
-            if (CurrentUnit is PlayerClass currentPlayer)
-            {
-                PlayerMovement activePlayerMovement = currentPlayer.GetComponent<PlayerMovement>();
-                if (activePlayerMovement != null)
-                    activePlayerMovement.setResetOrigin(true);
-            }
-        }
     }
     private UnitClass CurrentUnit
     {
@@ -248,6 +264,31 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
 
 
+    private void EnemyTakeTurn(EnemyClass enemy)
+    {
+        if (isGameOver)
+        {
+            return;
+        }
+        Debug.Log(enemy.UnitName + " acts");
+        players.RemoveAll(p => p == null || p.hp <= 0);
+
+
+
+        if (players.Count > 0)
+        {
+            players[0].TakeDamage(enemy.atk);
+        }
+
+        WinLoseState();
+        EndTurn();
+    }
+    private void EndTurn()
+    {
+        selectedAction = TurnAction.None;
+
+        NextTurn();
+    }
 
     private void SpawnPlayer()
     {
