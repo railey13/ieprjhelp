@@ -213,10 +213,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 break;
         }
         EndTurn();
-       // selectedAction = TurnAction.None;
+        // selectedAction = TurnAction.None;
 
 
-        
+
     }
 
     private void NextTurn()
@@ -386,5 +386,50 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
     }
 
+
+    private PlayerClass FindNearestPlayer(Vector3 fromPosition)
+    {
+        PlayerClass nearest = null;
+        float nearestDist = float.MaxValue;
+
+        foreach (PlayerClass p in players)
+        {
+            if (p == null || p.hp <= 0) continue;
+
+            float dist = Vector3.Distance(fromPosition, p.transform.position);
+            if (dist < nearestDist)
+            {
+                nearestDist = dist;
+                nearest = p;
+            }
+        }
+
+        return nearest;
+    }
+    public void EnemyMove(EnemyClass enemy)
+    {
+        if (enemy == null) return;
+
+        PlayerClass target = FindNearestPlayer(enemy.transform.position);
+        if (target == null)
+        {
+            Debug.Log(enemy.UnitName + " found no living player to move toward");
+            return;
+        }
+
+        Vector3 toTarget = target.transform.position - enemy.transform.position;
+        toTarget.y = 0f; // keep movement flat on the ground plane
+
+        float distance = toTarget.magnitude;
+        Vector3 direction = toTarget.normalized;
+
+        float moveDistance = Mathf.Min(distance, enemy.movement);
+        Vector3 destination = enemy.transform.position + direction * moveDistance;
+
+        Debug.Log(enemy.UnitName + " moves toward " + target.UnitName +
+                  " (" + moveDistance + " units)");
+
+        enemy.transform.position = destination;
+    }
 
 }
