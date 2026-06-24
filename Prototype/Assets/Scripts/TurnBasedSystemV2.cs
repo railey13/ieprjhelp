@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
-
+using UnityEngine.InputSystem;
 public class TurnBasedSystemV2 : MonoBehaviour
 {
     [SerializeField] private GameObject[] PlayerPrefab;
@@ -37,8 +37,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
     //////////////////// 
 
     private int currentTurnIndex = 0;
-
-
+    private EnemyClass selectedTarget;
+    private bool isTargeting = false;
+    /// /////////////
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -118,10 +120,20 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void AttackEnabled(ClickEvent evt)
     {
-        Debug.Log("Attack Clicked");
+        Debug.Log("Select A Target  ");
         selectedAction = TurnAction.Attack;
+        isTargeting = true;
     }
+    public void SelectTarget(EnemyClass enemy)
+    {
+        if (!isTargeting)
+            return;
 
+        selectedTarget = enemy;
+        isTargeting = false;
+
+        Debug.Log("Target selected: " + enemy.UnitName);
+    }
     private void MoveEnabled(ClickEvent evt)
     {
         Debug.Log("Move Clicked");
@@ -198,6 +210,16 @@ public class TurnBasedSystemV2 : MonoBehaviour
             case TurnAction.Attack:
                 Debug.Log("Player attacks");
                 // enemies[0].TakeDamage(67); // pick a real target later
+
+                if (selectedTarget != null && selectedTarget.hp > 0)
+                {
+                    selectedTarget.TakeDamage(CurrentUnit.atk);
+                }
+                if (selectedTarget == null || selectedTarget.hp <= 0)
+                {
+                    Debug.Log("No valid target selected");
+                    
+                }
                 break;
 
             case TurnAction.Heal:
@@ -286,7 +308,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private void EndTurn()
     {
         selectedAction = TurnAction.None;
-
+        selectedTarget = null;
+        isTargeting = false;
         NextTurn();
     }
 
@@ -373,6 +396,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     {
         bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
         bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
+        enemies.RemoveAll(e => e == null || e.hp <= 0);
+        players.RemoveAll(p => p == null || p.hp <= 0);
 
         if (!anyEnemyAlive)
         {
