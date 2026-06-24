@@ -5,12 +5,16 @@ public class EnemyTargetable : MonoBehaviour
 {
     private EnemyClass enemy;
     private TurnBasedSystemV2 turnSystem;
+    [SerializeField] private Light targetLight;
 
     void Awake()
     {
         enemy = GetComponent<EnemyClass>();
         turnSystem = FindFirstObjectByType<TurnBasedSystemV2>();
         Debug.Log("EnemyTargetable attached to: " + gameObject.name);
+
+        if (targetLight != null)
+            targetLight.enabled = false;
     }
 
     void Update()
@@ -27,5 +31,12 @@ public class EnemyTargetable : MonoBehaviour
                 turnSystem.SelectTarget(enemy);
             }
         }
+    }
+
+    public void SetHighlighted(bool isHighlighted)
+    {
+        Debug.Log("SetHighlighted called: " + isHighlighted);
+        if (targetLight != null)
+            targetLight.enabled = isHighlighted;
     }
 }
