@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitClass : MonoBehaviour
@@ -10,7 +11,7 @@ public class UnitClass : MonoBehaviour
     public int speed;
     public int movement;
     public int range;
-
+    public List<Skill> skills = new();
     public virtual void TakeDamage(int damage)
     {
         hp -= damage;
@@ -18,7 +19,7 @@ public class UnitClass : MonoBehaviour
     UnitName +
     " took " + damage +
     " damage. Current HP: " + hp
-);
+);  
         if (hp <= 0)
         {
             hp = 0;
