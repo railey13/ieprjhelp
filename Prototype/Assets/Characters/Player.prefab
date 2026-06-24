@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 5399519401966164018}
   - component: {fileID: 6875528252573407792}
   - component: {fileID: 4363157883394692881}
-  - component: {fileID: 7143738984493006885}
+  - component: {fileID: -4501228538576881434}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -228,7 +228,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &7143738984493006885
+--- !u!114 &-4501228538576881434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,11 +237,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6879494447931468396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649eceffd7e19458a08e961bffd9d0, type: 3}
+  m_Script: {fileID: 11500000, guid: b1ba587a9a70d3741b7a0a249caa2732, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stats
-  Name: Assassin
-  MaxHP: 100
-  CurrentHP: 100
-  Damage: 20
-  Speed: 10
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerClass
+  UnitName: Gooner
+  hp: 10
+  atk: 10
+  speed: 70
+  movement: 70
