@@ -35,8 +35,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
 
     //////////////////// 
-    
-    private int currentTurnIndex=0;
+
+    private int currentTurnIndex = 0;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,7 +68,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             turnOrder.Add(enemy);
         }
 
-        turnOrder.Sort((a,b)=>b.speed.CompareTo(a.speed));
+        turnOrder.Sort((a, b) => b.speed.CompareTo(a.speed));
 
         //DEBUG CHECK FOR TURN ORDER
         foreach (UnitClass unit in turnOrder)
@@ -89,18 +89,20 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         players.AddRange(FindObjectsOfType<PlayerClass>());
         enemies.AddRange(FindObjectsOfType<EnemyClass>());
+        */
+
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
         PHeal = doc.rootVisualElement.Q<Button>("Heal");
         EndTurn = doc.rootVisualElement.Q<Button>("EndTurn");
-        
+
         PMove.RegisterCallback<ClickEvent>(MoveEnabled);
         PAttack.RegisterCallback<ClickEvent>(AttackEnabled);
         PHeal.RegisterCallback<ClickEvent>(HealEnabled);
         EndTurn.RegisterCallback<ClickEvent>(onEndTurnClicked);
-        
+
         SetUIVisible(true);
-        */
+
         SpawnPlayer();
         SpawnEnemy();
 
@@ -113,6 +115,33 @@ public class TurnBasedSystemV2 : MonoBehaviour
         currentTurnIndex = 0;
         StartTurn();
 
+    }
+    private void AttackEnabled(ClickEvent evt)
+    {
+        Debug.Log("Attack Clicked");
+        selectedAction = TurnAction.Attack;
+    }
+
+    private void MoveEnabled(ClickEvent evt)
+    {
+        Debug.Log("Move Clicked");
+        selectedAction = TurnAction.Move;
+
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement activePlayerMovement = currentPlayer.GetComponent<PlayerMovement>();
+            if (activePlayerMovement != null)
+            {
+                activePlayerMovement.ActivateMovement();
+                SetUIVisible(false);
+            }
+        }
+    }
+
+    private void HealEnabled(ClickEvent evt)
+    {
+        Debug.Log("Heal Clicked");
+        selectedAction = TurnAction.Heal;
     }
 
     private void StartTurn()
@@ -138,6 +167,64 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
 
         Debug.Log("Current Turn: " + unit.UnitName);
+    }
+
+    private void onEndTurnClicked(ClickEvent evt)
+    {
+        switch (selectedAction)
+        {
+            case TurnAction.Attack:
+                Debug.Log("Player attacks");
+                // enemies[0].TakeDamage(67); // pick a real target later
+                break;
+
+            case TurnAction.Heal:
+                Debug.Log("Player heals");
+                break;
+
+            case TurnAction.Move:
+                Debug.Log("Player moves");
+                break;
+
+            case TurnAction.None:
+                Debug.Log("No action selected");
+                return;
+        }
+
+        selectedAction = TurnAction.None;
+        AdvanceTurn();
+    }
+
+    private void AdvanceTurn()
+    {
+        currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
+
+        bool isPlayerTurn = CurrentUnit is PlayerClass;
+        SetUIVisible(isPlayerTurn);
+
+        StartTurn();
+
+        if (!isPlayerTurn)
+        {
+            if (CurrentUnit is EnemyClass currentEnemy)
+            {
+                // something
+            }
+
+            WinLoseState();
+            if (isGameOver) return;
+
+            AdvanceTurn(); // chain to next unit
+        }
+        else
+        {
+            if (CurrentUnit is PlayerClass currentPlayer)
+            {
+                PlayerMovement activePlayerMovement = currentPlayer.GetComponent<PlayerMovement>();
+                if (activePlayerMovement != null)
+                    activePlayerMovement.setResetOrigin(true);
+            }
+        }
     }
     private UnitClass CurrentUnit
     {
@@ -188,6 +275,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             players.Add(player);
+
+            PlayerMovement pm = playerObject.GetComponent<PlayerMovement>();
+            if (pm != null)
+            {
+                pm.SetTurnBasedSystem(this);
+            }
         }
     }
 
@@ -219,5 +312,38 @@ public class TurnBasedSystemV2 : MonoBehaviour
             enemies.Add(enemy);
         }
     }
+    public void OnPlayerMoveConfirmed()
+    {
+        Debug.Log("Player finished moving");
+        selectedAction = TurnAction.None;
+        WinLoseState();
+        if (isGameOver) return;
+        SetUIVisible(true);
+    }
+
+    public void OnPlayerMoveCancelled()
+    {
+        Debug.Log("Player cancelled movement");
+        selectedAction = TurnAction.None;
+        SetUIVisible(true);
+    }
+
+    public void WinLoseState()
+    {
+        bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
+        bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
+
+        if (!anyEnemyAlive)
+        {
+            Debug.Log("All enemies defeated — Win!");
+            isGameOver = true;
+        }
+        else if (!anyPlayerAlive)
+        {
+            Debug.Log("All players defeated — Lose.");
+            isGameOver = true;
+        }
+    }
+
 
 }
