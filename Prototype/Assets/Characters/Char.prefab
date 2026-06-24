@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1181422238109127600}
   - component: {fileID: 5467813178106590070}
   - component: {fileID: 1831602978231273978}
-  - component: {fileID: 3567626904494297967}
+  - component: {fileID: 4761607597794030237}
   m_Layer: 0
   m_Name: Char
   m_TagString: Untagged
@@ -114,7 +114,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3567626904494297967
+--- !u!114 &4761607597794030237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,14 +123,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1074400588091422720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649eceffd7e19458a08e961bffd9d0, type: 3}
+  m_Script: {fileID: 11500000, guid: b1ba587a9a70d3741b7a0a249caa2732, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stats
-  Name: Player
-  MaxHP: 100
-  CurrentHP: 75
-  Damage: 10
-  Speed: 5
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerClass
+  UnitName: Goomo
+  hp: 10
+  atk: 1
+  speed: 100
+  movement: 24
 --- !u!1 &8284072023687183951
 GameObject:
   m_ObjectHideFlags: 0
