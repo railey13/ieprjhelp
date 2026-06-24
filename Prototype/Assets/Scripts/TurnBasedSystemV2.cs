@@ -17,7 +17,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private Button PAttack;
     private Button PHeal;
     private Button EndTurnBtn;
-    // comment the below for enum later
+
     private bool isMove = false;
     private bool isAttack = false;
     private bool isHeal = false;
@@ -40,7 +40,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private EnemyClass selectedTarget;
     private bool isTargeting = false;
     /// /////////////
-   
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -128,9 +128,18 @@ public class TurnBasedSystemV2 : MonoBehaviour
     {
         if (!isTargeting)
             return;
-
+        if (selectedTarget != null)
+        {
+            EnemyTargetable previousTargetable = selectedTarget.GetComponent<EnemyTargetable>();
+            if (previousTargetable != null)
+                previousTargetable.SetHighlighted(false);
+        }
         selectedTarget = enemy;
         isTargeting = false;
+        EnemyTargetable targetable = enemy.GetComponent<EnemyTargetable>();
+        if (targetable != null)
+            targetable.SetHighlighted(true);
+
 
         Debug.Log("Target selected: " + enemy.UnitName);
     }
@@ -188,9 +197,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         Debug.Log("TURN START: " + unit.UnitName);
 
-        if (unit is PlayerClass)
+        if (unit is PlayerClass currentPlayer)
         {
             SetUIVisible(true);
+            PlayerMovement activePlayerMovement = currentPlayer.GetComponent<PlayerMovement>();
+            if (activePlayerMovement != null)
+            {
+                activePlayerMovement.setResetOrigin(true);
+            }
+
         }
         else if (unit is EnemyClass enemy)
         {
@@ -215,10 +230,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 {
                     selectedTarget.TakeDamage(CurrentUnit.atk);
                 }
-                if (selectedTarget == null || selectedTarget.hp <= 0)
+                else if (selectedTarget == null || selectedTarget.hp <= 0)
                 {
                     Debug.Log("No valid target selected");
-                    
+
                 }
                 break;
 
@@ -243,6 +258,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     private void NextTurn()
     {
+        if (isGameOver) return; // extra safety net
         if (turnOrder.Count == 0)
             return;
         //chat gpt idea of safety check
@@ -292,24 +308,52 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             return;
         }
-        Debug.Log(enemy.UnitName + " acts");
+
+        Debug.Log(enemy.UnitName + " acts. players.Count = " + players.Count);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
-
-
-        if (players.Count > 0)
+        PlayerClass target = FindNearestPlayer(enemy.transform.position);
+        if (target == null)
         {
-            players[0].TakeDamage(enemy.atk);
+            Debug.Log("No target — checking WinLoseState");
+            WinLoseState();
+            Debug.Log("isGameOver after WinLoseState: " + isGameOver);
+            EndTurn();
+            return;
         }
 
+        float distance = Vector3.Distance(enemy.transform.position, target.transform.position);
+
+        EnemyMove(enemy); 
+        // range check
+        if (distance <= enemy.range * 2) 
+        {
+            Debug.Log(enemy.UnitName + " attacks " + target.UnitName);
+            target.TakeDamage(enemy.atk);
+        }
+        
+         
+
         WinLoseState();
+
+        if (isGameOver)
+        {
+            Debug.Log("Game over — halting turn loop");
+            return;
+        }
         EndTurn();
     }
     private void EndTurn()
     {
         selectedAction = TurnAction.None;
+            if (selectedTarget != null)
+    {
+        EnemyTargetable targetable = selectedTarget.GetComponent<EnemyTargetable>();
+        if (targetable != null)
+            targetable.SetHighlighted(false);
+    }
         selectedTarget = null;
-        isTargeting = false;
+        isTargeting = false;     
         NextTurn();
     }
 
