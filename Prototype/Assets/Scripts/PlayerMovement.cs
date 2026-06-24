@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Turn System")]
+    [SerializeField] private TurnBasedSystem turnBasedSystem;
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
 
@@ -28,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
         moveAction = inputAsset.FindAction("Player/Move");
         cancelAction = inputAsset.FindAction("Player/Cancel");
         spaceAction = inputAsset.FindAction("Player/Space");
+
+        if (moveAction == null) Debug.LogError("moveAction not found!");
+        if (cancelAction == null) Debug.LogError("cancelAction not found!");
+        if (spaceAction == null) Debug.LogError("spaceAction not found!");
     }
 
     void Start()
@@ -61,7 +67,10 @@ public class PlayerMovement : MonoBehaviour
         HandleWASD();
     }
 
-
+    public void ActivateMovement()
+    {
+        OpenMovement();
+    }
     void OpenMovement()
     {
         origin = transform.position;
@@ -76,9 +85,9 @@ public class PlayerMovement : MonoBehaviour
 
     void ConfirmMovement()
     {
-        moving = false; // cant move 
-        SetCircleVisible(false); // hide circle 
-        SceneManager.LoadScene("Turn Scene");
+        moving = false;
+        SetCircleVisible(false);
+        turnBasedSystem.OnPlayerMoveConfirmed();
     }
 
     void HandleWASD()
@@ -124,9 +133,7 @@ public class PlayerMovement : MonoBehaviour
     // when space is pressed, either open movement or confirm movement
     void OnConfirmSpacePerformed(InputAction.CallbackContext ctx)
     {
-        if (!moving) 
-            OpenMovement();
-        else 
+        if (moving) 
             ConfirmMovement();
     }
 
@@ -138,6 +145,7 @@ public class PlayerMovement : MonoBehaviour
             moving = false;
             SetCircleVisible(false);
             transform.position = origin; // reset position to original
+            turnBasedSystem.OnPlayerMoveCancelled();
         }
     }
 }
