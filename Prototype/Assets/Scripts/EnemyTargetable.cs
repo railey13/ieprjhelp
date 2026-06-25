@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class EnemyTargetable : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyTargetable : MonoBehaviour
     [SerializeField] private float circleHeight = 0.05f;
     [SerializeField] private Color targetColor = new Color(1f, 0.2f, 0.2f, 0.4f);
     private GameObject circleObj;
+    private float rangeBuffer = 0.5f;
 
     void Awake()
     {
@@ -42,7 +44,7 @@ public class EnemyTargetable : MonoBehaviour
                 if (attacker != null)
                 {
                     float dist = Vector3.Distance(attacker.transform.position, transform.position);
-                    if (dist <= attacker.range)
+                    if (dist <= attacker.range + rangeBuffer)
                         turnSystem.SelectTarget(enemy);
                     else
                     {

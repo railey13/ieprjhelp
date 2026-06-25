@@ -14,8 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float circleHeight = -5.0f; //how high above the ground the circle is
     [SerializeField] private Color rangeColor = new Color(0f, 0.6f, 1f, 0.25f); // circle color
     [Header("Attack Circle")]
-    [SerializeField] private Color attackRangeColor = new Color(1f, 0.2f, 0.2f, 0.25f); // translucent red
+    [SerializeField] private Color attackRangeColor = new Color(1f, 0.2f, 0.2f, 0.25f); // attack color
     private GameObject attackCircleObj;
+    [Header("Skill Range Indicator")]
+    [SerializeField] private Color skillRangeColor = new Color(0.5f, 0f, 1f, 0.25f); // skills color
+    private GameObject skillCircleObj;
 
     [SerializeField] private InputActionAsset inputAsset;
     private PlayerClass player;
@@ -198,5 +201,39 @@ public class PlayerMovement : MonoBehaviour
     {
         if (attackCircleObj != null)
             attackCircleObj.SetActive(false);
+    }
+
+    void BuildSkillCircleVisual(float skillRange)
+    {
+        skillCircleObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        skillCircleObj.name = "SkillRangeCircle";
+
+        DestroyImmediate(skillCircleObj.GetComponent<Collider>());
+
+        skillCircleObj.transform.localScale = new Vector3(skillRange * 2f, 0.02f, skillRange * 2f);
+
+        var mat = new Material(Shader.Find("Sprites/Default"));
+        mat.color = skillRangeColor;
+        skillCircleObj.GetComponent<MeshRenderer>().material = mat;
+
+        skillCircleObj.transform.SetParent(transform);
+        skillCircleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
+
+        skillCircleObj.SetActive(false);
+    }
+
+    public void ShowSkillRange(float skillRange)
+    {
+        if (skillCircleObj != null)
+            Destroy(skillCircleObj);
+
+        BuildSkillCircleVisual(skillRange);
+        skillCircleObj.SetActive(true);
+    }
+
+    public void HideSkillRange()
+    {
+        if (skillCircleObj != null)
+            skillCircleObj.SetActive(false);
     }
 }
