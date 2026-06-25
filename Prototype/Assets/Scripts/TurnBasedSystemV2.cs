@@ -11,6 +11,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     [SerializeField] private Transform[] PlayerSpawnPoints;
     [SerializeField] private Transform[] EnemySpawnPoints;
+    private float playerSpawnYOffset = 1f;
 
     [SerializeField] private UIDocument doc;
     private Button PMove;
@@ -45,8 +46,26 @@ public class TurnBasedSystemV2 : MonoBehaviour
     void Start()
     {
         BattleStart();
+    }
 
+    void Update()
+    {
+        if (!isTargeting) return;
+        if (!Mouse.current.leftButton.wasPressedThisFrame) return;
 
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        // if the click hit nothing, or didn't hit an enemy, cancel targeting
+        bool hitEnemy = false;
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            hitEnemy = hit.transform.GetComponentInParent<EnemyTargetable>() != null;
+        }
+
+        if (!hitEnemy)
+        {
+            CancelTargeting();
+        }
     }
 
     public void SetUIVisible(bool visible)
@@ -123,11 +142,26 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log("Select A Target  ");
         selectedAction = TurnAction.Attack;
         isTargeting = true;
+        SetUIVisible(false);
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.ShowAttackRange();
+        }
     }
     public void SelectTarget(EnemyClass enemy)
     {
         if (!isTargeting)
             return;
+        SetUIVisible(true); // add this
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.HideAttackRange();
+        }
+
         if (selectedTarget != null)
         {
             EnemyTargetable previousTargetable = selectedTarget.GetComponent<EnemyTargetable>();
@@ -216,7 +250,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     private void onEndTurnClicked(ClickEvent evt)
     {
-        if (!(CurrentUnit is PlayerClass))
+        if (!(CurrentUnit is PlayerClass currentPlayer))
             return;
 
 
@@ -228,7 +262,18 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                 if (selectedTarget != null && selectedTarget.hp > 0)
                 {
-                    selectedTarget.TakeDamage(CurrentUnit.atk);
+                    float distance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
+
+                    // range check incase player moves AFTER targetting
+                    if (distance <= currentPlayer.range)
+                    {
+                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedTarget.UnitName);
+                        selectedTarget.TakeDamage(CurrentUnit.atk);
+                    }
+                    else
+                    {
+                        Debug.Log("Attack failed");
+                    }
                 }
                 else if (selectedTarget == null || selectedTarget.hp <= 0)
                 {
@@ -322,17 +367,18 @@ public class TurnBasedSystemV2 : MonoBehaviour
             return;
         }
 
+        EnemyMove(enemy);
+
         float distance = Vector3.Distance(enemy.transform.position, target.transform.position);
 
-        EnemyMove(enemy); 
         // range check
-        if (distance <= enemy.range * 2) 
+        if (distance <= enemy.range * 2)
         {
             Debug.Log(enemy.UnitName + " attacks " + target.UnitName);
             target.TakeDamage(enemy.atk);
         }
-        
-         
+
+
 
         WinLoseState();
 
@@ -345,15 +391,21 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void EndTurn()
     {
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.HideAttackRange();
+        }
         selectedAction = TurnAction.None;
-            if (selectedTarget != null)
-    {
-        EnemyTargetable targetable = selectedTarget.GetComponent<EnemyTargetable>();
-        if (targetable != null)
-            targetable.SetHighlighted(false);
-    }
+        if (selectedTarget != null)
+        {
+            EnemyTargetable targetable = selectedTarget.GetComponent<EnemyTargetable>();
+            if (targetable != null)
+                targetable.SetHighlighted(false);
+        }
         selectedTarget = null;
-        isTargeting = false;     
+        isTargeting = false;
         NextTurn();
     }
 
@@ -366,9 +418,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
             if (i >= PlayerSpawnPoints.Length)
                 break;
 
+            // OFFSETS PLAYERS UP
+            Vector3 spawnPos = PlayerSpawnPoints[i].position + Vector3.up * playerSpawnYOffset ;
+
             GameObject playerObject = Instantiate(
                 PlayerPrefab[i],
-                PlayerSpawnPoints[i].position,
+                spawnPos,
                 PlayerSpawnPoints[i].rotation
             );
 
@@ -499,6 +554,24 @@ public class TurnBasedSystemV2 : MonoBehaviour
                   " (" + moveDistance + " units)");
 
         enemy.transform.position = destination;
+    }
+    public UnitClass GetCurrentUnit()
+    {
+        return CurrentUnit;
+    }
+    public void CancelTargeting()
+    {
+        isTargeting = false;
+        selectedAction = TurnAction.None;
+        SetUIVisible(true); // add this
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.HideAttackRange();
+        }
+
+        Debug.Log("Targeting cancelled — out of range");
     }
 
 }

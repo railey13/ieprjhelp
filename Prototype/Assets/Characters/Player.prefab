@@ -142,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 6879494447931468396}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.78345, y: 1.28, z: -7.49849}
+  m_LocalPosition: {x: -1.78345, y: 5, z: -7.49849}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -244,9 +244,10 @@ MonoBehaviour:
   UnitName: Gooner
   hp: 10
   atk: 10
-  speed: 70
-  movement: 14
-  range: 2
+  speed: 100
+  movement: 4
+  range: 8
+  skills: []
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   turnBasedSystem: {fileID: 0}
   moveSpeed: 12
-  circleHeight: 0.05
+  circleHeight: -1
   rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
+  attackRangeColor: {r: 1, g: 0.07450981, b: 0.07450981, a: 0.44705883}
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
