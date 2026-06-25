@@ -18,11 +18,12 @@ public class UnitClass : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         hp -= damage;
-        Debug.Log(
-    UnitName +
-    " took " + damage +
-    " damage. Current HP: " + hp
-);  
+        Debug.Log(UnitName + " took " + damage + " damage. Current HP: " + hp);
+
+        HitEffect hitEffect = GetComponent<HitEffect>();
+        if (hitEffect != null)
+            hitEffect.PlayHitEffect();
+            
         if (hp <= 0)
         {
             hp = 0;

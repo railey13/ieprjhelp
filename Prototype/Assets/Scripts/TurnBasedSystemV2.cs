@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
+using System.Collections;
 public class TurnBasedSystemV2 : MonoBehaviour
 {
     [SerializeField] private GameObject[] PlayerPrefab;
@@ -40,6 +41,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         public PlayerClass targetPlayer;
         public Vector3 destination;
         public bool willAttack;
+        public bool willSkill;
+        public Skill chosenSkill;
     }
 
     private List<EnemyIntent> enemyIntents = new List<EnemyIntent>();
@@ -53,11 +56,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private bool isTargeting = false;
     public bool GetisTargetting() { return isTargeting; }
     private Skill selectedSkill;
+    private int TurnNumber = 1;
     /// /////////////
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         BattleStart();
     }
 
@@ -112,23 +117,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void BattleStart()
     {
-
-
-
-
-
         Debug.Log("BattleStart() called");
 
         Debug.Log("Players: " + players.Count);
         Debug.Log("Enemies: " + enemies.Count);
         Debug.Log("TurnOrder BEFORE build: " + turnOrder.Count);
-        /*
-        Debug.Log("Spawning Player");
-    
-
-        players.AddRange(FindObjectsOfType<PlayerClass>());
-        enemies.AddRange(FindObjectsOfType<EnemyClass>());
-        */
 
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
@@ -156,6 +149,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log("TURN ORDER: " + turnOrder.Count);
 
         UpdateTurnOrderUI();
+        HideUnitStats();
 
         currentTurnIndex = 0;
         CalculateEnemyIntents();
@@ -334,7 +328,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (unit == null)
             return;
-
+       
         Debug.Log("TURN START: " + unit.UnitName);
 
         if (currentTurnIndex == 0)
@@ -363,7 +357,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             SetUIVisible(false);
-            EnemyTakeTurn(enemy);
+            StartCoroutine(StartEnemyTurnAfterDelay(enemy, 1f));
         }
     }
 
@@ -480,6 +474,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         } while (turnOrder[currentTurnIndex] == null ||
                  turnOrder[currentTurnIndex].hp <= 0);
+        if (currentTurnIndex == 0)
+        {
+            TurnNumber++;
+            Debug.Log("===== TURN " + TurnNumber + " =====");
+        }
 
         StartTurn();
     }
@@ -503,7 +502,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
     }
 
-
+    private void EnemySkill(EnemyClass enemy)
+    {
+        
+    }
 
     private void EnemyTakeTurn(EnemyClass enemy)
     {
@@ -531,8 +533,25 @@ public class TurnBasedSystemV2 : MonoBehaviour
         float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
         // attack the pre-calculated target if it's still alive
-        if (intent.willAttack)
+        if (intent.willSkill && intent.chosenSkill != null)
         {
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= intent.chosenSkill.range + rangeBuffer)
+            {
+                Debug.Log(enemy.UnitName + " used skill against " + intent.targetPlayer.UnitName);
+                intent.chosenSkill.Use(enemy, intent.targetPlayer);
+
+                SkillState usedState =
+                enemy.skillStates.Find(s => s.skill == intent.chosenSkill);
+
+                if (usedState != null)
+                {
+                    usedState.MarkUsed(TurnNumber);
+                }
+            }
+        }
+        else if (intent.willAttack)
+        {
+            
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
@@ -553,11 +572,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
             Debug.Log("Game over — halting turn loop");
             return;
         }
-        EndTurn();
+
+        StartCoroutine(EndTurnAfterDelay(0.5f));
+        // EndTurn();
     }
     private void EndTurn()
     {
         selectedSkill = null;
+        HideSkillPanel();
+
         if (CurrentUnit is PlayerClass currentPlayer)
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
@@ -586,6 +609,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         isTargeting = false;
         UpdateTurnOrderUI();
+        SetUIVisible(false);
         NextTurn();
     }
 
@@ -813,19 +837,85 @@ public class TurnBasedSystemV2 : MonoBehaviour
             // will they be in range to attack after moving?
             float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
             bool willAttack = distanceAfterMove <= enemy.range + rangeBuffer;
+            bool willSkill = false;
+            Skill chosenSkill = null;
+
+            //if (enemy.skills.Count > 0)
+            //{
+            //    chosenSkill = enemy.skills[0];
+            //    willSkill =
+            //        distanceAfterMove <= chosenSkill.range + rangeBuffer;
+            //}
+            foreach (SkillState state in enemy.skillStates)
+            {
+                if (!state.IsReady(TurnNumber))
+                    continue;
+
+                chosenSkill = state.skill;
+
+                willSkill =
+                    distanceAfterMove <= chosenSkill.range + rangeBuffer;
+
+                if (willSkill)
+                {
+                    willAttack = false;
+                    break;
+                }
+            }
 
             enemyIntents.Add(new EnemyIntent
             {
                 enemy = enemy,
                 targetPlayer = target,
                 destination = destination,
-                willAttack = willAttack
+                willAttack = willAttack,
+                willSkill = willSkill,
+                chosenSkill = chosenSkill
             });
-
-            enemy.ShowIntent(willAttack, target);
+            //Debug.Log(
+            //            enemy.UnitName +
+            //            " willAttack=" + willAttack +
+            //            " willSkill=" + willSkill +
+            //            " chosenSkill=" + (chosenSkill != null ? chosenSkill.SkillName : "None")
+            //            );
+            enemy.ShowIntent(willAttack,willSkill, target);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
             if (display != null)
                 display.UpdateIntent(destination, enemy.range);
         }
+    }
+
+    // for showing a unit's stats when clicked
+    public void ShowUnitStats(UnitClass unit)
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel == null) return;
+
+        statsPanel.style.display = DisplayStyle.Flex;
+
+        statsPanel.Q<Label>("StatsName").text = unit.UnitName;
+        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp;
+        statsPanel.Q<Label>("StatsATK").text = "ATK: " + unit.atk;
+        statsPanel.Q<Label>("StatsRange").text = "Range: " + unit.range;
+        statsPanel.Q<Label>("StatsSpeed").text = "Speed: " + unit.speed;
+        statsPanel.Q<Label>("StatsMovement").text = "Movement: " + unit.movement;
+    }
+
+    public void HideUnitStats()
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel != null)
+            statsPanel.style.display = DisplayStyle.None;
+    }
+
+    private IEnumerator StartEnemyTurnAfterDelay(EnemyClass enemy, float delay)
+    {  // delay function
+        yield return new WaitForSeconds(delay);
+        EnemyTakeTurn(enemy);
+    }
+    private IEnumerator EndTurnAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EndTurn();
     }
 }

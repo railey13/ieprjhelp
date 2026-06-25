@@ -66,8 +66,8 @@ public class UnitTargetable : MonoBehaviour
                 }
                 else
                 {
-                    // show intent display only for enemies
-                    if (isEnemy)
+                    turnSystem.ShowUnitStats(unit);
+                    if (isEnemy) // show intent display only for enemies
                     {
                         EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
                         if (display != null)
@@ -77,6 +77,7 @@ public class UnitTargetable : MonoBehaviour
             }
             else if (found == null)
             {
+                turnSystem.HideUnitStats();
                 if (isEnemy)
                 {
                     EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
