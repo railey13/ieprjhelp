@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2e929714481e64cb782388248ad0c7, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::FireballSkill
-  SkillName: 
+  SkillName: Fireball
   MPCost: 0
-  Damage: 0
+  Damage: 100

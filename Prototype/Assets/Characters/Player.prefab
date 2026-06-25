@@ -248,7 +248,8 @@ MonoBehaviour:
   speed: 100
   movement: 4
   range: 8
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: b054902d8f5c4874fbcdfb728c2a9a43, type: 2}
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0

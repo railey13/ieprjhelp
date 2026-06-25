@@ -18,14 +18,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private Button PAttack;
     private Button PHeal;
     private Button EndTurnBtn;
+    private Button PSkills;
 
     private bool isMove = false;
     private bool isAttack = false;
     private bool isHeal = false;
     private bool isGameOver = false;
-    private enum TurnAction { None, Move, Attack, Heal }
+    private enum TurnAction { None, Move, Attack, Skill }
     private TurnAction selectedAction = TurnAction.None;
-
+    
     private enum TurnPhase { PlayerTurn, EnemyTurn }
     private TurnPhase currentPhase = TurnPhase.PlayerTurn;
 
@@ -49,6 +50,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private int currentTurnIndex = 0;
     private EnemyClass selectedTarget;
     private bool isTargeting = false;
+    private Skill selectedSkill;
     /// /////////////
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -108,6 +110,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void BattleStart()
     {
+        
+
+
+
+
         Debug.Log("BattleStart() called");
 
         Debug.Log("Players: " + players.Count);
@@ -123,12 +130,16 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
-        PHeal = doc.rootVisualElement.Q<Button>("Heal");
+        // PHeal = doc.rootVisualElement.Q<Button>("Heal");
+        PSkills = doc.rootVisualElement.Q<Button>("Skills");
         EndTurnBtn = doc.rootVisualElement.Q<Button>("EndTurnBtn");
+        Debug.Log("EndTurnBtn found? " + (EndTurnBtn != null));
 
         PMove.RegisterCallback<ClickEvent>(MoveEnabled);
         PAttack.RegisterCallback<ClickEvent>(AttackEnabled);
-        PHeal.RegisterCallback<ClickEvent>(HealEnabled);
+        PSkills.RegisterCallback<ClickEvent>(SkillEnabled);
+        // PHeal.RegisterCallback<ClickEvent>(HealEnabled);
+        Debug.Log("Registering EndTurn callback");
         EndTurnBtn.RegisterCallback<ClickEvent>(onEndTurnClicked);
 
         SetUIVisible(true);
@@ -151,6 +162,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void AttackEnabled(ClickEvent evt)
     {
+        HideSkillPanel();
         Debug.Log("Select A Target  ");
         selectedAction = TurnAction.Attack;
         isTargeting = true;
@@ -191,6 +203,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void MoveEnabled(ClickEvent evt)
     {
+        HideSkillPanel();
         Debug.Log("Move Clicked");
         selectedAction = TurnAction.Move;
 
@@ -204,13 +217,71 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
         }
     }
-
-    private void HealEnabled(ClickEvent evt)
+    ///SKILLS SELECTION TAB
+    private void SkillEnabled(ClickEvent evt)
     {
-        Debug.Log("Heal Clicked");
-        selectedAction = TurnAction.Heal;
+        Debug.Log("Skill Clicked");
+        if (!(CurrentUnit is PlayerClass player))
+            return;
+
+        Debug.Log("Open Skill Menu");
+
+        ShowSkillMenu(player);
+    }
+    private void HideSkillPanel()
+    {
+        VisualElement skillPanel = doc.rootVisualElement.Q<VisualElement>("SkillPanel");
+        if (skillPanel != null)
+            skillPanel.style.display = DisplayStyle.None;
+    }
+    private void ShowSkillMenu(PlayerClass player)
+    {
+        VisualElement skillPanel =
+    doc.rootVisualElement.Q<VisualElement>("SkillPanel");
+
+        if (skillPanel == null)
+        {
+            Debug.LogError("SkillPanel not found");
+            return;
+        }
+
+        skillPanel.Clear();
+        skillPanel.style.display = DisplayStyle.Flex;
+
+        foreach (Skill skill in player.skills)
+        {
+            Debug.Log("Adding skill button: " + skill.SkillName);
+            Button button = new Button();
+
+            button.text = skill.SkillName;
+
+            button.clicked += () =>
+            {
+                SelectSkill(skill);
+            };
+
+            skillPanel.Add(button);
+        }
     }
 
+    private void SelectSkill(Skill skill)
+    {
+        selectedSkill = skill;
+        selectedAction = TurnAction.Skill;
+        isTargeting = true;
+
+        VisualElement skillPanel =
+            doc.rootVisualElement.Q<VisualElement>("SkillPanel");
+
+        skillPanel.style.display = DisplayStyle.None;
+
+        SetUIVisible(false);
+
+        Debug.Log("Selected Skill: " + skill.SkillName);
+    }
+    
+    /// ////////////////////////////////////////
+    
     private void StartTurn()
     {
         UpdateTurnOrderUI();
@@ -278,8 +349,29 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 }
                 break;
 
-            case TurnAction.Heal:
-                Debug.Log("Player heals");
+            case TurnAction.Skill:
+                if (selectedSkill == null)
+                {
+                    Debug.Log("No skill selected");
+                    return;
+                }
+
+                if (selectedTarget == null)
+                {
+                    Debug.Log("No target selected");
+                    return;
+                }
+
+                selectedSkill.Use(CurrentUnit, selectedTarget);
+
+                Debug.Log(
+                    CurrentUnit.UnitName +
+                    " used " +
+                    selectedSkill.SkillName +
+                    " on " +
+                    selectedTarget.UnitName
+                );
+
                 break;
 
             case TurnAction.Move:
@@ -395,6 +487,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void EndTurn()
     {
+        selectedSkill = null;
         if (CurrentUnit is PlayerClass currentPlayer)
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
@@ -571,6 +664,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
     {
         isTargeting = false;
         selectedAction = TurnAction.None;
+        if (selectedSkill != null)
+        {
+            ShowSkillMenu((PlayerClass)CurrentUnit);
+        }
         SetUIVisible(true); // add this
         if (CurrentUnit is PlayerClass currentPlayer)
         {
