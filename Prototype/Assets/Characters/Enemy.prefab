@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: -7013612823703365441}
   - component: {fileID: 4657419581391591420}
   - component: {fileID: 8848499495593593327}
+  - component: {fileID: 3405986097240272690}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -280,6 +281,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoverHighlight
   highlightObjects:
   - {fileID: 3648296347303142370}
+--- !u!114 &3405986097240272690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221063954532474276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534220bca3356d846b64b5a9745eb201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyIntentDisplay
+  pathColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.3}
+  stopColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
+  rangeColor: {r: 0.47843137, g: 0.6392157, b: 0.63529414, a: 0.2}
+  pathWidth: 0.2
+  stopCircleRadius: 0.4
 --- !u!1 &3648296347303142370
 GameObject:
   m_ObjectHideFlags: 0

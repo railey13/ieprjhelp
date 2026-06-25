@@ -50,6 +50,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private int currentTurnIndex = 0;
     private EnemyClass selectedTarget;
     private bool isTargeting = false;
+    public bool GetisTargetting() { return isTargeting; }
     private Skill selectedSkill;
     /// /////////////
 
@@ -319,6 +320,14 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         else if (unit is EnemyClass enemy)
         {
+            // hide all intent displays before enemy acts
+            foreach (EnemyClass e in enemies)
+            {
+                EnemyIntentDisplay d = e.GetComponent<EnemyIntentDisplay>();
+                if (d != null) 
+                    d.SetVisible(false);
+            }
+
             SetUIVisible(false);
             EnemyTakeTurn(enemy);
         }
@@ -373,11 +382,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                 float skillDistance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
 
-                if (skillDistance <= selectedSkill.range + rangeBuffer) {
+                if (skillDistance <= selectedSkill.range + rangeBuffer)
+                {
                     selectedSkill.Use(CurrentUnit, selectedTarget);
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + selectedTarget.UnitName);
                 }
-                else {
+                else
+                {
                     Debug.Log("Skill out of range");
                 }
 
@@ -759,6 +770,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
             });
 
             enemy.ShowIntent(willAttack, target);
+            EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
+            if (display != null)
+                display.UpdateIntent(destination, enemy.range);
         }
     }
 }
