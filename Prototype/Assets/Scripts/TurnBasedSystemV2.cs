@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
+using System.Collections;
 public class TurnBasedSystemV2 : MonoBehaviour
 {
     [SerializeField] private GameObject[] PlayerPrefab;
@@ -352,7 +353,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             SetUIVisible(false);
-            EnemyTakeTurn(enemy);
+            StartCoroutine(StartEnemyTurnAfterDelay(enemy, 1f));
         }
     }
 
@@ -530,13 +531,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
             Debug.Log("Game over — halting turn loop");
             return;
         }
-        EndTurn();
+
+        StartCoroutine(EndTurnAfterDelay(0.5f));
+        // EndTurn();
     }
     private void EndTurn()
     {
         selectedSkill = null;
         HideSkillPanel();
-        
+
         if (CurrentUnit is PlayerClass currentPlayer)
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
@@ -809,6 +812,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
     }
 
+    // for showing a unit's stats when clicked
     public void ShowUnitStats(UnitClass unit)
     {
         VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
@@ -829,5 +833,16 @@ public class TurnBasedSystemV2 : MonoBehaviour
         VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
         if (statsPanel != null)
             statsPanel.style.display = DisplayStyle.None;
+    }
+
+    private IEnumerator StartEnemyTurnAfterDelay(EnemyClass enemy, float delay)
+    {  // delay function
+        yield return new WaitForSeconds(delay);
+        EnemyTakeTurn(enemy);
+    }
+    private IEnumerator EndTurnAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EndTurn();
     }
 }
