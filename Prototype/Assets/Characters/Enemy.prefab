@@ -251,7 +251,11 @@ MonoBehaviour:
   speed: 20
   movement: 3
   range: 4
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 6b2f93b0cec21104aaa963469f0c50b4, type: 2}
+  skillStates:
+  - skill: {fileID: 11400000, guid: 6b2f93b0cec21104aaa963469f0c50b4, type: 2}
+    lastUsedTurn: 0
 --- !u!114 &4657419581391591420
 MonoBehaviour:
   m_ObjectHideFlags: 0
