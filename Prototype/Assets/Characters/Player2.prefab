@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1188378225145125619
+--- !u!1 &3533254671544317630
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7015734784889737682}
-  - component: {fileID: 6056193026319298824}
-  - component: {fileID: 7927392554250676053}
+  - component: {fileID: 5343138002921022253}
+  - component: {fileID: 3287873921549044325}
+  - component: {fileID: 1727059900274786316}
+  - component: {fileID: 5260904711738998595}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -18,28 +19,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7015734784889737682
+--- !u!4 &5343138002921022253
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188378225145125619}
+  m_GameObject: {fileID: 3533254671544317630}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 3.17, z: 0}
+  m_LocalPosition: {x: 0, y: 3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 2.0841}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 122381448072241464}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!108 &6056193026319298824
+--- !u!108 &3287873921549044325
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188378225145125619}
+  m_GameObject: {fileID: 3533254671544317630}
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
@@ -98,13 +99,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &7927392554250676053
+--- !u!114 &1727059900274786316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188378225145125619}
+  m_GameObject: {fileID: 3533254671544317630}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
@@ -127,6 +128,20 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &5260904711738998595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3533254671544317630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d526a0bd89877474286acf4ae7d4b4eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverHighlight
+  highlightObjects:
+  - {fileID: 3533254671544317630}
 --- !u!1 &6019160032853235507
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,10 +268,10 @@ GameObject:
   - component: {fileID: 4363157883394692881}
   - component: {fileID: -4501228538576881434}
   - component: {fileID: 2676809572032231644}
-  - component: {fileID: 1185218506785286413}
-  - component: {fileID: 5666267138715062706}
+  - component: {fileID: 6672134831796618916}
+  - component: {fileID: 7289345113837143713}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,8 +290,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7015734784889737682}
-  - {fileID: 7365573116244801739}
+  - {fileID: 5343138002921022253}
+  - {fileID: 243140414329946841}
   - {fileID: 6938982265913160604}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -372,15 +387,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ba587a9a70d3741b7a0a249caa2732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerClass
-  unitIcon: {fileID: 21300000, guid: 91c4e5bd618d9f14b9eafcd73f0ccb8d, type: 3}
-  UnitName: Heavy
+  unitIcon: {fileID: 21300000, guid: 22a34b4d719e4dc418b902b7cb91817e, type: 3}
+  UnitName: Magician
   hp: 10
   atk: 10
-  speed: 100
-  movement: 4
-  range: 8
+  speed: 10000
+  movement: 10
+  range: 4
   skills:
   - {fileID: 11400000, guid: b054902d8f5c4874fbcdfb728c2a9a43, type: 2}
+  - {fileID: 11400000, guid: 40c03edccbd7b0242b400cf04d02daf5, type: 2}
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,7 +416,7 @@ MonoBehaviour:
   attackRangeColor: {r: 1, g: 0.07450981, b: 0.07450981, a: 0.44705883}
   skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
---- !u!114 &1185218506785286413
+--- !u!114 &6672134831796618916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,12 +428,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801f8e2eb3ae13443be975ee59eca05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitTargetable
-  targetLight: {fileID: 7074536508909097758}
+  targetLight: {fileID: 524042816663496972}
   circleRadius: 0.8
   circleHeight: 0.05
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
---- !u!114 &5666267138715062706
+--- !u!114 &7289345113837143713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,8 +446,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverHighlight
   highlightObjects:
-  - {fileID: 1188378225145125619}
---- !u!1001 &6921256316202219868
+  - {fileID: 3533254671544317630}
+--- !u!1001 &388777005219627854
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -497,20 +513,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601412505774726160, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
       propertyPath: m_Name
-      value: Highlight (1)
+      value: Highlight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
---- !u!108 &7074536508909097758 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
-  m_PrefabInstance: {fileID: 6921256316202219868}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7365573116244801739 stripped
+--- !u!4 &243140414329946841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 448944115868582295, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
-  m_PrefabInstance: {fileID: 6921256316202219868}
+  m_PrefabInstance: {fileID: 388777005219627854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &524042816663496972 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
+  m_PrefabInstance: {fileID: 388777005219627854}
   m_PrefabAsset: {fileID: 0}

@@ -50,7 +50,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     //////////////////// 
 
     private int currentTurnIndex = 0;
-    private EnemyClass selectedTarget;
+    private EnemyClass selectedEnemyTarget;
+    private PlayerClass selectedPlayerTarget;
     private bool isTargeting = false;
     public bool GetisTargetting() { return isTargeting; }
     private Skill selectedSkill;
@@ -73,7 +74,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         bool hitEnemy = false;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hitEnemy = hit.transform.GetComponentInParent<EnemyTargetable>() != null;
+            hitEnemy = hit.transform.GetComponentInParent<UnitTargetable>() != null;
         }
 
         if (!hitEnemy)
@@ -113,23 +114,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void BattleStart()
     {
-
-
-
-
-
         Debug.Log("BattleStart() called");
 
         Debug.Log("Players: " + players.Count);
         Debug.Log("Enemies: " + enemies.Count);
         Debug.Log("TurnOrder BEFORE build: " + turnOrder.Count);
-        /*
-        Debug.Log("Spawning Player");
-    
-
-        players.AddRange(FindObjectsOfType<PlayerClass>());
-        enemies.AddRange(FindObjectsOfType<EnemyClass>());
-        */
 
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
@@ -157,6 +146,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log("TURN ORDER: " + turnOrder.Count);
 
         UpdateTurnOrderUI();
+        HideUnitStats();
 
         currentTurnIndex = 0;
         CalculateEnemyIntents();
@@ -177,7 +167,40 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 pm.ShowAttackRange();
         }
     }
-    public void SelectTarget(EnemyClass enemy)
+    public void SelectPlayerTarget(PlayerClass player)
+    {
+        if (!isTargeting) return;
+
+        SetUIVisible(true);
+
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+            {
+                pm.HideAttackRange();
+                pm.HideSkillRange();
+            }
+        }
+
+        if (selectedPlayerTarget != null)
+        {
+            UnitTargetable previousTargetable = selectedPlayerTarget.GetComponent<UnitTargetable>();
+            if (previousTargetable != null)
+                previousTargetable.SetHighlighted(false);
+        }
+
+        selectedPlayerTarget = player;
+        isTargeting = false;
+
+        UnitTargetable targetable = player.GetComponent<UnitTargetable>();
+        if (targetable != null)
+            targetable.SetHighlighted(true);
+
+        Debug.Log("Player target selected: " + player.UnitName);
+    }
+
+    public void SelectEnemyTarget(EnemyClass enemy)
     {
         if (!isTargeting)
             return;
@@ -190,15 +213,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
             pm.HideSkillRange();
         }
 
-        if (selectedTarget != null)
+        if (selectedEnemyTarget != null)
         {
-            EnemyTargetable previousTargetable = selectedTarget.GetComponent<EnemyTargetable>();
+            UnitTargetable previousTargetable = selectedEnemyTarget.GetComponent<UnitTargetable>();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
-        selectedTarget = enemy;
+        selectedEnemyTarget = enemy;
         isTargeting = false;
-        EnemyTargetable targetable = enemy.GetComponent<EnemyTargetable>();
+        UnitTargetable targetable = enemy.GetComponent<UnitTargetable>();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -326,7 +349,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             foreach (EnemyClass e in enemies)
             {
                 EnemyIntentDisplay d = e.GetComponent<EnemyIntentDisplay>();
-                if (d != null) 
+                if (d != null)
                     d.SetVisible(false);
             }
 
@@ -347,22 +370,22 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 Debug.Log("Player attacks");
                 // enemies[0].TakeDamage(67); // pick a real target later
 
-                if (selectedTarget != null && selectedTarget.hp > 0)
+                if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
                 {
-                    float distance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
+                    float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
 
                     // range check incase player moves AFTER targetting
                     if (distance <= currentPlayer.range + rangeBuffer)
                     {
-                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedTarget.UnitName);
-                        selectedTarget.TakeDamage(CurrentUnit.atk);
+                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+                        selectedEnemyTarget.TakeDamage(CurrentUnit.atk);
                     }
                     else
                     {
                         Debug.Log("Attack failed");
                     }
                 }
-                else if (selectedTarget == null || selectedTarget.hp <= 0)
+                else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
                 {
                     Debug.Log("No valid target selected");
 
@@ -376,32 +399,28 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     return;
                 }
 
-                if (selectedTarget == null)
+                UnitClass skillTarget = null;
+                if (selectedEnemyTarget != null)
+                    skillTarget = selectedEnemyTarget;
+                else if (selectedPlayerTarget != null)
+                    skillTarget = selectedPlayerTarget;
+
+                if (skillTarget == null)
                 {
                     Debug.Log("No target selected");
                     return;
                 }
 
-                float skillDistance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
-
+                float skillDistance = Vector3.Distance(skillTarget.transform.position, currentPlayer.transform.position);
                 if (skillDistance <= selectedSkill.range + rangeBuffer)
                 {
-                    selectedSkill.Use(CurrentUnit, selectedTarget);
-                    Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + selectedTarget.UnitName);
+                    selectedSkill.Use(CurrentUnit, skillTarget);
+                    Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
                 }
                 else
                 {
                     Debug.Log("Skill out of range");
                 }
-
-                Debug.Log(
-                    CurrentUnit.UnitName +
-                    " used " +
-                    selectedSkill.SkillName +
-                    " on " +
-                    selectedTarget.UnitName
-                );
-
                 break;
 
             case TurnAction.Move:
@@ -530,6 +549,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private void EndTurn()
     {
         selectedSkill = null;
+        HideSkillPanel();
+        
         if (CurrentUnit is PlayerClass currentPlayer)
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
@@ -538,15 +559,27 @@ public class TurnBasedSystemV2 : MonoBehaviour
             pm.HideSkillRange();
         }
         selectedAction = TurnAction.None;
-        if (selectedTarget != null)
+
+        if (selectedEnemyTarget != null)
         {
-            EnemyTargetable targetable = selectedTarget.GetComponent<EnemyTargetable>();
+            UnitTargetable targetable = selectedEnemyTarget.GetComponent<UnitTargetable>();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
-        selectedTarget = null;
+        selectedEnemyTarget = null;
+
+        if (selectedPlayerTarget != null)
+        {
+            UnitTargetable targetable = selectedPlayerTarget.GetComponent<UnitTargetable>();
+            if (targetable != null)
+                targetable.SetHighlighted(false);
+        }
+        selectedPlayerTarget = null;
+
+
         isTargeting = false;
         UpdateTurnOrderUI();
+        SetUIVisible(false);
         NextTurn();
     }
 
@@ -799,5 +832,27 @@ public class TurnBasedSystemV2 : MonoBehaviour
             if (display != null)
                 display.UpdateIntent(destination, enemy.range);
         }
+    }
+
+    public void ShowUnitStats(UnitClass unit)
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel == null) return;
+
+        statsPanel.style.display = DisplayStyle.Flex;
+
+        statsPanel.Q<Label>("StatsName").text = unit.UnitName;
+        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp;
+        statsPanel.Q<Label>("StatsATK").text = "ATK: " + unit.atk;
+        statsPanel.Q<Label>("StatsRange").text = "Range: " + unit.range;
+        statsPanel.Q<Label>("StatsSpeed").text = "Speed: " + unit.speed;
+        statsPanel.Q<Label>("StatsMovement").text = "Movement: " + unit.movement;
+    }
+
+    public void HideUnitStats()
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel != null)
+            statsPanel.style.display = DisplayStyle.None;
     }
 }

@@ -255,8 +255,9 @@ GameObject:
   - component: {fileID: 4657419581391591420}
   - component: {fileID: 7763193629353870146}
   - component: {fileID: 6473443639192556298}
+  - component: {fileID: 5684000767867910708}
   m_Layer: 0
-  m_Name: dumbass
+  m_Name: Enemy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,9 +276,9 @@ Transform:
   m_LocalScale: {x: 1, y: 2.0841, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8119602883073762622}
   - {fileID: 5834693466691418724}
   - {fileID: 2197427138247600373}
-  - {fileID: 9006486149195845587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3515978501983255633
@@ -371,11 +372,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 21300000, guid: e73f7cfb9b50a984199606186bd81924, type: 3}
-  UnitName: FBI
+  UnitName: Angry Thief
   hp: 10
-  atk: 100
+  atk: 3
   speed: 1000
-  movement: 2
+  movement: 5
   range: 4
   skills: []
 --- !u!114 &4657419581391591420
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5971433bdcedb4f92ed774b8db0874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTargetable
-  targetLight: {fileID: 8712072390709109766}
+  targetLight: {fileID: 8409512482508787435}
   circleRadius: 0.8
   circleHeight: 0.05
   targetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
@@ -425,7 +426,24 @@ MonoBehaviour:
   rangeColor: {r: 0.4801067, g: 0.6377357, b: 0.63618696, a: 0.2}
   pathWidth: 0.2
   stopCircleRadius: 0.4
---- !u!1001 &8847197379302133316
+--- !u!114 &5684000767867910708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221063954532474276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801f8e2eb3ae13443be975ee59eca05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitTargetable
+  targetLight: {fileID: 8409512482508787435}
+  circleRadius: 0.8
+  circleHeight: 0.05
+  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
+  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
+--- !u!1001 &8544568218461676713
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -440,6 +458,18 @@ PrefabInstance:
     - target: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
       propertyPath: m_Range
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
+      propertyPath: m_Color.b
+      value: 0.60251975
+      objectReference: {fileID: 0}
+    - target: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
+      propertyPath: m_Color.g
+      value: 0.36856526
+      objectReference: {fileID: 0}
+    - target: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9622642
       objectReference: {fileID: 0}
     - target: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
       propertyPath: m_SpotAngle
@@ -491,20 +521,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601412505774726160, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
       propertyPath: m_Name
-      value: Highlight
+      value: Highlight (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
---- !u!108 &8712072390709109766 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
-  m_PrefabInstance: {fileID: 8847197379302133316}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9006486149195845587 stripped
+--- !u!4 &8119602883073762622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 448944115868582295, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
-  m_PrefabInstance: {fileID: 8847197379302133316}
+  m_PrefabInstance: {fileID: 8544568218461676713}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &8409512482508787435 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 153386863139646018, guid: 69ccdc658dcdb2a4e9a569c6513e31d2, type: 3}
+  m_PrefabInstance: {fileID: 8544568218461676713}
   m_PrefabAsset: {fileID: 0}

@@ -1,25 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
-public class EnemyTargetable : MonoBehaviour
+public class UnitTargetable : MonoBehaviour
 {
-    private EnemyClass enemy;
+    private UnitClass unit;
     private TurnBasedSystemV2 turnSystem;
     [SerializeField] private Light targetLight;
 
     [Header("Target Circle")]
     [SerializeField] private float circleRadius = 0.8f;
     [SerializeField] private float circleHeight = 0.05f;
-    [SerializeField] private Color targetColor = new Color(1f, 0.2f, 0.2f, 0.4f);
+    [SerializeField] private Color enemyTargetColor = new Color(1f, 0.2f, 0.2f, 0.4f);
+    [SerializeField] private Color playerTargetColor = new Color(0.2f, 0.6f, 1f, 0.4f);
     private GameObject circleObj;
     private float rangeBuffer = 0.5f;
 
+    private bool isEnemy;
+
     void Awake()
     {
-        enemy = GetComponent<EnemyClass>();
+        unit = GetComponent<UnitClass>();
         turnSystem = FindFirstObjectByType<TurnBasedSystemV2>();
-        Debug.Log("EnemyTargetable attached to: " + gameObject.name);
+        isEnemy = GetComponent<EnemyClass>() != null;
+
+        Debug.Log("UnitTargetable attached to: " + gameObject.name + " | isEnemy: " + isEnemy);
 
         if (targetLight != null)
             targetLight.enabled = false;
@@ -37,7 +41,7 @@ public class EnemyTargetable : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            EnemyTargetable found = hit.collider.GetComponentInParent<EnemyTargetable>();
+            UnitTargetable found = hit.collider.GetComponentInParent<UnitTargetable>();
 
             if (found == this)
             {
@@ -48,32 +52,44 @@ public class EnemyTargetable : MonoBehaviour
                     {
                         float dist = Vector3.Distance(attacker.transform.position, transform.position);
                         if (dist <= attacker.range + rangeBuffer)
-                            turnSystem.SelectEnemyTarget(enemy);
+                        {
+                            if (isEnemy)
+                                turnSystem.SelectEnemyTarget(GetComponent<EnemyClass>());
+                            else
+                                turnSystem.SelectPlayerTarget(GetComponent<PlayerClass>());
+                        }
                         else
+                        {
                             turnSystem.CancelTargeting();
+                        }
                     }
                 }
                 else
                 {
-                    EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
-                    if (display != null)
-                        display.SetVisible(!display.IsVisible());
+                    turnSystem.ShowUnitStats(unit);
+                    if (isEnemy) // show intent display only for enemies
+                    {
+                        EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
+                        if (display != null)
+                            display.SetVisible(!display.IsVisible());
+                    }
                 }
             }
             else if (found == null)
             {
-                // clicked empty space, hide this enemy's display
-                EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
-                if (display != null)
-                    display.SetVisible(false);
+                turnSystem.HideUnitStats();
+                if (isEnemy)
+                {
+                    EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
+                    if (display != null)
+                        display.SetVisible(false);
+                }
             }
-            // if found != null && found != this, another enemy was clicked, do nothing
         }
     }
 
     public void SetHighlighted(bool isHighlighted)
     {
-        Debug.Log("SetHighlighted called: " + isHighlighted);
         if (targetLight != null)
             targetLight.enabled = isHighlighted;
         SetCircleVisible(isHighlighted);
@@ -89,10 +105,9 @@ public class EnemyTargetable : MonoBehaviour
         circleObj.transform.localScale = new Vector3(circleRadius * 2f, 0.02f, circleRadius * 2f);
 
         var mat = new Material(Shader.Find("Sprites/Default"));
-        mat.color = targetColor;
+        mat.color = isEnemy ? enemyTargetColor : playerTargetColor;
         circleObj.GetComponent<MeshRenderer>().material = mat;
 
-        // attach to this enemy so it follows if they move
         circleObj.transform.SetParent(transform);
         circleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
     }
