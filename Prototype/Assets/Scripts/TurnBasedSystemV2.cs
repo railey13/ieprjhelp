@@ -133,6 +133,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         BuildTurnOrder();
         Debug.Log("TURN ORDER: " + turnOrder.Count);
 
+        UpdateTurnOrderUI();
+
         currentTurnIndex = 0;
         StartTurn();
 
@@ -223,6 +225,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         Debug.Log("Current Turn: " + unit.UnitName);
         */
+
+        UpdateTurnOrderUI();
 
         UnitClass unit = CurrentUnit;
 
@@ -406,6 +410,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         selectedTarget = null;
         isTargeting = false;
+        UpdateTurnOrderUI();
         NextTurn();
     }
 
@@ -574,4 +579,32 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log("Targeting cancelled — out of range");
     }
 
+    private void UpdateTurnOrderUI()
+    {
+        VisualElement container = doc.rootVisualElement.Q<VisualElement>("TurnOrderContainer");
+        if (container == null) return;
+
+        container.Clear();
+
+        foreach (UnitClass unit in turnOrder)
+        {
+            if (unit == null || unit.hp <= 0) continue;
+
+            Image icon = new Image();
+            icon.sprite = unit.unitIcon;
+
+            icon.style.width = 60;
+            icon.style.height = 60;
+            icon.style.marginRight = 5;
+            icon.style.marginLeft = 5;
+
+            if (unit == CurrentUnit)
+            {
+                icon.style.borderBottomColor = Color.yellow;
+                icon.style.borderBottomWidth = 4;
+            }
+
+            container.Add(icon);
+        }
+    }
 }
