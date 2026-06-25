@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: -7013612823703365441}
   - component: {fileID: 4657419581391591420}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: dumbass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,11 +240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef00994c46abf2748bf8bb56b2833c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
-  UnitName: Police
+  UnitName: FBI
   hp: 10
   atk: 100
-  speed: 20
-  movement: 4
+  speed: 1000
+  movement: 2
   range: 4
   skills: []
 --- !u!114 &4657419581391591420

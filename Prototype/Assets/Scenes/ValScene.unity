@@ -164,11 +164,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystemV2
   PlayerPrefab:
-  - {fileID: 1074400588091422720, guid: 0710d252a11cccf41861e5cd91e7c0cb, type: 3}
+  - {fileID: 6879494447931468396, guid: e06a8981464419c45be5c627f103332c, type: 3}
   - {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
-  - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
+  - {fileID: 3221063954532474276, guid: afb7f2d4c099b6f4daa9b540ed982098, type: 3}
   PlayerSpawnPoints:
   - {fileID: 1780775755}
   - {fileID: 1177677515}
@@ -314,7 +314,7 @@ Transform:
   m_GameObject: {fileID: 289005472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: 0, z: -3.27}
+  m_LocalPosition: {x: 10.76, y: 0, z: -12.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -539,7 +539,7 @@ Transform:
   m_GameObject: {fileID: 338284150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: 0, z: -7.29}
+  m_LocalPosition: {x: -12.55, y: 0, z: -13.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -801,7 +801,7 @@ Transform:
   m_GameObject: {fileID: 1177677514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.10067, y: 2.85, z: 4.68}
+  m_LocalPosition: {x: 11.47, y: 0, z: 11.432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -863,7 +863,7 @@ Transform:
   m_GameObject: {fileID: 1780775754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.10067, y: 2.88, z: 1.55227}
+  m_LocalPosition: {x: -11.02, y: 0, z: 9.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -10,9 +10,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
 
-    [Header("Range Indicator")]
-    [SerializeField] private float circleHeight = 0.05f; //how high above the ground the circle is
+    [Header("Movement Indicator")]
+    [SerializeField] private float circleHeight = -5.0f; //how high above the ground the circle is
     [SerializeField] private Color rangeColor = new Color(0f, 0.6f, 1f, 0.25f); // circle color
+    [Header("Attack Circle")]
+    [SerializeField] private Color attackRangeColor = new Color(1f, 0.2f, 0.2f, 0.25f); // translucent red
+    private GameObject attackCircleObj;
 
     [SerializeField] private InputActionAsset inputAsset;
     private PlayerClass player;
@@ -39,12 +42,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-    Debug.Log(gameObject.name + " PlayerMovement Start() running");
-    range = player.movement;
-    Debug.Log(gameObject.name + " range = " + range);
-    BuildCircleVisual();
-    Debug.Log(gameObject.name + " circleObj built? " + (circleObj != null));
-    SetCircleVisible(false);
+        Debug.Log(gameObject.name + " PlayerMovement Start() running");
+        range = player.movement;
+        Debug.Log(gameObject.name + " range = " + range);
+        BuildCircleVisual();
+        BuildAttackCircleVisual();
+        Debug.Log(gameObject.name + " circleObj built? " + (circleObj != null));
+        SetCircleVisible(false);
     }
 
     void OnEnable()
@@ -163,5 +167,36 @@ public class PlayerMovement : MonoBehaviour
     public void SetTurnBasedSystem(TurnBasedSystemV2 system)
     {
         turnBasedSystem = system;
+    }
+
+    void BuildAttackCircleVisual()
+    {
+        attackCircleObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        attackCircleObj.name = "AttackRangeCircle";
+
+        DestroyImmediate(attackCircleObj.GetComponent<Collider>());
+
+        float attackRange = player.range;
+        attackCircleObj.transform.localScale = new Vector3(attackRange * 2f, 0.02f, attackRange * 2f);
+
+        var mat = new Material(Shader.Find("Sprites/Default"));
+        mat.color = attackRangeColor;
+        attackCircleObj.GetComponent<MeshRenderer>().material = mat;
+
+        attackCircleObj.transform.SetParent(transform);
+        attackCircleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
+
+        attackCircleObj.SetActive(false);
+    }
+    public void ShowAttackRange()
+    {
+        if (attackCircleObj != null)
+            attackCircleObj.SetActive(true);
+    }
+
+    public void HideAttackRange()
+    {
+        if (attackCircleObj != null)
+            attackCircleObj.SetActive(false);
     }
 }
