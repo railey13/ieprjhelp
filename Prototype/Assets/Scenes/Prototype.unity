@@ -682,6 +682,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &867067863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867067865}
+  - component: {fileID: 867067864}
+  m_Layer: 0
+  m_Name: SpecialTurnRunner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &867067864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867067863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76fb0223de2b42449733840959c29d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpecialTurnRunner
+--- !u!4 &867067865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867067863}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.44439, y: 0, z: -2.91756}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1372866896
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,9 +835,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef00994c46abf2748bf8bb56b2833c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
+  unitIcon: {fileID: 0}
+  UnitName: 
   hp: 100
   atk: 5
-  spd: 4
+  speed: 0
+  movement: 0
+  range: 0
+  skills: []
 --- !u!4 &1789596812 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 122381448072241464, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
@@ -864,6 +913,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6665832672781957555}
+    - targetCorrespondingSourceObject: {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6665832672781957557}
   m_SourcePrefab: {fileID: 100100000, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
 --- !u!4 &6665832672781957553 stripped
 Transform:
@@ -887,11 +939,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ba587a9a70d3741b7a0a249caa2732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerClass
-  PlayerName: kys
+  unitIcon: {fileID: 0}
+  UnitName: 
   hp: 100
   atk: 50
   speed: 50
   movement: 5
+  range: 0
+  skills: []
 --- !u!114 &6665832672781957556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,11 +959,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  turnBasedSystem: {fileID: 72908616}
+  turnBasedSystem: {fileID: 0}
   moveSpeed: 12
   circleHeight: 0.05
   rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
+  attackRangeColor: {r: 1, g: 0.2, b: 0.2, a: 0.25}
+  skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &6665832672781957557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665832672781957554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31fc172c678f442597320fef46bdc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpecialTurnHolder
+  specialTurns:
+  - {fileID: 11400000, guid: b68192537f1cf4b08af6b1c6cca9bbe2, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -922,3 +993,4 @@ SceneRoots:
   - {fileID: 388397739}
   - {fileID: 72908617}
   - {fileID: 1789596809}
+  - {fileID: 867067865}
