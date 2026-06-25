@@ -8,11 +8,16 @@ public class EnemyClass : UnitClass
 
     }
 
-    public void ShowIntent(bool willAttack, PlayerClass target)
+    public void ShowIntent(bool willAttack,bool willSkill, PlayerClass target)
     {
         string intentText;
+        if (willSkill)
+        {
+            intentText = "Skill used against" + target.UnitName;
+        }
         if (willAttack)
         {
+            
             intentText = "Attack " + target.UnitName;
         }
         else

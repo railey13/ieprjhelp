@@ -40,6 +40,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         public PlayerClass targetPlayer;
         public Vector3 destination;
         public bool willAttack;
+        public bool willSkill;
+        public Skill chosenSkill;
     }
 
     private List<EnemyIntent> enemyIntents = new List<EnemyIntent>();
@@ -461,7 +463,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
     }
 
-
+    private void EnemySkill(EnemyClass enemy)
+    {
+        
+    }
 
     private void EnemyTakeTurn(EnemyClass enemy)
     {
@@ -489,8 +494,17 @@ public class TurnBasedSystemV2 : MonoBehaviour
         float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
         // attack the pre-calculated target if it's still alive
-        if (intent.willAttack)
+        if (intent.willSkill && intent.chosenSkill != null)
         {
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= intent.chosenSkill.range + rangeBuffer)
+            {
+                Debug.Log(enemy.UnitName + " used skill against " + intent.targetPlayer.UnitName);
+                intent.chosenSkill.Use(enemy, intent.targetPlayer);
+            }
+        }
+        else if (intent.willAttack)
+        {
+            
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
@@ -760,16 +774,27 @@ public class TurnBasedSystemV2 : MonoBehaviour
             // will they be in range to attack after moving?
             float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
             bool willAttack = distanceAfterMove <= enemy.range + rangeBuffer;
+            bool willSkill = false;
+            Skill chosenSkill = null;
+
+            if (enemy.skills.Count > 0)
+            {
+                chosenSkill = enemy.skills[0];
+                willSkill =
+                    distanceAfterMove <= chosenSkill.range + rangeBuffer;
+            }
 
             enemyIntents.Add(new EnemyIntent
             {
                 enemy = enemy,
                 targetPlayer = target,
                 destination = destination,
-                willAttack = willAttack
+                willAttack = willAttack,
+                willSkill = willSkill,
+                chosenSkill = chosenSkill
             });
 
-            enemy.ShowIntent(willAttack, target);
+            enemy.ShowIntent(willAttack,willSkill, target);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
             if (display != null)
                 display.UpdateIntent(destination, enemy.range);
