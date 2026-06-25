@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class UnitClass : MonoBehaviour
 {
+    [Header("UI")]
+    public Sprite unitIcon;
+
     [Header("Stats")]
     public string UnitName;
 
