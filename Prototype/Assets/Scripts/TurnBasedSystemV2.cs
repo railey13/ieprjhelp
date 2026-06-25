@@ -34,6 +34,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private List<EnemyClass> enemies = new List<EnemyClass>();
     private List<UnitClass> turnOrder = new();
 
+    private struct EnemyIntent
+    {
+        public EnemyClass enemy;
+        public PlayerClass targetPlayer;
+        public Vector3 destination;
+        public bool willAttack;
+    }
+
+    private List<EnemyIntent> enemyIntents = new List<EnemyIntent>();
 
 
     //////////////////// 
@@ -147,6 +156,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         UpdateTurnOrderUI();
 
         currentTurnIndex = 0;
+        CalculateEnemyIntents(); 
         StartTurn();
 
     }
@@ -273,30 +283,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     /// ////////////////////////////////////////
     
     private void StartTurn()
-    {/*
-        if (turnOrder == null || turnOrder.Count == 0)
-        {
-            Debug.LogError("TURN ORDER IS EMPTY — spawn system failed");
-            return;
-        }
-
-        if (currentTurnIndex < 0 || currentTurnIndex >= turnOrder.Count)
-        {
-            Debug.LogError("TURN INDEX OUT OF RANGE: " + currentTurnIndex);
-            return;
-        }
-
-        UnitClass unit = CurrentUnit;
-
-        if (unit == null)
-        {
-            Debug.LogError("CurrentUnit is NULL (missing UnitClass on prefab)");
-            return;
-        }
-
-        Debug.Log("Current Turn: " + unit.UnitName);
-        */
-
+    {
         UpdateTurnOrderUI();
 
         UnitClass unit = CurrentUnit;
@@ -305,6 +292,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
             return;
 
         Debug.Log("TURN START: " + unit.UnitName);
+
+        if (currentTurnIndex == 0)
+        {
+            CalculateEnemyIntents(); // only recalculate at the start of a new round
+        }
 
         if (unit is PlayerClass currentPlayer)
         {
@@ -453,25 +445,33 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log(enemy.UnitName + " acts. players.Count = " + players.Count);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
-        PlayerClass target = FindNearestPlayer(enemy.transform.position);
-        if (target == null)
+        // find this enemy's pre-calculated intent
+        EnemyIntent intent = enemyIntents.Find(i => i.enemy == enemy);
+
+        // if no intent found, skip
+        if (intent.enemy == null)
         {
-            Debug.Log("No target — checking WinLoseState");
-            WinLoseState();
-            Debug.Log("isGameOver after WinLoseState: " + isGameOver);
             EndTurn();
             return;
         }
 
-        EnemyMove(enemy);
+        // move to the pre-calculated destination regardless of where players moved
+        enemy.transform.position = intent.destination;
+        Debug.Log(enemy.UnitName + " moves to  position");
+        float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
-        float distance = Vector3.Distance(enemy.transform.position, target.transform.position);
-
-        // range check
-        if (distance <= enemy.range * 2)
+        // attack the pre-calculated target if it's still alive
+        if (intent.willAttack)
         {
-            Debug.Log(enemy.UnitName + " attacks " + target.UnitName);
-            target.TakeDamage(enemy.atk);
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range)
+            {
+                Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
+                intent.targetPlayer.TakeDamage(enemy.atk);
+            }
+            else
+            {
+                Debug.Log(enemy.UnitName + " target is dead, attack cancelled");
+            }
         }
 
 
@@ -517,7 +517,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 break;
 
             // OFFSETS PLAYERS UP
-            Vector3 spawnPos = PlayerSpawnPoints[i].position + Vector3.up * playerSpawnYOffset ;
+            Vector3 spawnPos = PlayerSpawnPoints[i].position + Vector3.up * playerSpawnYOffset;
 
             GameObject playerObject = Instantiate(
                 PlayerPrefab[i],
@@ -628,6 +628,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         return nearest;
     }
+    /*
     public void EnemyMove(EnemyClass enemy)
     {
         if (enemy == null) return;
@@ -653,6 +654,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         enemy.transform.position = destination;
     }
+    */
+
     public UnitClass GetCurrentUnit()
     {
         return CurrentUnit;
@@ -702,6 +705,41 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             container.Add(icon);
+        }
+    }
+
+    private void CalculateEnemyIntents()
+    {
+        enemyIntents.Clear();
+
+        foreach (EnemyClass enemy in enemies)
+        {
+            if (enemy == null || enemy.hp <= 0) continue;
+
+            PlayerClass target = FindNearestPlayer(enemy.transform.position); // chooses target
+            if (target == null) continue;
+
+            Vector3 toTarget = target.transform.position - enemy.transform.position;
+            toTarget.y = 0f;
+            float distance = toTarget.magnitude;
+            Vector3 direction = toTarget.normalized;
+
+            float moveDistance = Mathf.Min(distance, enemy.movement); // makes sure not to overshoot the player
+            Vector3 destination = enemy.transform.position + direction * moveDistance;
+
+            // will they be in range to attack after moving?
+            float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
+            bool willAttack = distanceAfterMove <= enemy.range;
+
+            enemyIntents.Add(new EnemyIntent
+            {
+                enemy = enemy,
+                targetPlayer = target,
+                destination = destination,
+                willAttack = willAttack
+            });
+
+            enemy.ShowIntent(willAttack, target);
         }
     }
 }
