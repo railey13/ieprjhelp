@@ -26,14 +26,14 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private bool isGameOver = false;
     private enum TurnAction { None, Move, Attack, Skill }
     private TurnAction selectedAction = TurnAction.None;
-    
+
     private enum TurnPhase { PlayerTurn, EnemyTurn }
     private TurnPhase currentPhase = TurnPhase.PlayerTurn;
 
     private List<PlayerClass> players = new List<PlayerClass>();
     private List<EnemyClass> enemies = new List<EnemyClass>();
     private List<UnitClass> turnOrder = new();
-
+    private float rangeBuffer = 0.5f;
     private struct EnemyIntent
     {
         public EnemyClass enemy;
@@ -110,7 +110,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void BattleStart()
     {
-        
+
 
 
 
@@ -156,7 +156,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         UpdateTurnOrderUI();
 
         currentTurnIndex = 0;
-        CalculateEnemyIntents(); 
+        CalculateEnemyIntents();
         StartTurn();
 
     }
@@ -184,6 +184,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
                 pm.HideAttackRange();
+            pm.HideSkillRange();
         }
 
         if (selectedTarget != null)
@@ -277,11 +278,19 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         SetUIVisible(false);
 
+        // show skill range circle
+        if (CurrentUnit is PlayerClass currentPlayer)
+        {
+            PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.ShowSkillRange(skill.range);
+        }
+
         Debug.Log("Selected Skill: " + skill.SkillName);
     }
-    
+
     /// ////////////////////////////////////////
-    
+
     private void StartTurn()
     {
         UpdateTurnOrderUI();
@@ -332,7 +341,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     float distance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
 
                     // range check incase player moves AFTER targetting
-                    if (distance <= currentPlayer.range)
+                    if (distance <= currentPlayer.range + rangeBuffer)
                     {
                         Debug.Log(currentPlayer.UnitName + " attacks " + selectedTarget.UnitName);
                         selectedTarget.TakeDamage(CurrentUnit.atk);
@@ -362,7 +371,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     return;
                 }
 
-                selectedSkill.Use(CurrentUnit, selectedTarget);
+                float skillDistance = Vector3.Distance(selectedTarget.transform.position, currentPlayer.transform.position);
+
+                if (skillDistance <= selectedSkill.range + rangeBuffer) {
+                    selectedSkill.Use(CurrentUnit, selectedTarget);
+                    Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + selectedTarget.UnitName);
+                }
+                else {
+                    Debug.Log("Skill out of range");
+                }
 
                 Debug.Log(
                     CurrentUnit.UnitName +
@@ -463,7 +480,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         // attack the pre-calculated target if it's still alive
         if (intent.willAttack)
         {
-            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range)
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
                 intent.targetPlayer.TakeDamage(enemy.atk);
@@ -493,6 +510,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
                 pm.HideAttackRange();
+            pm.HideSkillRange();
         }
         selectedAction = TurnAction.None;
         if (selectedTarget != null)
@@ -674,6 +692,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
                 pm.HideAttackRange();
+            pm.HideSkillRange();
         }
 
         Debug.Log("Targeting cancelled — out of range");
@@ -729,7 +748,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
             // will they be in range to attack after moving?
             float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
-            bool willAttack = distanceAfterMove <= enemy.range;
+            bool willAttack = distanceAfterMove <= enemy.range + rangeBuffer;
 
             enemyIntents.Add(new EnemyIntent
             {

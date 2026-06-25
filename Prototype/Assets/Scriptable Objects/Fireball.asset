@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FireballSkill
   SkillName: Fireball
   MPCost: 0
+  range: 5
   Damage: 100
