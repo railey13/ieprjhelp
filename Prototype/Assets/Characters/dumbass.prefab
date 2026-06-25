@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: -7013612823703365441}
   - component: {fileID: 4657419581391591420}
   - component: {fileID: 7763193629353870146}
+  - component: {fileID: 6473443639192556298}
   m_Layer: 0
   m_Name: dumbass
   m_TagString: Untagged
@@ -406,7 +407,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlight
   highlightObjects:
-  - {fileID: 0}
+  - {fileID: 2512670096849447539}
+--- !u!114 &6473443639192556298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221063954532474276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534220bca3356d846b64b5a9745eb201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyIntentDisplay
+  pathColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.3}
+  stopColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
+  rangeColor: {r: 0.4801067, g: 0.6377357, b: 0.63618696, a: 0.2}
+  pathWidth: 0.2
+  stopCircleRadius: 0.4
 --- !u!1001 &8847197379302133316
 PrefabInstance:
   m_ObjectHideFlags: 0

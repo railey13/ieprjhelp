@@ -17,6 +17,8 @@ public class EnemyTargetable : MonoBehaviour
 
     void Awake()
     {
+        Collider col = GetComponent<Collider>();
+        Debug.Log(gameObject.name + " has collider: " + (col != null));
         enemy = GetComponent<EnemyClass>();
         turnSystem = FindFirstObjectByType<TurnBasedSystemV2>();
         Debug.Log("EnemyTargetable attached to: " + gameObject.name);
@@ -37,22 +39,37 @@ public class EnemyTargetable : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.transform.GetComponentInParent<EnemyTargetable>() == this)
+            EnemyTargetable found = hit.collider.GetComponentInParent<EnemyTargetable>();
+
+            if (found == this)
             {
-                TurnBasedSystemV2 ts = turnSystem;
-                UnitClass attacker = ts.GetCurrentUnit(); // we need to expose this
-                if (attacker != null)
+                if (turnSystem.GetisTargetting())
                 {
-                    float dist = Vector3.Distance(attacker.transform.position, transform.position);
-                    if (dist <= attacker.range + rangeBuffer)
-                        turnSystem.SelectTarget(enemy);
-                    else
+                    UnitClass attacker = turnSystem.GetCurrentUnit();
+                    if (attacker != null)
                     {
-                        Debug.Log(enemy.UnitName + " is out of range");
-                        turnSystem.CancelTargeting();
+                        float dist = Vector3.Distance(attacker.transform.position, transform.position);
+                        if (dist <= attacker.range + rangeBuffer)
+                            turnSystem.SelectTarget(enemy);
+                        else
+                            turnSystem.CancelTargeting();
                     }
                 }
+                else
+                {
+                    EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
+                    if (display != null)
+                        display.SetVisible(!display.IsVisible());
+                }
             }
+            else if (found == null)
+            {
+                // clicked empty space, hide this enemy's display
+                EnemyIntentDisplay display = GetComponent<EnemyIntentDisplay>();
+                if (display != null)
+                    display.SetVisible(false);
+            }
+            // if found != null && found != this, another enemy was clicked, do nothing
         }
     }
 
@@ -69,7 +86,7 @@ public class EnemyTargetable : MonoBehaviour
         circleObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         circleObj.name = "TargetCircle_" + gameObject.name;
 
-        Destroy(circleObj.GetComponent<Collider>());
+        DestroyImmediate(circleObj.GetComponent<Collider>());
 
         circleObj.transform.localScale = new Vector3(circleRadius * 2f, 0.02f, circleRadius * 2f);
 
