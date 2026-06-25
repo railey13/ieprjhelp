@@ -423,8 +423,20 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 float skillDistance = Vector3.Distance(skillTarget.transform.position, currentPlayer.transform.position);
                 if (skillDistance <= selectedSkill.range + rangeBuffer)
                 {
+                    // Enzo changes: I save the target HP before the skill so the follow-up system can check if damage happened
+                    int targetHpBefore = skillTarget.hp;
+
                     selectedSkill.Use(CurrentUnit, skillTarget);
+
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
+
+                    // Enzo changes: I report the skill after it happens so special turn scripts can react
+                    SpecialTurnRunner.Instance?.ReportSkillUse(
+                        CurrentUnit,
+                        skillTarget,
+                        selectedSkill,
+                        targetHpBefore
+                    );
                 }
                 else
                 {
