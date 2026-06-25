@@ -247,6 +247,8 @@ MonoBehaviour:
   speed: 70
   movement: 14
   range: 2
+  skills:
+  - {fileID: 0}
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private bool isGameOver = false;
     private enum TurnAction { None, Move, Attack, Heal }
     private TurnAction selectedAction = TurnAction.None;
-
+    
     private enum TurnPhase { PlayerTurn, EnemyTurn }
     private TurnPhase currentPhase = TurnPhase.PlayerTurn;
 
