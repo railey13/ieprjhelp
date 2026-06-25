@@ -8,4 +8,5 @@
         <ui:Button text="Heal" name="Heal" style="height: 41px; width: 177px;"/>
         <ui:Button text="End Turn" name="EndTurnBtn" style="height: 36px; width: 178px;"/>
     </ui:VisualElement>
+    <ui:VisualElement name="TurnOrderContainer" style="flex-grow: 1; position: absolute; bottom: 20px; top: auto; left: auto; right: auto; flex-direction: row; align-items: center; justify-content: center; width: 100%;"/>
 </ui:UXML>
