@@ -245,7 +245,7 @@ MonoBehaviour:
   UnitName: Gooner
   hp: 10
   atk: 10
-  speed: 100
+  speed: 10000
   movement: 10
   range: 4
   skills: []
