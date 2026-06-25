@@ -55,11 +55,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private bool isTargeting = false;
     public bool GetisTargetting() { return isTargeting; }
     private Skill selectedSkill;
+    private int TurnNumber = 1;
     /// /////////////
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         BattleStart();
     }
 
@@ -325,7 +327,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (unit == null)
             return;
-
+       
         Debug.Log("TURN START: " + unit.UnitName);
 
         if (currentTurnIndex == 0)
@@ -459,6 +461,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         } while (turnOrder[currentTurnIndex] == null ||
                  turnOrder[currentTurnIndex].hp <= 0);
+        if (currentTurnIndex == 0)
+        {
+            TurnNumber++;
+            Debug.Log("===== TURN " + TurnNumber + " =====");
+        }
 
         StartTurn();
     }
@@ -519,6 +526,14 @@ public class TurnBasedSystemV2 : MonoBehaviour
             {
                 Debug.Log(enemy.UnitName + " used skill against " + intent.targetPlayer.UnitName);
                 intent.chosenSkill.Use(enemy, intent.targetPlayer);
+
+                SkillState usedState =
+                enemy.skillStates.Find(s => s.skill == intent.chosenSkill);
+
+                if (usedState != null)
+                {
+                    usedState.MarkUsed(TurnNumber);
+                }
             }
         }
         else if (intent.willAttack)
@@ -810,11 +825,27 @@ public class TurnBasedSystemV2 : MonoBehaviour
             bool willSkill = false;
             Skill chosenSkill = null;
 
-            if (enemy.skills.Count > 0)
+            //if (enemy.skills.Count > 0)
+            //{
+            //    chosenSkill = enemy.skills[0];
+            //    willSkill =
+            //        distanceAfterMove <= chosenSkill.range + rangeBuffer;
+            //}
+            foreach (SkillState state in enemy.skillStates)
             {
-                chosenSkill = enemy.skills[0];
+                if (!state.IsReady(TurnNumber))
+                    continue;
+
+                chosenSkill = state.skill;
+
                 willSkill =
                     distanceAfterMove <= chosenSkill.range + rangeBuffer;
+
+                if (willSkill)
+                {
+                    willAttack = false;
+                    break;
+                }
             }
 
             enemyIntents.Add(new EnemyIntent
@@ -826,7 +857,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 willSkill = willSkill,
                 chosenSkill = chosenSkill
             });
-
+            //Debug.Log(
+            //            enemy.UnitName +
+            //            " willAttack=" + willAttack +
+            //            " willSkill=" + willSkill +
+            //            " chosenSkill=" + (chosenSkill != null ? chosenSkill.SkillName : "None")
+            //            );
             enemy.ShowIntent(willAttack,willSkill, target);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
             if (display != null)

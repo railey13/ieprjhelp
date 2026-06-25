@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyFireballSkill : Skill
 {
     public int Damage;
-    public int CD;
+    //public int CD;
     public override void Use(UnitClass user, UnitClass target)
     {
         target.TakeDamage(Damage);
