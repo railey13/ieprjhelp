@@ -1,7 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/BattleUI.uss?fileID=7433441132597879392&amp;guid=14326483f516c1349837a34bf938cc71&amp;type=3#BattleUI"/>
-    <ui:Label text="Player Name" parse-escape-sequences="true" style="text-overflow: clip; -unity-text-align: upper-left;"/>
-    <ui:ProgressBar value="22" title="HP:" style="align-self: flex-start; width: 204px;"/>
     <ui:VisualElement style="flex-grow: 1; width: 918px; margin-top: 125px;">
         <ui:Button text="Move" name="Move" style="height: 41px; width: 178px;"/>
         <ui:Button text="Attack" data-source-path="" name="Attack" style="-unity-text-align: upper-center; white-space: pre; background-position-x: left 0; background-position-y: bottom 0; height: 38px; width: 178px; -unity-text-auto-size: none;"/>
@@ -10,4 +8,12 @@
     </ui:VisualElement>
     <ui:VisualElement name="TurnOrderContainer" style="flex-grow: 1; position: absolute; bottom: 20px; top: auto; left: auto; right: auto; flex-direction: row; align-items: center; justify-content: center; width: 100%;"/>
     <ui:VisualElement name="SkillPanel" style="flex-grow: 1; position: absolute; height: auto; width: 250px; top: 187px; left: 178px; display: none;"/>
+    <ui:VisualElement name="StatsPanel" style="flex-grow: 1; align-items: flex-end; position: absolute; right: 10px; top: 130px; width: 200px; background-color: rgb(229, 229, 229); -unity-text-align: upper-right; font-size: 20px;">
+        <ui:Label text="Label" name="StatsName"/>
+        <ui:Label text="Label" name="StatsHP"/>
+        <ui:Label text="Label" name="StatsATK"/>
+        <ui:Label text="Label" name="StatsRange"/>
+        <ui:Label text="Label" name="StatsSpeed"/>
+        <ui:Label text="Label" name="StatsMovement"/>
+    </ui:VisualElement>
 </ui:UXML>

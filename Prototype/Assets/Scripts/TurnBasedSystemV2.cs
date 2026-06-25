@@ -112,23 +112,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
     private void BattleStart()
     {
-
-
-
-
-
         Debug.Log("BattleStart() called");
 
         Debug.Log("Players: " + players.Count);
         Debug.Log("Enemies: " + enemies.Count);
         Debug.Log("TurnOrder BEFORE build: " + turnOrder.Count);
-        /*
-        Debug.Log("Spawning Player");
-    
-
-        players.AddRange(FindObjectsOfType<PlayerClass>());
-        enemies.AddRange(FindObjectsOfType<EnemyClass>());
-        */
 
         PMove = doc.rootVisualElement.Q<Button>("Move");
         PAttack = doc.rootVisualElement.Q<Button>("Attack");
@@ -156,6 +144,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         Debug.Log("TURN ORDER: " + turnOrder.Count);
 
         UpdateTurnOrderUI();
+        HideUnitStats();
 
         currentTurnIndex = 0;
         CalculateEnemyIntents();
@@ -546,6 +535,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private void EndTurn()
     {
         selectedSkill = null;
+        HideSkillPanel();
+        
         if (CurrentUnit is PlayerClass currentPlayer)
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
@@ -574,6 +565,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         isTargeting = false;
         UpdateTurnOrderUI();
+        SetUIVisible(false);
         NextTurn();
     }
 
@@ -815,5 +807,27 @@ public class TurnBasedSystemV2 : MonoBehaviour
             if (display != null)
                 display.UpdateIntent(destination, enemy.range);
         }
+    }
+
+    public void ShowUnitStats(UnitClass unit)
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel == null) return;
+
+        statsPanel.style.display = DisplayStyle.Flex;
+
+        statsPanel.Q<Label>("StatsName").text = unit.UnitName;
+        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp;
+        statsPanel.Q<Label>("StatsATK").text = "ATK: " + unit.atk;
+        statsPanel.Q<Label>("StatsRange").text = "Range: " + unit.range;
+        statsPanel.Q<Label>("StatsSpeed").text = "Speed: " + unit.speed;
+        statsPanel.Q<Label>("StatsMovement").text = "Movement: " + unit.movement;
+    }
+
+    public void HideUnitStats()
+    {
+        VisualElement statsPanel = doc.rootVisualElement.Q<VisualElement>("StatsPanel");
+        if (statsPanel != null)
+            statsPanel.style.display = DisplayStyle.None;
     }
 }
