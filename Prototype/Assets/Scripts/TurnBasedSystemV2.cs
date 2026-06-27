@@ -77,7 +77,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         bool hitEnemy = false;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hitEnemy = hit.transform.GetComponentInParent<UnitTargetable>() != null;
+            hitEnemy = hit.transform.GetComponentInParent<TargetAndHighlight >() != null;
         }
 
         if (!hitEnemy)
@@ -188,7 +188,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            UnitTargetable previousTargetable = selectedPlayerTarget.GetComponent<UnitTargetable>();
+            TargetAndHighlight  previousTargetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
@@ -196,7 +196,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         selectedPlayerTarget = player;
         isTargeting = false;
 
-        UnitTargetable targetable = player.GetComponent<UnitTargetable>();
+        TargetAndHighlight  targetable = player.GetComponent<TargetAndHighlight >();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -218,13 +218,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedEnemyTarget != null)
         {
-            UnitTargetable previousTargetable = selectedEnemyTarget.GetComponent<UnitTargetable>();
+            TargetAndHighlight  previousTargetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
         selectedEnemyTarget = enemy;
         isTargeting = false;
-        UnitTargetable targetable = enemy.GetComponent<UnitTargetable>();
+        TargetAndHighlight  targetable = enemy.GetComponent<TargetAndHighlight >();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -580,7 +580,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedEnemyTarget != null)
         {
-            UnitTargetable targetable = selectedEnemyTarget.GetComponent<UnitTargetable>();
+            TargetAndHighlight  targetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
@@ -588,7 +588,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            UnitTargetable targetable = selectedPlayerTarget.GetComponent<UnitTargetable>();
+            TargetAndHighlight  targetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
