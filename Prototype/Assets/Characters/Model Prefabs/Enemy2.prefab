@@ -375,7 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 21300000, guid: e73f7cfb9b50a984199606186bd81924, type: 3}
   UnitName: Angry Thief
-  hp: 10
+  hp: 200
   atk: 3
   speed: 1000
   movement: 5
@@ -484,6 +484,7 @@ MonoBehaviour:
   circleHeight: 0.05
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
+  neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
 --- !u!1001 &8544568218461676713
 PrefabInstance:
   m_ObjectHideFlags: 0

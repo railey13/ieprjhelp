@@ -424,13 +424,23 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
 
-                    // Enzo changes: I report the skill after it happens so special turn scripts can react
-                    SpecialTurnRunner.Instance?.ReportSkillUse(
-                        CurrentUnit,
-                        skillTarget,
-                        selectedSkill,
-                        targetHpBefore
-                    );
+                    
+                    // Enzo changes: report the skill after it happens so special turn scripts can react
+                    if (SpecialTurnRunner.Instance == null)
+                    {
+                        Debug.Log("FOLLOW UP DEBUG: SpecialTurnRunner.Instance is null");
+                    }
+                    else
+                    {
+                        Debug.Log("FOLLOW UP DEBUG: reporting skill use");
+
+                        SpecialTurnRunner.Instance.ReportSkillUse(
+                            CurrentUnit,
+                            skillTarget,
+                            selectedSkill,
+                            targetHpBefore
+                        );
+                    }
                 }
                 else
                 {
