@@ -292,6 +292,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         //    skillPanel.Add(button);
         //}
+        //Skill Menu now Shows the Cooldown
         foreach (SkillState state in player.skillStates)
         {
             Button button = new Button();
