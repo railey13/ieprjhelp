@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 3405986097240272690}
   - component: {fileID: 2445228308345456921}
   - component: {fileID: 1180199746390402156}
+  - component: {fileID: 9136086031645897633}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 21300000, guid: 727dafc12548cf246a4d5b645bb3c126, type: 3}
   UnitName: Evil Brute
-  hp: 10
+  hp: 20
   atk: 100
   speed: 20
   movement: 3
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3221063954532474276}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d526a0bd89877474286acf4ae7d4b4eb, type: 3}
   m_Name: 
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3221063954532474276}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 801f8e2eb3ae13443be975ee59eca05c, type: 3}
   m_Name: 
@@ -337,6 +338,26 @@ MonoBehaviour:
   destroyDelay: 2
   vfxScale: 25
   vfxYOffset: 1.5
+--- !u!114 &9136086031645897633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221063954532474276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a89004954388942b9b9e0790a71bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetAndHighlight
+  targetLight: {fileID: 8712072390709109766}
+  highlightObjects:
+  - {fileID: 3648296347303142370}
+  circleRadius: 0.8
+  circleHeight: 0.05
+  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
+  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
+  neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
 --- !u!1 &3648296347303142370
 GameObject:
   m_ObjectHideFlags: 0

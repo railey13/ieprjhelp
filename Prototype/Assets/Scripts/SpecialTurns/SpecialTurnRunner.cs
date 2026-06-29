@@ -77,17 +77,43 @@ public class SpecialTurnRunner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        // Enzo changes: check if the follow-up manager is active in the scene
+        Debug.Log("FOLLOW UP DEBUG: SpecialTurnRunner is active");
     }
 
     public void ReportSkillUse(UnitClass user, UnitClass target, Skill skill, int targetHpBefore)
     {
-        if (target == null)
+        if (user == null)
+        {
+            Debug.Log("FOLLOW UP DEBUG: user is null");
             return;
+        }
+
+        if (target == null)
+        {
+            Debug.Log("FOLLOW UP DEBUG: target is null");
+            return;
+        }
+
+        if (skill == null)
+        {
+            Debug.Log("FOLLOW UP DEBUG: skill is null");
+            return;
+        }
 
         tracker.BeginAction();
 
+        // Enzo changes: calculate damage by comparing HP before and after the skill
         int damageAmount = Mathf.Max(0, targetHpBefore - target.hp);
         bool damagedTarget = damageAmount > 0;
+
+        // Enzo changes: debug logs to check if the follow-up system detected the skill damage
+        Debug.Log("FOLLOW UP DEBUG: user = " + user.UnitName);
+        Debug.Log("FOLLOW UP DEBUG: skill = " + skill.SkillName);
+        Debug.Log("FOLLOW UP DEBUG: target = " + target.UnitName);
+        Debug.Log("FOLLOW UP DEBUG: target hp before = " + targetHpBefore + ", after = " + target.hp);
+        Debug.Log("FOLLOW UP DEBUG: damage amount = " + damageAmount);
 
         SpecialTurnContext context = new SpecialTurnContext(
             user,
@@ -102,7 +128,11 @@ public class SpecialTurnRunner : MonoBehaviour
 
     private void ResolveSpecialTurns(SpecialTurnContext context)
     {
+        // Enzo changes: find all characters that have special turn scripts
         SpecialTurnHolder[] holders = FindObjectsOfType<SpecialTurnHolder>();
+
+        // Enzo changes: debug how many possible follow-up holders were found
+        Debug.Log("FOLLOW UP DEBUG: holders found = " + holders.Length);
 
         foreach (SpecialTurnHolder holder in holders)
         {
@@ -111,17 +141,42 @@ public class SpecialTurnRunner : MonoBehaviour
 
             UnitClass owner = holder.GetComponent<UnitClass>();
 
-            if (owner == null || owner.hp <= 0)
+            if (owner == null)
+            {
+                Debug.Log("FOLLOW UP DEBUG: holder has no UnitClass");
                 continue;
+            }
+
+            if (owner.hp <= 0)
+            {
+                Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " is dead");
+                continue;
+            }
+
+            if (holder.specialTurns == null || holder.specialTurns.Count == 0)
+            {
+                Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " has no special turns");
+                continue;
+            }
 
             foreach (SpecialTurnScript specialTurn in holder.specialTurns)
             {
                 if (specialTurn == null)
+                {
+                    Debug.Log("FOLLOW UP DEBUG: special turn is null on " + owner.UnitName);
                     continue;
+                }
+
+                Debug.Log("FOLLOW UP DEBUG: checking " + specialTurn.specialTurnName + " for " + owner.UnitName);
 
                 if (specialTurn.CanTrigger(owner, context, this))
                 {
+                    Debug.Log("FOLLOW UP DEBUG: activating " + specialTurn.specialTurnName);
                     specialTurn.Activate(owner, context, this);
+                }
+                else
+                {
+                    Debug.Log("FOLLOW UP DEBUG: cannot trigger " + specialTurn.specialTurnName);
                 }
             }
         }

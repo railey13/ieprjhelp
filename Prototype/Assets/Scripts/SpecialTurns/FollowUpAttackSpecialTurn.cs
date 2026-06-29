@@ -17,7 +17,16 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
         float attackRange = useOwnerRange ? owner.range : customRange;
         float distance = Vector3.Distance(owner.transform.position, context.target.transform.position);
 
-        return distance <= attackRange + rangeBuffer;
+        Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " distance to target = " + distance);
+        Debug.Log("FOLLOW UP DEBUG: allowed follow-up range = " + (attackRange + rangeBuffer));
+
+        if (distance > attackRange + rangeBuffer)
+        {
+            Debug.Log("FOLLOW UP DEBUG: cannot trigger because target is out of range");
+            return false;
+        }
+
+        return true;
     }
 
     public override void Activate(UnitClass owner, SpecialTurnContext context, SpecialTurnRunner runner)
@@ -25,6 +34,8 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
         runner.tracker.MarkUsed(owner, this, context.target, limit);
 
         int damage = useOwnerAttackStat ? owner.atk : customDamage;
+
+        Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " follow-up damage = " + damage);
 
         context.target.TakeDamage(damage);
 

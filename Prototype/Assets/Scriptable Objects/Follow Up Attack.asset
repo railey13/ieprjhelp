@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a0ad654cfa64ee9b613fdaa54bae5c, type: 3}
   m_Name: Follow Up Attack
   m_EditorClassIdentifier: Assembly-CSharp::FollowUpAttackSpecialTurn
-  specialTurnName: Follow Up Attack
+  specialTurnName: Special Turn
   triggerSkill: {fileID: 11400000, guid: b054902d8f5c4874fbcdfb728c2a9a43, type: 2}
   requireDamage: 1
   requireEnemyTarget: 1
   allowSelfTrigger: 0
   limit: 0
-  useOwnerRange: 1
-  customRange: 3
+  useOwnerRange: 0
+  customRange: 999
   rangeBuffer: 0.5
-  useOwnerAttackStat: 1
-  customDamage: 10
+  useOwnerAttackStat: 0
+  customDamage: 5
