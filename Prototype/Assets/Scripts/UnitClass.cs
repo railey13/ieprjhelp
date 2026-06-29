@@ -15,6 +15,21 @@ public class UnitClass : MonoBehaviour
     public int movement;
     public int range;
     public List<Skill> skills = new();
+    public List<SkillState> skillStates = new();
+
+    protected virtual void Awake()
+    {
+        skillStates.Clear();
+
+        foreach (Skill skill in skills)
+        {
+            skillStates.Add(new SkillState
+            {
+                skill = skill
+            });
+        }
+    }
+
     public virtual void TakeDamage(int damage)
     {
         hp -= damage;

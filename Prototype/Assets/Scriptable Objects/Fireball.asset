@@ -15,4 +15,5 @@ MonoBehaviour:
   SkillName: Fireball
   MPCost: 0
   range: 5
+  cooldown: 3
   Damage: 100
