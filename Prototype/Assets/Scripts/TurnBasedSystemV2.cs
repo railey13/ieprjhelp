@@ -278,16 +278,39 @@ public class TurnBasedSystemV2 : MonoBehaviour
         skillPanel.Clear();
         skillPanel.style.display = DisplayStyle.Flex;
 
-        foreach (Skill skill in player.skills)
+        //foreach (Skill skill in player.skills)
+        //{
+        //    Debug.Log("Adding skill button: " + skill.SkillName);
+        //    Button button = new Button();
+
+        //    button.text = skill.SkillName;
+
+        //    button.clicked += () =>
+        //    {
+        //        SelectSkill(skill);
+        //    };
+
+        //    skillPanel.Add(button);
+        //}
+        //Skill Menu now Shows the Cooldown
+        foreach (SkillState state in player.skillStates)
         {
-            Debug.Log("Adding skill button: " + skill.SkillName);
             Button button = new Button();
 
-            button.text = skill.SkillName;
+            button.text = state.skill.SkillName;
+
+            if (!state.IsReady(TurnNumber))
+            {
+                int remaining =
+                    state.skill.cooldown - (TurnNumber - state.lastUsedTurn);
+
+                button.text += $" ({remaining} turns)";
+                button.SetEnabled(false);
+            }
 
             button.clicked += () =>
             {
-                SelectSkill(skill);
+                SelectSkill(state.skill);
             };
 
             skillPanel.Add(button);
@@ -421,6 +444,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     int targetHpBefore = skillTarget.hp;
 
                     selectedSkill.Use(CurrentUnit, skillTarget);
+                    SkillState usedState =
+                    currentPlayer.skillStates.Find(s => s.skill == selectedSkill);
+
+                    if (usedState != null)
+                    {
+                        usedState.MarkUsed(TurnNumber);
+                    }
 
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
 

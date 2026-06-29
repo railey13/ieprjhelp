@@ -3,19 +3,7 @@ using UnityEngine;
 
 public class EnemyClass : UnitClass
 {
-    public List<SkillState> skillStates = new();
-
-    private void Awake()
-    {
-        skillStates.Clear();
-        foreach (Skill skill in skills)
-        {
-            skillStates.Add(new SkillState
-            {
-                skill = skill
-            });
-        }
-    }
+    
     public virtual void BasicAttack(PlayerClass target)
     {
         target.TakeDamage(atk);
