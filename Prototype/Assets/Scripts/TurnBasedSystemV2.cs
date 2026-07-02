@@ -77,7 +77,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         bool hitEnemy = false;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hitEnemy = hit.transform.GetComponentInParent<TargetAndHighlight >() != null;
+            hitEnemy = hit.transform.GetComponentInParent<TargetAndHighlight>() != null;
         }
 
         if (!hitEnemy)
@@ -188,7 +188,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            TargetAndHighlight  previousTargetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
+            TargetAndHighlight previousTargetable = selectedPlayerTarget.GetComponent<TargetAndHighlight>();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
@@ -196,7 +196,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         selectedPlayerTarget = player;
         isTargeting = false;
 
-        TargetAndHighlight  targetable = player.GetComponent<TargetAndHighlight >();
+        TargetAndHighlight targetable = player.GetComponent<TargetAndHighlight>();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -218,13 +218,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedEnemyTarget != null)
         {
-            TargetAndHighlight  previousTargetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
+            TargetAndHighlight previousTargetable = selectedEnemyTarget.GetComponent<TargetAndHighlight>();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
         selectedEnemyTarget = enemy;
         isTargeting = false;
-        TargetAndHighlight  targetable = enemy.GetComponent<TargetAndHighlight >();
+        TargetAndHighlight targetable = enemy.GetComponent<TargetAndHighlight>();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -328,7 +328,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (unit == null)
             return;
-       
+
         Debug.Log("TURN START: " + unit.UnitName);
 
         if (currentTurnIndex == 0)
@@ -381,7 +381,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     if (distance <= currentPlayer.range + rangeBuffer)
                     {
                         Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
-                        selectedEnemyTarget.TakeDamage(CurrentUnit.atk);
+
+                        // new damage system
+                        DamageInfo info = new DamageInfo
+                        {
+                            category = currentPlayer.basicAttackCategory,
+                            subtype = currentPlayer.basicAttackSubtype
+                        };
+                        float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
+                        selectedEnemyTarget.TakeDamage(dmg);
                     }
                     else
                     {
@@ -492,7 +500,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     private void EnemySkill(EnemyClass enemy)
     {
-        
+
     }
 
     private void EnemyTakeTurn(EnemyClass enemy)
@@ -539,11 +547,17 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         else if (intent.willAttack)
         {
-            
+
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
-                intent.targetPlayer.TakeDamage(enemy.atk);
+                DamageInfo info = new DamageInfo
+                {
+                    category = enemy.basicAttackCategory,
+                    subtype = enemy.basicAttackSubtype
+                };
+                float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
+                intent.targetPlayer.TakeDamage(dmg);
             }
             else
             {
@@ -580,7 +594,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedEnemyTarget != null)
         {
-            TargetAndHighlight  targetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
+            TargetAndHighlight targetable = selectedEnemyTarget.GetComponent<TargetAndHighlight>();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
@@ -588,7 +602,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            TargetAndHighlight  targetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
+            TargetAndHighlight targetable = selectedPlayerTarget.GetComponent<TargetAndHighlight>();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
@@ -630,7 +644,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             players.Add(player);
-
             PlayerMovement pm = playerObject.GetComponent<PlayerMovement>();
             if (pm != null)
             {
@@ -866,7 +879,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             //            " willSkill=" + willSkill +
             //            " chosenSkill=" + (chosenSkill != null ? chosenSkill.SkillName : "None")
             //            );
-            enemy.ShowIntent(willAttack,willSkill, target);
+            enemy.ShowIntent(willAttack, willSkill, target);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
             if (display != null)
                 display.UpdateIntent(destination, enemy.range);

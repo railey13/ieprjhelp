@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Turn System")]
-    [SerializeField] private TurnBasedSystemV2 turnBasedSystem;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
 
@@ -30,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     private InputAction spaceAction;
     private GameObject circleObj;
     private bool resetOrigin = true;
+    private TurnBasedSystemV2 turnSystem;
+
 
     void Awake()
     {
@@ -101,7 +102,9 @@ public class PlayerMovement : MonoBehaviour
     {
         moving = false;
         SetCircleVisible(false);
-        turnBasedSystem.OnPlayerMoveConfirmed();
+
+        if (turnSystem != null)
+            turnSystem.OnPlayerMoveConfirmed();
     }
 
     void HandleWASD()
@@ -159,17 +162,15 @@ public class PlayerMovement : MonoBehaviour
             moving = false;
             SetCircleVisible(false);
             transform.position = origin; // reset position to original
-            turnBasedSystem.OnPlayerMoveCancelled();
+
+            if (turnSystem != null)
+                turnSystem.OnPlayerMoveCancelled();
         }
     }
 
     public void setResetOrigin(bool value)
     {
         resetOrigin = value;
-    }
-    public void SetTurnBasedSystem(TurnBasedSystemV2 system)
-    {
-        turnBasedSystem = system;
     }
 
     void BuildAttackCircleVisual()
@@ -235,5 +236,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (skillCircleObj != null)
             skillCircleObj.SetActive(false);
+    }
+
+    public void SetTurnBasedSystem(TurnBasedSystemV2 system)
+    {
+        turnSystem = system;
     }
 }

@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f98daecaf2e40a40892462f7b5f2fa8, type: 3}
-  m_Name: EnemyFireBall
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFireballSkill
-  SkillName: Fireblast
+  m_Script: {fileID: 11500000, guid: 9d2e929714481e64cb782388248ad0c7, type: 3}
+  m_Name: Fireball
+  m_EditorClassIdentifier: Assembly-CSharp::FireballSkill
+  SkillName: Fireball
   MPCost: 0
   range: 5
-  cooldown: 3
-  Damage: 100
+  cooldown: 0
+  category: 1
+  subtype: 3
+  Multiplier: 2

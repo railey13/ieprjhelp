@@ -247,12 +247,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 21300000, guid: 727dafc12548cf246a4d5b645bb3c126, type: 3}
+  basicAttackCategory: 0
+  basicAttackSubtype: 0
   UnitName: Evil Brute
-  hp: 10
-  atk: 100
+  hp: 100
+  atk: 1
+  mag: 0
   speed: 20
   movement: 3
   range: 4
+  physDef: 10
+  magDef: 50
+  sharpRes: 1
+  pierceRes: 1
+  bluntRes: 1
+  fireRes: 1
+  natureRes: 1
+  darkRes: 1
   skills:
   - {fileID: 11400000, guid: 6b2f93b0cec21104aaa963469f0c50b4, type: 2}
   skillStates:

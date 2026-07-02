@@ -7,4 +7,8 @@ public abstract class Skill : ScriptableObject
     public int range;
     public abstract void Use(UnitClass user, UnitClass target);
     public int cooldown;
+    
+    [Header("Damage Type")]
+    public DamageCategory category = DamageCategory.Physical;
+    public DamageSubtype subtype = DamageSubtype.Sharp;
 }
