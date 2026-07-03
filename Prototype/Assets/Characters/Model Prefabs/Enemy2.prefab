@@ -374,12 +374,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 21300000, guid: e73f7cfb9b50a984199606186bd81924, type: 3}
+  basicAttackCategory: 0
+  basicAttackSubtype: 0
   UnitName: Angry Thief
-  hp: 200
-  atk: 3
+  hp: 100
+  atk: 1
+  mag: 0
   speed: 1000
   movement: 5
   range: 4
+  physDef: 50
+  magDef: 10
+  sharpRes: 2
+  pierceRes: 1
+  bluntRes: 1
+  fireRes: 1
+  natureRes: 1
+  darkRes: 1
   skills:
   - {fileID: 11400000, guid: 6b2f93b0cec21104aaa963469f0c50b4, type: 2}
   skillStates:
