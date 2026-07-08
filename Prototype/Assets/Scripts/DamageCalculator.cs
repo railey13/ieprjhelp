@@ -1,12 +1,14 @@
 using UnityEngine;
 public enum DamageCategory { Physical, Magical }
 public enum DamageSubtype { Sharp, Pierce, Blunt, Fire, Nature, Dark, None }
-
+public enum DamageMode {SingleTarget,AreaofEffect,Cone}//just suggestions for AOE/Cone
 public struct DamageInfo
 {
     public float amount;
+    public int hitCount;
     public DamageCategory category;
     public DamageSubtype subtype;
+    public DamageMode mode;
 }
 public static class DamageCalculator
 {
@@ -31,7 +33,12 @@ public static class DamageCalculator
         float mitigation = MitigationConstant / (MitigationConstant + generalDef);
         float subtypeMult = defender.GetResistance(info.subtype);
 
-        float rawDamage = baseStat * mitigation * subtypeMult;
+        float rawDamage = 0;
+        for (int i = 0; i < info.hitCount; i++)
+        {
+            rawDamage += (baseStat * mitigation * subtypeMult);
+            Debug.Log("HitCount: "+i+": "+rawDamage);
+        }
 
         int finalDamage = Mathf.FloorToInt(rawDamage);
 

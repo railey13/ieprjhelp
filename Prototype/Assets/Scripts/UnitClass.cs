@@ -8,6 +8,7 @@ public class UnitClass : MonoBehaviour
     [Header("Basic Attack Type")]
     public DamageCategory basicAttackCategory = DamageCategory.Physical;
     public DamageSubtype basicAttackSubtype = DamageSubtype.Sharp;
+    public int hitCount;
     [Header("Stats")]
     public string UnitName;
     public int hp;
@@ -29,6 +30,20 @@ public class UnitClass : MonoBehaviour
 
     [Header("Skills")]
     public List<Skill> skills = new();
+    public List<SkillState> skillStates = new();
+
+    protected virtual void Awake()
+    {
+        skillStates.Clear();
+
+        foreach (Skill skill in skills)
+        {
+            skillStates.Add(new SkillState
+            {
+                skill = skill
+            });
+        }
+    }
     public virtual void TakeDamage(float damage)
     {
         hp -= Mathf.FloorToInt(damage); // always rounds down decimal damage

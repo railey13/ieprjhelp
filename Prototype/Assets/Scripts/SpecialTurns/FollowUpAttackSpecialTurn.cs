@@ -33,7 +33,7 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
     {
         runner.tracker.MarkUsed(owner, this, context.target, limit);
 
-        int damage = useOwnerAttackStat ? owner.atk : customDamage;
+        float damage = useOwnerAttackStat ? owner.atk : customDamage;
 
         Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " follow-up damage = " + damage);
 
