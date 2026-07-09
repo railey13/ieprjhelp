@@ -12,6 +12,7 @@ public class UnitClass : MonoBehaviour
     [Header("Stats")]
     public string UnitName;
     public int hp;
+    public int maxHp;
     public float atk;
     public float mag;
     public int speed;
@@ -35,7 +36,7 @@ public class UnitClass : MonoBehaviour
     protected virtual void Awake()
     {
         skillStates.Clear();
-
+        maxHp = hp;
         foreach (Skill skill in skills)
         {
             skillStates.Add(new SkillState
@@ -96,4 +97,5 @@ public class UnitClass : MonoBehaviour
         else
             return 1f;
     }
+    
 }

@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum enemyType { Melee1, Ranged1, Magician1, Boss1 };
 public class EnemyClass : UnitClass
 {
-    
+    [Header("Enemy Variables")]
+    public enemyType enemyType;
+
     public virtual void BasicAttack(PlayerClass target)
     {
         target.TakeDamage(atk);
 
     }
 
-    public void ShowIntent(bool willAttack,bool willSkill, PlayerClass target)
+    public void ShowIntent(bool willAttack, bool willSkill, PlayerClass target)
     {
         string intentText;
         if (willSkill)
@@ -19,7 +22,7 @@ public class EnemyClass : UnitClass
         }
         if (willAttack)
         {
-            
+
             intentText = "Attack " + target.UnitName;
         }
         else
