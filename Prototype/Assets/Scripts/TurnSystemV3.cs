@@ -34,7 +34,15 @@ public class TurnBasedSystemV3 : MonoBehaviour
     private bool battleRunning = false;
     private bool waitingForPlayer = false;
 
+    private enum TurnState
+    {
+        Waiting,
+        Moving,
+        TargetingAttack,
+        TargetingSkill
+    }
 
+    private TurnState currentState = TurnState.Waiting;
     void Start()
     {
         Debug.Log("TurnBasedSystemV3 Start");
