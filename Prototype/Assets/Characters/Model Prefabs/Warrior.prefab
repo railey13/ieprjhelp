@@ -383,7 +383,7 @@ MonoBehaviour:
   atk: 20
   mag: 4
   speed: 100
-  movement: 4
+  movement: 6
   range: 4
   physDef: 25
   magDef: 8
