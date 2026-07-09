@@ -10,7 +10,8 @@ public class FireballSkill : Skill
         DamageInfo info = new DamageInfo
         {
             category = category,
-            subtype = subtype
+            subtype = subtype,
+            hitCount = hitCount
         };
 
         float baseDamage = DamageCalculator.CalculateDamage(user, target, info);
