@@ -608,7 +608,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 DamageInfo info = new DamageInfo
                 {
                     category = enemy.basicAttackCategory,
-                    subtype = enemy.basicAttackSubtype
+                    subtype = enemy.basicAttackSubtype,
+                    hitCount = enemy.hitCount
                 };
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
                 intent.targetPlayer.TakeDamage(dmg);

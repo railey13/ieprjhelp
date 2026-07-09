@@ -377,6 +377,7 @@ MonoBehaviour:
   unitIcon: {fileID: 21300000, guid: 91c4e5bd618d9f14b9eafcd73f0ccb8d, type: 3}
   basicAttackCategory: 0
   basicAttackSubtype: 0
+  hitCount: 1
   UnitName: Warrior
   hp: 50
   atk: 20
@@ -394,6 +395,7 @@ MonoBehaviour:
   darkRes: 1
   skills:
   - {fileID: 11400000, guid: b054902d8f5c4874fbcdfb728c2a9a43, type: 2}
+  skillStates: []
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0

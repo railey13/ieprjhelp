@@ -376,10 +376,11 @@ MonoBehaviour:
   unitIcon: {fileID: 21300000, guid: e73f7cfb9b50a984199606186bd81924, type: 3}
   basicAttackCategory: 0
   basicAttackSubtype: 0
+  hitCount: 1
   UnitName: Angry Thief
   hp: 100
-  atk: 1
-  mag: 0
+  atk: 100
+  mag: 100
   speed: 1000
   movement: 5
   range: 4
