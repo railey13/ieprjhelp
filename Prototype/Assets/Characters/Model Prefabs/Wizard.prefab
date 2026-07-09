@@ -397,7 +397,7 @@ MonoBehaviour:
   hp: 25
   atk: 5
   mag: 20
-  speed: 10000
+  speed: 30
   movement: 7
   range: 6
   physDef: 6
@@ -412,6 +412,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b054902d8f5c4874fbcdfb728c2a9a43, type: 2}
   - {fileID: 11400000, guid: 40c03edccbd7b0242b400cf04d02daf5, type: 2}
   skillStates: []
+  currentCT: 0
+  maxCT: 100
+  IsReady: 0
 --- !u!114 &2676809572032231644
 MonoBehaviour:
   m_ObjectHideFlags: 0
