@@ -40,5 +40,12 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
         context.target.TakeDamage(damage);
 
         Debug.Log(owner.UnitName + " triggered " + specialTurnName + " on " + context.target.UnitName);
+
+        // ADDED: Logger feedback
+        BattleLogger logger = Object.FindFirstObjectByType<BattleLogger>();
+        if (logger != null)
+        {
+            logger.AddEntry($"{owner.UnitName} triggered {specialTurnName} on {context.target.UnitName} for {damage} damage!");
+        }
     }
 }

@@ -316,7 +316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 4c51732dc01723043b0cc940473baaa3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,10 +378,11 @@ MonoBehaviour:
   basicAttackSubtype: 0
   hitCount: 1
   UnitName: Angry Thief
-  hp: 1
-  atk: 10000
+  hp: 50
+  maxHp: 0
+  atk: 10
   mag: 10000
-  speed: 1000
+  speed: 40
   movement: 5
   range: 10
   physDef: 50
@@ -397,6 +398,9 @@ MonoBehaviour:
   skillStates:
   - skill: {fileID: 11400000, guid: 6b2f93b0cec21104aaa963469f0c50b4, type: 2}
     lastUsedTurn: 0
+  currentCT: 0
+  maxCT: 100
+  IsReady: 0
   enemyType: 1
 --- !u!114 &4657419581391591420
 MonoBehaviour:
