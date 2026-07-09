@@ -892,7 +892,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Movement: Space >> WASD >> Sapce
+  m_text: 'Movement: Space >> WASD >> Space
 
     Attack: Select Target >> End Turn
 
@@ -904,7 +904,7 @@ MonoBehaviour:
 
 
     And
-    DONT FORET TO HAVE FUN and Survive!'
+    DONT FORGET TO HAVE FUN and Survive!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
