@@ -742,20 +742,23 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     public void WinLoseState()
     {
-        bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
-        bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
         enemies.RemoveAll(e => e == null || e.hp <= 0);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
-        if (!anyEnemyAlive)
+        bool anyPlayerAlive = players.Count > 0;
+        bool anyEnemyAlive = enemies.Count > 0;
+
+        if (!anyEnemyAlive && !isGameOver)
         {
-            Debug.Log("All enemies defeated — Win!");
+            Debug.Log("All enemies defeated — Loading Win Scene");
             isGameOver = true;
+            SceneManager.LoadScene("WinScene");
         }
-        else if (!anyPlayerAlive)
+        else if (!anyPlayerAlive && !isGameOver)
         {
-            Debug.Log("All players defeated — Lose.");
+            Debug.Log("All players defeated — Loading Lose Scene");
             isGameOver = true;
+            SceneManager.LoadScene("LoseScene");
         }
     }
 
