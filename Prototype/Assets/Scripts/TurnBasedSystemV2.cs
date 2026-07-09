@@ -35,16 +35,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private List<EnemyClass> enemies = new List<EnemyClass>();
     private List<UnitClass> turnOrder = new();
     private float rangeBuffer = 0.5f;
-    private struct EnemyIntent
-    {
-        public EnemyClass enemy;
-        public PlayerClass targetPlayer;
-        public Vector3 destination;
-        public bool willAttack;
-        public bool willSkill;
-        public Skill chosenSkill;
-    }
-
     private List<EnemyIntent> enemyIntents = new List<EnemyIntent>();
 
 
@@ -410,7 +400,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
                         {
                             category = currentPlayer.basicAttackCategory,
                             subtype = currentPlayer.basicAttackSubtype,
-                            hitCount = currentPlayer.hitCount 
+                            hitCount = currentPlayer.hitCount
 
                         };
                         float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
@@ -464,7 +454,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
 
-                    
+
                     // Enzo changes: report the skill after it happens so special turn scripts can react
                     if (SpecialTurnRunner.Instance == null)
                     {
@@ -878,65 +868,35 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             if (enemy == null || enemy.hp <= 0) continue;
 
-            PlayerClass target = FindNearestPlayer(enemy.transform.position); // chooses target
-            if (target == null) continue;
+            EnemyIntentBehavior behavior = GetIntentBehavior(enemy.enemyType);
+            EnemyIntent intent = behavior.CalculateIntent(enemy, players, TurnNumber, rangeBuffer);
 
-            Vector3 toTarget = target.transform.position - enemy.transform.position;
-            toTarget.y = 0f;
-            float distance = toTarget.magnitude;
-            Vector3 direction = toTarget.normalized;
+            if (intent.targetPlayer == null) continue; // no living target found
 
-            float moveDistance = Mathf.Min(distance, enemy.movement); // makes sure not to overshoot the player
-            Vector3 destination = enemy.transform.position + direction * moveDistance;
+            enemyIntents.Add(intent);
 
-            // will they be in range to attack after moving?
-            float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
-            bool willAttack = distanceAfterMove <= enemy.range + rangeBuffer;
-            bool willSkill = false;
-            Skill chosenSkill = null;
-
-            //if (enemy.skills.Count > 0)
-            //{
-            //    chosenSkill = enemy.skills[0];
-            //    willSkill =
-            //        distanceAfterMove <= chosenSkill.range + rangeBuffer;
-            //}
-            foreach (SkillState state in enemy.skillStates)
-            {
-                if (!state.IsReady(TurnNumber))
-                    continue;
-
-                chosenSkill = state.skill;
-
-                willSkill =
-                    distanceAfterMove <= chosenSkill.range + rangeBuffer;
-
-                if (willSkill)
-                {
-                    willAttack = false;
-                    break;
-                }
-            }
-
-            enemyIntents.Add(new EnemyIntent
-            {
-                enemy = enemy,
-                targetPlayer = target,
-                destination = destination,
-                willAttack = willAttack,
-                willSkill = willSkill,
-                chosenSkill = chosenSkill
-            });
-            //Debug.Log(
-            //            enemy.UnitName +
-            //            " willAttack=" + willAttack +
-            //            " willSkill=" + willSkill +
-            //            " chosenSkill=" + (chosenSkill != null ? chosenSkill.SkillName : "None")
-            //            );
-            enemy.ShowIntent(willAttack, willSkill, target);
+            enemy.ShowIntent(intent.willAttack, intent.willSkill, intent.targetPlayer);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
-            if (display != null)
-                display.UpdateIntent(destination, enemy.range);
+            if (display != null){
+                display.UpdateIntent(intent.destination, enemy.range);
+                display.UpdateTargetLight(intent.targetPlayer.transform);
+            }
+        }
+    }
+
+    private EnemyIntentBehavior GetIntentBehavior(enemyType type)
+    {
+        switch (type)
+        {
+            case enemyType.Melee1:
+                return new Melee1();
+            case enemyType.Ranged1:
+                return new Ranged1();
+            case enemyType.Magician1:
+            case enemyType.Boss1:
+            default:
+                Debug.LogWarning(type + " has no dedicated EnemyIntentBehavior yet, using Melee1 as a fallback.");
+                return new Melee1();
         }
     }
 

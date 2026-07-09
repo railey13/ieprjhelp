@@ -10,7 +10,7 @@ public class EnemyIntentDisplay : MonoBehaviour
     [Header("Sizes")]
     [SerializeField] private float pathWidth = 0.4f;
     [SerializeField] private float stopCircleRadius = 0.4f;
-
+    private GameObject targetLight;
     private GameObject pathBox;
     private GameObject stopCircle;
     private GameObject rangeCircle;
@@ -42,6 +42,14 @@ public class EnemyIntentDisplay : MonoBehaviour
         rangeCircle.name = "IntentRange_" + gameObject.name;
         DestroyImmediate(rangeCircle.GetComponent<Collider>());
         ApplyMaterial(rangeCircle, rangeColor);
+
+        targetLight = new GameObject("IntentLight_" + gameObject.name);
+        Light lightComp = targetLight.AddComponent<Light>();
+        lightComp.type = LightType.Spot;
+        lightComp.color = Color.red;
+        lightComp.range = 5f;
+        lightComp.intensity = 200f;
+        lightComp.spotAngle = 60f;
     }
 
     void ApplyMaterial(GameObject obj, Color color)
@@ -90,6 +98,7 @@ public class EnemyIntentDisplay : MonoBehaviour
         if (pathBox != null) pathBox.SetActive(visible);
         if (stopCircle != null) stopCircle.SetActive(visible);
         if (rangeCircle != null) rangeCircle.SetActive(visible);
+        if (targetLight != null) targetLight.SetActive(visible);
     }
 
     public bool IsVisible()
@@ -102,5 +111,21 @@ public class EnemyIntentDisplay : MonoBehaviour
         if (pathBox != null) Destroy(pathBox);
         if (stopCircle != null) Destroy(stopCircle);
         if (rangeCircle != null) Destroy(rangeCircle);
+    }
+
+    public void UpdateTargetLight(Transform target)
+    {
+        if (target == null)
+        {
+            targetLight.SetActive(false);
+            return;
+        }
+
+        targetLight.SetActive(isVisible);
+
+        targetLight.transform.position =
+            target.position + Vector3.up * 1.3f;
+
+        targetLight.transform.forward = Vector3.down;
     }
 }
