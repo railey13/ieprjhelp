@@ -12,4 +12,5 @@ public abstract class Skill : ScriptableObject
     public DamageCategory category = DamageCategory.Physical;
     public DamageSubtype subtype = DamageSubtype.Sharp;
     public DamageMode mode = DamageMode.SingleTarget;
+    public int hitCount;
 }

@@ -304,7 +304,7 @@ MonoBehaviour:
   - {fileID: 6879494447931468396, guid: e06a8981464419c45be5c627f103332c, type: 3}
   - {fileID: 6879494447931468396, guid: 6f9e6b0d59ae32343a5d52a84118d3fc, type: 3}
   EnemyPrefab:
-  - {fileID: 3221063954532474276, guid: c6aaab67be63de64cbd7ea3d0bcc5a77, type: 3}
+  - {fileID: 6879494447931468396, guid: d4fa3e7677ac95d4bbfbd13f08ac2588, type: 3}
   - {fileID: 3221063954532474276, guid: afb7f2d4c099b6f4daa9b540ed982098, type: 3}
   battleLogger: {fileID: 631567109}
   PlayerSpawnPoints:

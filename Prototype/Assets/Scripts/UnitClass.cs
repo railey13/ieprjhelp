@@ -33,6 +33,12 @@ public class UnitClass : MonoBehaviour
     public List<Skill> skills = new();
     public List<SkillState> skillStates = new();
 
+    [Header("TurnSystem")]
+    public float currentCT = 0;
+    public float maxCT = 100;
+    public bool IsReady = false;
+
+
     protected virtual void Awake()
     {
         skillStates.Clear();
