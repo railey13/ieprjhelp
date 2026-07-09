@@ -41,6 +41,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     //////////////////// 
 
     private int currentTurnIndex = 0;
+    private bool isNewRound = false;
     private EnemyClass selectedEnemyTarget;
     private PlayerClass selectedPlayerTarget;
     private bool isTargeting = false;
@@ -344,7 +345,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         Debug.Log("TURN START: " + unit.UnitName);
 
-        if (currentTurnIndex == 0)
+        if (isNewRound)
         {
             CalculateEnemyIntents(); // only recalculate at the start of a new round
         }
@@ -500,12 +501,17 @@ public class TurnBasedSystemV2 : MonoBehaviour
             return;
         //chat gpt idea of safety check
         int safety = 0;
+        bool wrapped = false;
 
         do
         {
-            currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
+            currentTurnIndex++;
             safety++;
-
+            if (currentTurnIndex >= turnOrder.Count)
+            {
+                currentTurnIndex = 0;
+                wrapped = true;
+            }
             if (safety > 100)
             {
                 Debug.LogError("Infinite loop prevented in NextTurn()");
@@ -514,7 +520,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         } while (turnOrder[currentTurnIndex] == null ||
                  turnOrder[currentTurnIndex].hp <= 0);
-        if (currentTurnIndex == 0)
+
+        isNewRound = wrapped;
+
+        if (wrapped)
         {
             TurnNumber++;
             Debug.Log("===== TURN " + TurnNumber + " =====");
@@ -598,7 +607,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 DamageInfo info = new DamageInfo
                 {
                     category = enemy.basicAttackCategory,
-                    subtype = enemy.basicAttackSubtype
+                    subtype = enemy.basicAttackSubtype,
+                    hitCount = enemy.hitCount
                 };
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
                 intent.targetPlayer.TakeDamage(dmg);
@@ -880,7 +890,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
             enemy.ShowIntent(intent.willAttack, intent.willSkill, intent.targetPlayer);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
-            if (display != null){
+            if (display != null)
+            {
                 display.UpdateIntent(intent.destination, enemy.range);
                 display.UpdateTargetLight(intent.targetPlayer.transform);
             }
@@ -912,7 +923,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         statsPanel.style.display = DisplayStyle.Flex;
 
         statsPanel.Q<Label>("StatsName").text = unit.UnitName;
-        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp;
+        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp + "/" + unit.maxHp;
         statsPanel.Q<Label>("StatsATK").text = "ATK: " + unit.atk;
         statsPanel.Q<Label>("StatsRange").text = "Range: " + unit.range;
         statsPanel.Q<Label>("StatsSpeed").text = "Speed: " + unit.speed;

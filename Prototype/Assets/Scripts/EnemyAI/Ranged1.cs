@@ -22,23 +22,32 @@ public class Ranged1 : EnemyIntentBehavior
         Vector3 destination;
         bool willAttack = true; // always aiming at the nearest target, attack fails if not in range.
 
+
+        Debug.Log($"Range: {enemy.range}");
+        Debug.Log($"Too Close Distance: {tooCloseDistance}");
+        Debug.Log($"Distance From Current: {distanceFromCurrent}");
+        Debug.Log($"Enemy Pos: {enemy.transform.position}");
+        Debug.Log($"Player Pos: {target.transform.position}");
+        Debug.Log($"Can Hit: {canHitFromCurrentPosition}");
+        Debug.Log($"Should Retreat: {distanceFromCurrent <= tooCloseDistance}");
         if (canHitFromCurrentPosition)
         {
-            if(tooCloseDistance >= distanceFromCurrent)
+            if (distanceFromCurrent <= tooCloseDistance)
             {
                 // too close, move away from the target
-                Vector3 awayFromTarget = (enemy.transform.position - target.transform.position).normalized; // opposite direction from the target
-                float moveDistance = Mathf.Min(enemy.movement, tooCloseDistance - distanceFromCurrent);
+                Debug.Log("RUNNING AWAY");
+                Vector3 awayFromTarget = enemy.transform.position - target.transform.position;
+                awayFromTarget.y = 0f;
+                awayFromTarget = awayFromTarget.normalized;
+                float moveDistance = enemy.movement;
                 destination = enemy.transform.position + awayFromTarget * moveDistance;
             }
             else
             {
                 // stay put, aim and shoot
                 destination = enemy.transform.position;
-                
+                Debug.Log("STAYING PUT");
             }
-            // stay put, aim and shoot
-            destination = enemy.transform.position;
         }
         else
         {
@@ -54,8 +63,8 @@ public class Ranged1 : EnemyIntentBehavior
 
         intent.targetPlayer = target;
         intent.destination = destination;
-        intent.willAttack = willAttack;
-        intent.willSkill = false;   
+        intent.willAttack = true;
+        intent.willSkill = false;
         intent.chosenSkill = null;
 
         return intent;

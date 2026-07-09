@@ -10,6 +10,7 @@ public class EnemyIntentDisplay : MonoBehaviour
     [Header("Sizes")]
     [SerializeField] private float pathWidth = 0.4f;
     [SerializeField] private float stopCircleRadius = 0.4f;
+    private Transform currentTarget;
     private GameObject targetLight;
     private GameObject pathBox;
     private GameObject stopCircle;
@@ -115,6 +116,8 @@ public class EnemyIntentDisplay : MonoBehaviour
 
     public void UpdateTargetLight(Transform target)
     {
+        currentTarget = target;
+
         if (target == null)
         {
             targetLight.SetActive(false);
@@ -122,9 +125,15 @@ public class EnemyIntentDisplay : MonoBehaviour
         }
 
         targetLight.SetActive(isVisible);
+    }
+
+    void Update()
+    {
+        if (currentTarget == null || targetLight == null)
+            return;
 
         targetLight.transform.position =
-            target.position + Vector3.up * 1.3f;
+            currentTarget.position + Vector3.up * 1.3f;
 
         targetLight.transform.forward = Vector3.down;
     }
