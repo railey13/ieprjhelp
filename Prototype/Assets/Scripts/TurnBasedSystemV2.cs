@@ -10,6 +10,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
     [SerializeField] private GameObject[] PlayerPrefab;
     [SerializeField] private GameObject[] EnemyPrefab;
 
+    [SerializeField] private BattleLogger battleLogger;
+
     [SerializeField] private Transform[] PlayerSpawnPoints;
     [SerializeField] private Transform[] EnemySpawnPoints;
     private float playerSpawnYOffset = 1f;
@@ -343,6 +345,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (unit == null)
             return;
 
+        if (battleLogger != null) battleLogger.AddEntry(unit.UnitName + "'s turn.");
+
         Debug.Log("TURN START: " + unit.UnitName);
 
         if (isNewRound)
@@ -380,7 +384,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (!(CurrentUnit is PlayerClass currentPlayer))
             return;
 
-
         switch (selectedAction)
         {
             case TurnAction.Attack:
@@ -406,16 +409,22 @@ public class TurnBasedSystemV2 : MonoBehaviour
                         };
                         float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
                         selectedEnemyTarget.TakeDamage(dmg);
+
+                        if (battleLogger != null)
+                            battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
+
+                        break;
                     }
                     else
                     {
                         Debug.Log("Attack failed");
+                        if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
                     }
                 }
                 else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
                 {
                     Debug.Log("No valid target selected");
-
+                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
                 }
                 break;
 
@@ -445,6 +454,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     int targetHpBefore = skillTarget.hp;
 
                     selectedSkill.Use(CurrentUnit, skillTarget);
+
+                    // Log the skill usage
+                    if (battleLogger != null)
+                        battleLogger.AddEntry($"{CurrentUnit.UnitName} used {selectedSkill.SkillName} on {skillTarget.UnitName}.");
+
                     SkillState usedState =
                     currentPlayer.skillStates.Find(s => s.skill == selectedSkill);
 
@@ -454,7 +468,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     }
 
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
-
 
                     // Enzo changes: report the skill after it happens so special turn scripts can react
                     if (SpecialTurnRunner.Instance == null)
@@ -476,11 +489,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 else
                 {
                     Debug.Log("Skill out of range");
+                    if (battleLogger != null) battleLogger.AddEntry("Skill failed: Out of range.");
                 }
                 break;
 
             case TurnAction.Move:
                 Debug.Log("Player moves");
+                if (battleLogger != null) battleLogger.AddEntry($"{currentPlayer.UnitName} moved position.");
                 break;
 
             case TurnAction.None:
@@ -489,9 +504,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         EndTurn();
         // selectedAction = TurnAction.None;
-
-
-
     }
 
     private void NextTurn()
@@ -563,7 +575,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
             return;
         }
 
-        Debug.Log(enemy.UnitName + " acts. players.Count = " + players.Count);
+        if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " moves.");
+
+        Debug.Log(enemy.UnitName + " moves. players.Count = " + players.Count);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
         // find this enemy's pre-calculated intent
@@ -587,6 +601,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= intent.chosenSkill.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " used skill against " + intent.targetPlayer.UnitName);
+
+                // Log the enemy skill usage
+                if (battleLogger != null)
+                    battleLogger.AddEntry($"{enemy.UnitName} used {intent.chosenSkill.SkillName} on {intent.targetPlayer.UnitName}.");
+
                 intent.chosenSkill.Use(enemy, intent.targetPlayer);
 
                 SkillState usedState =
@@ -600,7 +619,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         else if (intent.willAttack)
         {
-
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
@@ -612,14 +630,24 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 };
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
                 intent.targetPlayer.TakeDamage(dmg);
+
+                if (battleLogger != null)
+                    battleLogger.AddEntry($"{enemy.UnitName} attacked {intent.targetPlayer.UnitName} for {dmg} damage.");
             }
             else
             {
-                Debug.Log(enemy.UnitName + " target is dead, attack cancelled");
+                if (intent.targetPlayer == null || intent.targetPlayer.hp <= 0)
+                {
+                    Debug.Log(enemy.UnitName + " target is dead/invalid, attack cancelled");
+                    if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " cannot attack: target is invalid.");
+                }
+                else
+                {
+                    Debug.Log(enemy.UnitName + " target is out of range, attack cancelled");
+                    if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " cannot attack: target out of range.");
+                }
             }
         }
-
-
 
         WinLoseState();
 
@@ -632,6 +660,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         StartCoroutine(EndTurnAfterDelay(0.5f));
         // EndTurn();
     }
+
     private void EndTurn()
     {
         selectedSkill = null;
@@ -737,6 +766,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
     public void OnPlayerMoveConfirmed()
     {
         Debug.Log("Player finished moving");
+
+        if (battleLogger != null)
+            battleLogger.AddEntry($"{CurrentUnit.UnitName} moves.");
+
         selectedAction = TurnAction.None;
         WinLoseState();
         if (isGameOver) return;

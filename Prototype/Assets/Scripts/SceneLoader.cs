@@ -1,32 +1,25 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections; // Required for Coroutines
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] private string mainGameSceneName = "YourBattleSceneName";
-    [SerializeField] private CanvasGroup fadeGroup; // Assign the FadeOverlay in Inspector
+    [SerializeField] private string mainGameSceneName = "ValScene";
+    [SerializeField] private string mainMenuSceneName = "MainMenuScene";
 
     public void RestartGame()
     {
-        StartCoroutine(FadeAndLoad());
+        SceneManager.LoadScene(mainGameSceneName);
     }
 
-    IEnumerator FadeAndLoad()
+    public void LoadMainMenu()
     {
-        fadeGroup.gameObject.SetActive(true);
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
 
-        float duration = 1.0f;
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            fadeGroup.alpha = Mathf.Lerp(0, 1, timer / duration);
-            yield return null;
-        }
-
-        SceneManager.LoadScene(mainGameSceneName);
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("Game Quit");
     }
 }
 
