@@ -2,9 +2,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
 {
+    //ANIMATION
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite idleSprite;
+
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
@@ -34,6 +40,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        //animation
+        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+
+
+
+
         player = GetComponent<PlayerClass>();
         moveAction = inputAsset.FindAction("Player/Move");
         cancelAction = inputAsset.FindAction("Player/Cancel");
@@ -46,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        //Animation
+        animator.enabled = false;
         Debug.Log(gameObject.name + " PlayerMovement Start() running");
         range = player.movement;
         Debug.Log(gameObject.name + " range = " + range);
@@ -110,6 +127,20 @@ public class PlayerMovement : MonoBehaviour
     void HandleWASD()
     {
         Vector2 input = moveAction.ReadValue<Vector2>();
+
+
+        //ANIMATION
+
+        if (input == Vector2.zero)
+        {
+            animator.enabled = false;
+            spriteRenderer.sprite = idleSprite;
+            return;
+        }
+
+        animator.enabled = true;
+        ////
+
 
         if (input == Vector2.zero) return;
         // movement
