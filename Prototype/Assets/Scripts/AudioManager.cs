@@ -4,7 +4,14 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 
-// Call AudioManager.Instance.PlaySFX("Attack") or PlayMusic("Theme") from anywhere
+/*
+AudioManager.Instance.PlaySFX("Jump");
+AudioManager.Instance.PlaySFXAtPoint("Explosion", transform.position);
+AudioManager.Instance.PlayMusic("MainTheme");
+AudioManager.Instance.CrossfadeMusic("BossTheme", 2f);
+AudioManager.Instance.SetMusicVolume(0.5f);
+AudioManager.Instance.SetSFXMuted(true);
+*/
 
 
 [DisallowMultipleComponent]

@@ -842,7 +842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   birdsEyeCamera: {fileID: 330585545}
-  freeCam: {fileID: 0}
+  freeCam: {fileID: 55523871}
   moveSpeed: 10
   lookSpeed: 0.1
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -1326,6 +1326,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1898928096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1898928098}
+  - component: {fileID: 1898928097}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1898928097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898928096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4c502fcbfb39449a70675d89046a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  sounds:
+  - name: Fireball
+    clip: {fileID: 8300000, guid: ec7f6d955ac7d31428d8b4dc2618c9bd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 0
+    pitchVariance: 0
+  - name: MetalHit
+    clip: {fileID: 8300000, guid: df8385e8129407645b33d460b2fab1a0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  audioMixer: {fileID: 0}
+  musicMixerParam: MusicVolume
+  sfxMixerParam: SFXVolume
+  musicSourceA: {fileID: 0}
+  musicSourceB: {fileID: 0}
+  defaultCrossfadeDuration: 1
+  sfxPoolSize: 10
+--- !u!4 &1898928098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898928096}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 97.98713, y: -0, z: 143.98207}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2059323953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,3 +1630,4 @@ SceneRoots:
   - {fileID: 1589237120}
   - {fileID: 836332554}
   - {fileID: 475579036}
+  - {fileID: 1898928098}

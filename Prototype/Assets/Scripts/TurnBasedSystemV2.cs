@@ -81,7 +81,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     public void SetUIVisible(bool visible)
     {
-        visible = false;
         doc.rootVisualElement.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
