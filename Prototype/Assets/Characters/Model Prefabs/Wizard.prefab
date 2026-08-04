@@ -330,7 +330,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: ebf6e8e759025844b9615d6cae31b28c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -395,6 +395,7 @@ MonoBehaviour:
   hitCount: 2
   UnitName: Wizard
   hp: 25
+  maxHp: 0
   atk: 5
   mag: 20
   speed: 30
