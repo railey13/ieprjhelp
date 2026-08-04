@@ -56,5 +56,6 @@ public static class DamageCalculator
         Debug.Log("Final Damage: " + finalDamage);
         Debug.Log("======================");
         return finalDamage;
+        
     }
 }
