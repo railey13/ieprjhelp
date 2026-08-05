@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
 {
+    //ANIMATION
+    private Animator animator;
+    
+
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
@@ -34,6 +39,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        //animation
+        animator = GetComponent<Animator>();
+    
+
+
+
+
+
         player = GetComponent<PlayerClass>();
         moveAction = inputAsset.FindAction("Player/Move");
         cancelAction = inputAsset.FindAction("Player/Cancel");
@@ -46,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+      
+
+
         Debug.Log(gameObject.name + " PlayerMovement Start() running");
         range = player.movement;
         Debug.Log(gameObject.name + " range = " + range);
@@ -77,6 +93,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!moving) return; // cant move if not allowed to
         HandleWASD();
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            PlayAttackAnimation();
+        }
     }
 
     public void ActivateMovement()
@@ -110,6 +130,16 @@ public class PlayerMovement : MonoBehaviour
     void HandleWASD()
     {
         Vector2 input = moveAction.ReadValue<Vector2>();
+
+
+        //ANIMATION
+
+        animator.SetBool("IsRunning", input != Vector2.zero);
+
+        if (input == Vector2.zero)
+            return;
+        ////
+
 
         if (input == Vector2.zero) return;
         // movement
@@ -241,5 +271,9 @@ public class PlayerMovement : MonoBehaviour
     public void SetTurnBasedSystem(TurnBasedSystemV2 system)
     {
         turnSystem = system;
+    }
+    public void PlayAttackAnimation()
+    {
+        animator.SetTrigger("Attack");
     }
 }

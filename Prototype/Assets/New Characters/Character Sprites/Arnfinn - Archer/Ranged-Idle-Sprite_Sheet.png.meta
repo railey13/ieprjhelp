@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6cb9d19e334d50d48b5959333c69026c
+guid: 3222658bc863ccb448c3bde091107a1f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,10 +110,10 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_0
+      name: Ranged-Idle-Sprite_Sheet_0
       rect:
         serializedVersion: 2
-        x: 39
+        x: 89
         y: 33
         width: 44
         height: 62
@@ -125,64 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a895923fa1868647a6e3543dd1f9c09
-      internalID: 678999267
+      spriteID: a908621e308efda478785934232d6ae3
+      internalID: 284372448
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_1
+      name: Ranged-Idle-Sprite_Sheet_1
       rect:
         serializedVersion: 2
-        x: 105
-        y: 31
-        width: 57
-        height: 66
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29c6d40d2c7d6334aaee5464a930184b
-      internalID: -671458272
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 184
-        y: 31
-        width: 59
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3e9b604a148ed0b4c96332c4c840bcb3
-      internalID: -143636890
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 265
-        y: 31
+        x: 232
+        y: 33
         width: 48
-        height: 71
+        height: 62
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4936de7dbe104904094ce0171f93124b
-      internalID: -1950127258
+      spriteID: 2803b0207ef650348a7a28d9a1aa6dbd
+      internalID: -940856025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_4
+      name: Ranged-Idle-Sprite_Sheet_2
       rect:
         serializedVersion: 2
-        x: 336
+        x: 379
         y: 33
-        width: 59
-        height: 71
+        width: 41
+        height: 62
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,52 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91dc371a4a6ceaf479f20e0116182802
-      internalID: 1241847507
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 394
-        y: 78
-        width: 17
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dbd22538f0d04a448adfc69a1c2a3d42
-      internalID: 1562541311
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ranged-Attacking-Sprite_Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 415
-        y: 33
-        width: 59
-        height: 71
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b1a4e3bf77973ad4c8c65b99171a83b3
-      internalID: -615087803
+      spriteID: 5fbbf8a101a17bf4cb528d47324adc10
+      internalID: 744220350
       vertices: []
       indices: 
       edges: []
@@ -267,7 +179,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 88239290210619d49b95f8c4367d5053
+    spriteID: 662dc37b7c944a64caa3d94fee572cc1
     internalID: 0
     vertices: []
     indices: 
@@ -279,13 +191,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ranged-Attacking-Sprite_Sheet_0: 678999267
-      Ranged-Attacking-Sprite_Sheet_1: -671458272
-      Ranged-Attacking-Sprite_Sheet_2: -143636890
-      Ranged-Attacking-Sprite_Sheet_3: -1950127258
-      Ranged-Attacking-Sprite_Sheet_4: 1241847507
-      Ranged-Attacking-Sprite_Sheet_5: 1562541311
-      Ranged-Attacking-Sprite_Sheet_6: -615087803
+      Ranged-Idle-Sprite_Sheet_0: 284372448
+      Ranged-Idle-Sprite_Sheet_1: -940856025
+      Ranged-Idle-Sprite_Sheet_2: 744220350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
