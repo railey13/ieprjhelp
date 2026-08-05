@@ -380,53 +380,81 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
 
     private void onEndTurnClicked(ClickEvent evt)
+
     {
+
         if (!(CurrentUnit is PlayerClass currentPlayer))
             return;
+
+
 
         switch (selectedAction)
         {
             case TurnAction.Attack:
-                Debug.Log("Player attacks");
-                // enemies[0].TakeDamage(67); // pick a real target later
+                StartCoroutine(AttackRoutine(currentPlayer));
+                return;
 
-                if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
-                {
-                    float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
+                /*
+                 * 
+                //ANIMATION
+                                PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
 
-                    // range check incase player moves AFTER targetting
-                    if (distance <= currentPlayer.range + rangeBuffer)
-                    {
-                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+                                if (playerMovement != null)
+                                {
+                                    playerMovement.PlayAttackAnimation();
+                                }
 
-                        // new damage system
-                        DamageInfo info = new DamageInfo
-                        {
-                            category = currentPlayer.basicAttackCategory,
-                            subtype = currentPlayer.basicAttackSubtype,
-                            hitCount = currentPlayer.hitCount
 
-                        };
-                        float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
-                        selectedEnemyTarget.TakeDamage(dmg);
 
-                        if (battleLogger != null)
-                            battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
 
-                        break;
-                    }
-                    else
-                    {
-                        Debug.Log("Attack failed");
-                        if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
-                    }
-                }
-                else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
-                {
-                    Debug.Log("No valid target selected");
-                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
-                }
+
+
+                                ////////////////////
+                                Debug.Log("Player attacks");
+                                // enemies[0].TakeDamage(67); // pick a real target later
+
+                                if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
+                                {
+                                    float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
+
+                                    // range check incase player moves AFTER targetting
+                                    if (distance <= currentPlayer.range + rangeBuffer)
+                                    {
+                                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+
+                                        // new damage system
+                                        DamageInfo info = new DamageInfo
+                                        {
+                                            category = currentPlayer.basicAttackCategory,
+                                            subtype = currentPlayer.basicAttackSubtype,
+                                            hitCount = currentPlayer.hitCount
+
+                                        };
+                                        float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
+                                        selectedEnemyTarget.TakeDamage(dmg);
+
+                                        if (battleLogger != null)
+                                            battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
+
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("Attack failed");
+                                        if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
+                                    }
+                                }
+                                else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
+                                {
+                                    Debug.Log("No valid target selected");
+                                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
+                                }
+
+                                
                 break;
+                */
+
+
 
             case TurnAction.Skill:
                 if (selectedSkill == null)
@@ -504,6 +532,73 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         EndTurn();
         // selectedAction = TurnAction.None;
+    }
+    
+
+    //ACCODMODATING ANIMATION
+    private IEnumerator AttackRoutine(PlayerClass currentPlayer)
+    {
+        // Play the attack animation
+        PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
+
+        if (playerMovement != null)
+        {
+            playerMovement.PlayAttackAnimation();
+        }
+
+        // Wait for the animation to finish
+        yield return new WaitForSeconds(0.8f);
+
+        Debug.Log("Player attacks");
+
+        if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
+        {
+            float distance = Vector3.Distance(
+                selectedEnemyTarget.transform.position,
+                currentPlayer.transform.position);
+
+            // Range check in case player moved after selecting target
+            if (distance <= currentPlayer.range + rangeBuffer)
+            {
+                Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+
+                DamageInfo info = new DamageInfo
+                {
+                    category = currentPlayer.basicAttackCategory,
+                    subtype = currentPlayer.basicAttackSubtype,
+                    hitCount = currentPlayer.hitCount
+                };
+
+                float dmg = DamageCalculator.CalculateDamage(
+                    currentPlayer,
+                    selectedEnemyTarget,
+                    info);
+
+                selectedEnemyTarget.TakeDamage(dmg);
+
+                if (battleLogger != null)
+                {
+                    battleLogger.AddEntry(
+                        $"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
+                }
+            }
+            else
+            {
+                Debug.Log("Attack failed");
+
+                if (battleLogger != null)
+                    battleLogger.AddEntry("Attack failed: Out of range.");
+            }
+        }
+        else
+        {
+            Debug.Log("No valid target selected");
+
+            if (battleLogger != null)
+                battleLogger.AddEntry("Attack failed: No valid target.");
+        }
+
+        EndTurn();
     }
 
     private void NextTurn()

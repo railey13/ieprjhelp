@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //ANIMATION
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite idleSprite;
+    
 
 
     [Header("Movement")]
@@ -42,8 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //animation
         animator = GetComponent<Animator>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    
 
 
 
@@ -61,8 +59,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        //Animation
-        animator.enabled = false;
+      
+
+
         Debug.Log(gameObject.name + " PlayerMovement Start() running");
         range = player.movement;
         Debug.Log(gameObject.name + " range = " + range);
@@ -94,6 +93,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!moving) return; // cant move if not allowed to
         HandleWASD();
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            PlayAttackAnimation();
+        }
     }
 
     public void ActivateMovement()
@@ -131,14 +134,10 @@ public class PlayerMovement : MonoBehaviour
 
         //ANIMATION
 
-        if (input == Vector2.zero)
-        {
-            animator.enabled = false;
-            spriteRenderer.sprite = idleSprite;
-            return;
-        }
+        animator.SetBool("IsRunning", input != Vector2.zero);
 
-        animator.enabled = true;
+        if (input == Vector2.zero)
+            return;
         ////
 
 
@@ -272,5 +271,9 @@ public class PlayerMovement : MonoBehaviour
     public void SetTurnBasedSystem(TurnBasedSystemV2 system)
     {
         turnSystem = system;
+    }
+    public void PlayAttackAnimation()
+    {
+        animator.SetTrigger("Attack");
     }
 }
