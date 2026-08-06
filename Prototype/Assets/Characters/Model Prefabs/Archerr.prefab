@@ -259,12 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  idleSprite: {fileID: 634268446, guid: a1f7bdf8b9a154f40a36a183ade5cdbc, type: 3}
   moveSpeed: 12
-  circleHeight: -1
-  rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
-  attackRangeColor: {r: 1, g: 0.07450981, b: 0.07450981, a: 0.44705883}
-  skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
+  circleHeight: -0.5
+  rangeColor: {r: 0, g: 0.6, b: 1, a: 0.30588236}
+  attackRangeColor: {r: 1, g: 0.07450981, b: 0.07450981, a: 0.3254902}
+  skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.3254902}
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &6672134831796618916
 MonoBehaviour:
@@ -329,10 +328,15 @@ MonoBehaviour:
   highlightObjects:
   - {fileID: 3533254671544317630}
   circleRadius: 0.8
-  circleHeight: 0.05
-  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
-  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
-  neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
+  circleHeight: -0.3
+  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.34509805}
+  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.30588236}
+  neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.30588236}
+  arrowHeight: 1
+  arrowSize: 20
+  bobSpeed: 2
+  bobAmount: 0.15
+  arrowColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &2164731645304060575
 SpriteRenderer:
   serializedVersion: 2

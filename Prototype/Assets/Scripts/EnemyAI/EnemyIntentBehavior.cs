@@ -33,4 +33,45 @@ public abstract class EnemyIntentBehavior
 
         return nearest;
     }
+
+    protected Vector3 CalculateMoveDestination(Vector3 fromPosition, Vector3 targetPosition, float movement, int direction)
+    {
+        Vector3 delta = (targetPosition - fromPosition) * direction;
+        delta.y = 0f;
+
+        float distance = delta.magnitude;
+
+        if (distance <= 0.0001f)
+        {
+            // no defined direction 
+            return fromPosition + Vector3.forward * movement;
+        }
+
+        Vector3 dir = delta.normalized;
+
+        float moveDistance;
+        if (direction > 0)
+        {
+            // moving toward the target: never overshoot past it
+            moveDistance = Mathf.Min(distance, movement);
+        }
+        else
+        {
+            // moving away from the target: always travel the full movement distance
+            moveDistance = movement;
+        }
+
+        return fromPosition + dir * moveDistance;
+    }
+
+    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        return CalculateMoveDestination(fromPosition, targetPosition, movement, 1);
+    }
+
+    protected Vector3 MoveAwayFromTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        return CalculateMoveDestination(fromPosition, targetPosition, movement, -1);
+    }
+
 }

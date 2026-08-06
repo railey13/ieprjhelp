@@ -18,6 +18,16 @@ public class TargetAndHighlight : MonoBehaviour
     [SerializeField] private Color playerTargetColor = new Color(0.2f, 0.6f, 1f, 0.4f);  // blue for players
     [SerializeField] private Color neutralTargetColor = new Color(0.8f, 0.8f, 0.8f, 0.4f); // grey for non-units
     private GameObject circleObj;
+    [Header("Target Arrow")]
+    [SerializeField] private float arrowHeight = 1f;   // was 2.5
+    [SerializeField] private float arrowSize = 1.5f;   // was 0.3
+    [SerializeField] private float bobSpeed = 2f;
+    [SerializeField] private float bobAmount = 0.15f;
+    [SerializeField] private Color arrowColor = Color.red;
+
+    private GameObject arrowObj;
+    private float arrowBaseY;
+
     private float rangeBuffer = 0.5f; // small extra range to account for edge clicks
 
     // what type of object this is
@@ -43,6 +53,9 @@ public class TargetAndHighlight : MonoBehaviour
         {
             BuildCircleVisual();
             SetCircleVisible(false);
+
+            BuildArrowVisual();
+            SetArrowVisible(false);
         }
     }
 
@@ -92,6 +105,12 @@ public class TargetAndHighlight : MonoBehaviour
                 isHovered = false;
                 SetHighlight(false);
             }
+        }
+
+        if (arrowObj != null && arrowObj.activeSelf)
+        {
+            float y = arrowBaseY + Mathf.Sin(Time.time * bobSpeed) * bobAmount;
+            arrowObj.transform.localPosition = new Vector3(0f, y, 0f);
         }
     }
 
@@ -157,7 +176,10 @@ public class TargetAndHighlight : MonoBehaviour
             targetLight.enabled = isHighlighted;
 
         if (isUnit)
+        {
             SetCircleVisible(isHighlighted); // show/hide target circle
+            SetArrowVisible(isHighlighted); // arrow
+        }
     }
 
     // shows or hides the hover highlight objects
@@ -182,7 +204,7 @@ public class TargetAndHighlight : MonoBehaviour
         circleObj.transform.localScale = new Vector3(circleRadius * 2f, 0.02f, circleRadius * 2f); // flat disc shape
 
         // pick color based on unit type
-        var mat = new Material(Shader.Find("Sprites/Default"));
+        var mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
         if (isEnemy)
             mat.color = enemyTargetColor;
         else if (isPlayer)
@@ -195,6 +217,9 @@ public class TargetAndHighlight : MonoBehaviour
         // attach to this object so it follows it
         circleObj.transform.SetParent(transform);
         circleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
+        arrowObj.transform.localRotation = Quaternion.Euler(180f, 0f, 0f);
+        arrowObj.transform.localScale = Vector3.one; // reset first
+        arrowObj.transform.SetParent(null, true);
     }
 
     // shows or hides the target circle
@@ -202,5 +227,33 @@ public class TargetAndHighlight : MonoBehaviour
     {
         if (circleObj != null)
             circleObj.SetActive(visible);
+    }
+
+    void BuildArrowVisual()
+    {
+        // cone pointing down, sitting above the unit's head
+        arrowObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        Debug.Log("Arrow built: " + arrowObj.name, arrowObj);
+        arrowObj.name = "TargetArrow_" + gameObject.name;
+
+        DestroyImmediate(arrowObj.GetComponent<Collider>());
+
+        arrowObj.transform.localScale = new Vector3(arrowSize, arrowSize * 0.6f, arrowSize);
+        arrowObj.transform.SetParent(transform);
+
+        arrowBaseY = arrowHeight;
+        arrowObj.transform.localPosition = new Vector3(0f, arrowBaseY, 0f);
+        arrowObj.transform.localRotation = Quaternion.Euler(180f, 0f, 0f); // point downward
+
+        var mat = new Material(Shader.Find("Sprites/Default"));
+        mat.color = arrowColor;
+        arrowObj.GetComponent<MeshRenderer>().material = mat;
+    }
+
+    void SetArrowVisible(bool visible)
+    {
+        Debug.Log("SetArrowVisible called: " + visible + " on " + gameObject.name);
+        if (arrowObj != null)
+            arrowObj.SetActive(visible);
     }
 }
