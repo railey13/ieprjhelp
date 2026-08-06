@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //ANIMATION
     private Animator animator;
-
-
+    public static bool AnyPlayerMoving { get; private set; }
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
@@ -116,12 +115,14 @@ public class PlayerMovement : MonoBehaviour
 
         SetCircleVisible(true); // show circle during movement 
         moving = true;
+        AnyPlayerMoving = true;
     }
 
     void ConfirmMovement()
     {
         moving = false;
         SetCircleVisible(false);
+        AnyPlayerMoving = false;
 
         if (turnSystem != null)
             turnSystem.OnPlayerMoveConfirmed();
@@ -130,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
     void HandleWASD()
     {
         Vector2 input = moveAction.ReadValue<Vector2>();
-
 
         //ANIMATION
 
@@ -151,9 +151,8 @@ public class PlayerMovement : MonoBehaviour
         camRight.y = 0f;
         camRight.Normalize();
 
-        if (input == Vector2.zero) return;
-        // movement
-        Vector3 proposed = transform.position + new Vector3(input.x, 0f, input.y).normalized * moveSpeed * Time.deltaTime;
+        Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+        Vector3 proposed = transform.position + moveDir * moveSpeed * Time.deltaTime;
 
         Vector3 offset = proposed - origin;
         offset.y = 0f;
@@ -201,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moving = false;
             SetCircleVisible(false);
+            AnyPlayerMoving = false;
             transform.position = origin; // reset position to original
 
             if (turnSystem != null)
