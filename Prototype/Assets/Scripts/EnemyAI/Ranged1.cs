@@ -36,11 +36,7 @@ public class Ranged1 : EnemyIntentBehavior
             {
                 // too close, move away from the target
                 Debug.Log("RUNNING AWAY");
-                Vector3 awayFromTarget = enemy.transform.position - target.transform.position;
-                awayFromTarget.y = 0f;
-                awayFromTarget = awayFromTarget.normalized;
-                float moveDistance = enemy.movement;
-                destination = enemy.transform.position + awayFromTarget * moveDistance;
+                destination = MoveAwayFromTarget(enemy.transform.position, target.transform.position, enemy.movement);
             }
             else
             {
@@ -52,13 +48,7 @@ public class Ranged1 : EnemyIntentBehavior
         else
         {
             // move closer toward the target
-            Vector3 toTarget = target.transform.position - enemy.transform.position;
-            toTarget.y = 0f;
-            float distance = toTarget.magnitude;
-            Vector3 direction = toTarget.normalized;
-
-            float moveDistance = Mathf.Min(distance, enemy.movement);
-            destination = enemy.transform.position + direction * moveDistance;
+            destination = MoveTowardTarget(enemy.transform.position, target.transform.position, enemy.movement);
         }
 
         intent.targetPlayer = target;
