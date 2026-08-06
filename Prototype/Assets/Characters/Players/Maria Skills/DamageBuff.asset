@@ -9,17 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64eb73fba2c345e0a2658e02eee3e77, type: 3}
-  m_Name: MusicBuff
-  m_EditorClassIdentifier: Assembly-CSharp::HuxleyBuffSkill
-  SkillName: Music Buff
+  m_Script: {fileID: 11500000, guid: 9991c5bd3bce74b07af0640f18f37af5, type: 3}
+  m_Name: DamageBuff
+  m_EditorClassIdentifier: Assembly-CSharp::MariaBuffSkill
+  SkillName: Damage Buff
   MPCost: 0
   range: 5
   cooldown: 3
   category: 0
   subtype: 0
   mode: 0
-  hitCount: 0
+  hitCount: 1
   statToBuff: 0
   amount: 10
-  buffSelfIfTargetIsInvalid: 1
+  alliesOnly: 1
+  canBecomeAoe: 1
+  enhancedAoeRadius: 3

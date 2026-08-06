@@ -13,25 +13,44 @@ public class HuxleyBuffSkill : Skill
     [Header("Buff")]
     public HuxleyBuffStat statToBuff = HuxleyBuffStat.Attack;
     public int amount = 10;
-    public bool alliesOnly = true;
+
+    [Header("Targeting")]
+    public bool buffSelfIfTargetIsInvalid = true;
 
     public override void Use(UnitClass user, UnitClass target)
     {
-        if (user == null || target == null)
+        if (user == null)
             return;
 
-        if (alliesOnly && !SkillUtility.IsAllyFor(user, target))
-            return;
+        UnitClass finalTarget = target;
+
+        // Enzo changes: if I target the wrong thing this just buffs Huxley instead
+        if (finalTarget == null || !SkillUtility.IsAllyFor(user, finalTarget))
+        {
+            if (!buffSelfIfTargetIsInvalid)
+            {
+                Debug.Log(SkillName + " failed because the target is not an ally");
+                return;
+            }
+
+            finalTarget = user;
+        }
 
         if (statToBuff == HuxleyBuffStat.Attack)
-            target.atk += amount;
+        {
+            finalTarget.atk += amount;
+        }
         else if (statToBuff == HuxleyBuffStat.Movement)
-            target.movement += amount;
+        {
+            finalTarget.movement += amount;
+        }
         else if (statToBuff == HuxleyBuffStat.Range)
-            target.range += amount;
+        {
+            finalTarget.range += amount;
+        }
 
-        Debug.Log(user.UnitName + " buffed " + target.UnitName + " with " + SkillName);
+        Debug.Log(user.UnitName + " buffed " + finalTarget.UnitName + " with " + SkillName);
 
-        SkillUtility.NotifySkillUsed(user, target, this);
+        SkillUtility.NotifySkillUsed(user, finalTarget, this);
     }
 }

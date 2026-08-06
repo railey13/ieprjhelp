@@ -302,12 +302,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystemV2
   PlayerPrefab:
   - {fileID: 8663933614574718382, guid: 37d9b2bcf903b504db7def5279467632, type: 3}
+  - {fileID: 9186523955699430518, guid: 60e6c0eb74e738b4ca3cec9744f8b461, type: 3}
   - {fileID: 4007984411562465550, guid: 205b2cd739c3044b4ae11dc6f6dfb0b4, type: 3}
+  - {fileID: 3870123606287764358, guid: 1405d74e54c90b34ba722e0a5f02a409, type: 3}
+  - {fileID: 510303980914126863, guid: 94a02a5b8cdb44c48af3cd3e8ecabf63, type: 3}
+  - {fileID: 8562515082166260651, guid: 46719ed18dd5aa847abc7e409c7aa9c0, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
   battleLogger: {fileID: 631567109}
   PlayerSpawnPoints:
   - {fileID: 1780775755}
+  - {fileID: 1177677515}
+  - {fileID: 1177677515}
+  - {fileID: 1177677515}
+  - {fileID: 1177677515}
   - {fileID: 1177677515}
   EnemySpawnPoints:
   - {fileID: 289005473}
@@ -1167,7 +1175,7 @@ Transform:
   m_GameObject: {fileID: 1177677514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.47, y: 1.34, z: -0.52}
+  m_LocalPosition: {x: -0.4, y: 1.34, z: -19.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

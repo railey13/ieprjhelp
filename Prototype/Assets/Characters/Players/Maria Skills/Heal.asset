@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64eb73fba2c345e0a2658e02eee3e77, type: 3}
-  m_Name: MusicBuff
-  m_EditorClassIdentifier: Assembly-CSharp::HuxleyBuffSkill
-  SkillName: Music Buff
+  m_Script: {fileID: 11500000, guid: 7b68b2e0e33eb4e038351fe25d80e8d9, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: Assembly-CSharp::MariaHealSkill
+  SkillName: Heal
   MPCost: 0
   range: 5
   cooldown: 3
   category: 0
   subtype: 0
   mode: 0
-  hitCount: 0
-  statToBuff: 0
-  amount: 10
-  buffSelfIfTargetIsInvalid: 1
+  hitCount: 1
+  healAmount: 30
+  alliesOnly: 1
+  canBecomeAoe: 1
+  enhancedAoeRadius: 3
