@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
         if (PlayerMovement.AnyPlayerMoving) return; // don't allow toggling while a player is moving
 
         isFreeCam = !isFreeCam;
-
+        //
         // lock/unlock cursor based on new state
         if (isFreeCam)
         {
