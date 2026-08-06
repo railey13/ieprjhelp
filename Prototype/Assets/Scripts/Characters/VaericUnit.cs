@@ -1,77 +1,75 @@
 using UnityEngine;
 
-public class VaericUnit : PlayerClass, IOnSkillUsedPassive, IOutgoingDamageModifier
+public class VaericUnit : PlayerClass
 {
+    [Header("Vaeric Passive")]
     public int selfDamagePerAction = 5;
-
-    [Header("Revive")]
     public bool hasRevived = false;
-    public int reviveAtkBoost = 10;
+    public float reviveAtkBoost = 10f;
     public float revivedDamageMultiplier = 1.3f;
-
-    private bool revivedBoostActive = false;
 
     public override void BasicAttack(EnemyClass target)
     {
         if (target == null)
             return;
 
-        int finalDamage = SkillUtility.BuildDamage(this, atk, false);
+        float damage = ApplyVaericDamageBonus(atk);
 
-        SkillUtility.DealDamage(this, target, finalDamage, "Basic Attack");
+        // Enzo changes: I override this so Vaeric basic attacks also use his revived damage bonus
+        target.TakeDamage(damage);
 
-        // Enzo changes: Vaeric also loses hp from basic attacks
-        TakeDamage(selfDamagePerAction);
-    }
-
-    public void OnSkillUsed(UnitClass user, UnitClass target, Skill skill)
-    {
-        if (user != this)
-            return;
-
-        // Enzo changes: Vaeric loses hp after his skills resolve
-        TakeDamage(selfDamagePerAction);
-
-        Debug.Log(UnitName + " lost " + selfDamagePerAction + " HP from using a skill");
-    }
-
-    public int ModifyOutgoingDamage(int damage)
-    {
-        if (!revivedBoostActive)
-            return damage;
-
-        // Enzo changes: after revive Vaeric hits harder
-        return Mathf.RoundToInt(damage * revivedDamageMultiplier);
+        TakeSelfDamageFromAction();
     }
 
     public override void TakeDamage(float damage)
     {
-        hp -= Mathf.FloorToInt(damage);
+        int damageInt = Mathf.FloorToInt(damage);
+
+        // Enzo changes: I check lethal damage here so Vaeric can revive once before actually dying
+        if (!hasRevived && hp - damageInt <= 0)
+        {
+            hp = 1;
+            hasRevived = true;
+            atk += reviveAtkBoost;
+
+            Debug.Log(UnitName + " revived at 1 HP and gained attack.");
+
+            HitEffect hitEffect = GetComponent<HitEffect>();
+            if (hitEffect != null)
+                hitEffect.PlayHitEffect();
+
+            return;
+        }
+
+        hp -= damageInt;
 
         Debug.Log(UnitName + " took " + damage + " damage. Current HP: " + hp);
 
-        HitEffect hitEffect = GetComponent<HitEffect>();
-        if (hitEffect != null)
-            hitEffect.PlayHitEffect();
+        HitEffect normalHitEffect = GetComponent<HitEffect>();
+        if (normalHitEffect != null)
+            normalHitEffect.PlayHitEffect();
 
         if (hp <= 0)
         {
-            if (!hasRevived)
-            {
-                hasRevived = true;
-                revivedBoostActive = true;
-
-                // Enzo changes: this uses maxHp from UnitClass
-                hp = maxHp;
-
-                atk += reviveAtkBoost;
-
-                Debug.Log(UnitName + " revived once and got stronger");
-                return;
-            }
-
             hp = 0;
-            Die();
+            Debug.Log(UnitName + " has died.");
         }
+    }
+
+    public void TakeSelfDamageFromAction()
+    {
+        if (selfDamagePerAction <= 0)
+            return;
+
+        // Enzo changes: I keep this separate so Vaeric skills can call it after the action resolves
+        TakeDamage(selfDamagePerAction);
+    }
+
+    public float ApplyVaericDamageBonus(float damage)
+    {
+        if (hasRevived)
+            return damage * revivedDamageMultiplier;
+
+        return damage;
     }
 }
