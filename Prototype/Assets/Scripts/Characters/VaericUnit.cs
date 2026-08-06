@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class VaericUnit : PlayerClass, IOnSkillUsedPassive, IOutgoingDamageModifier
 {
-    public int maxHp = 0;
     public int selfDamagePerAction = 5;
 
     [Header("Revive")]
@@ -11,12 +10,6 @@ public class VaericUnit : PlayerClass, IOnSkillUsedPassive, IOutgoingDamageModif
     public float revivedDamageMultiplier = 1.3f;
 
     private bool revivedBoostActive = false;
-
-    private void Start()
-    {
-        if (maxHp <= 0)
-            maxHp = hp;
-    }
 
     public override void BasicAttack(EnemyClass target)
     {
@@ -66,7 +59,10 @@ public class VaericUnit : PlayerClass, IOnSkillUsedPassive, IOutgoingDamageModif
             {
                 hasRevived = true;
                 revivedBoostActive = true;
+
+                // Enzo changes: this uses maxHp from UnitClass so I dont make another maxHp variable here
                 hp = maxHp;
+
                 atk += reviveAtkBoost;
 
                 Debug.Log(UnitName + " revived once and got stronger");
