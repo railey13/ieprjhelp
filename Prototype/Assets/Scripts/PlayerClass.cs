@@ -7,7 +7,7 @@ public class PlayerClass : UnitClass
         if (target == null)
             return;
 
-        // Enzo changes: I made basic attack use SkillUtility so passives can affect it too
+        // Enzo changes: I build the damage first so float atk turns into int damage cleanly
         int finalDamage = SkillUtility.BuildDamage(this, atk, false);
 
         SkillUtility.DealDamage(this, target, finalDamage, "Basic Attack");

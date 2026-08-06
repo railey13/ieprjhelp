@@ -35,12 +35,15 @@ public static class SkillUtility
         return false;
     }
 
-    public static int BuildDamage(UnitClass user, int baseDamage, bool addUserAtk)
+    public static int BuildDamage(UnitClass user, float baseDamage, bool addUserAtk)
     {
-        int damage = baseDamage;
+        float damage = baseDamage;
 
         if (addUserAtk && user != null)
             damage += user.atk;
+
+        // Enzo changes: I convert to int here so all the skill files dont have to care about float damage
+        int finalDamage = Mathf.FloorToInt(Mathf.Max(0f, damage));
 
         if (user != null)
         {
@@ -49,11 +52,11 @@ public static class SkillUtility
             foreach (MonoBehaviour behaviour in behaviours)
             {
                 if (behaviour is IOutgoingDamageModifier modifier)
-                    damage = modifier.ModifyOutgoingDamage(damage);
+                    finalDamage = modifier.ModifyOutgoingDamage(finalDamage);
             }
         }
 
-        return Mathf.Max(0, damage);
+        return Mathf.Max(0, finalDamage);
     }
 
     public static int DealDamage(UnitClass user, UnitClass target, int damage, string skillName)
@@ -63,11 +66,12 @@ public static class SkillUtility
 
         int hpBefore = target.hp;
 
+        // Enzo changes: UnitClass takes float damage but int still works because C# can pass int as float
         target.TakeDamage(damage);
 
         int damageDealt = Mathf.Max(0, hpBefore - target.hp);
 
-        // Enzo changes: I put this here so Darrene can gain resource from any custom damage skill
+        // Enzo changes: I put this here so Darrene can gain resource from custom damage skills
         if (user is DarreneUnit darrene)
             darrene.GainResourceFromDealing(damageDealt);
 

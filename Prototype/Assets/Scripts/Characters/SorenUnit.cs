@@ -5,7 +5,7 @@ public class SorenUnit : PlayerClass, IOutgoingDamageModifier
     public bool weakenedNextAttack = false;
     public float damageMultiplierAfterBeingHit = 0.75f;
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
 
@@ -25,6 +25,7 @@ public class SorenUnit : PlayerClass, IOutgoingDamageModifier
 
         weakenedNextAttack = false;
 
+        // Enzo changes: Soren does less damage after getting hit
         int loweredDamage = Mathf.RoundToInt(damage * damageMultiplierAfterBeingHit);
 
         Debug.Log(UnitName + "'s damage got lowered because he was hit");

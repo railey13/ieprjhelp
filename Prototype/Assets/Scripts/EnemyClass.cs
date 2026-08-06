@@ -1,21 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyClass : UnitClass
 {
-    public List<SkillState> skillStates = new List<SkillState>();
-
-    private void Awake()
+    protected override void Awake()
     {
-        skillStates.Clear();
-
-        foreach (Skill skill in skills)
-        {
-            skillStates.Add(new SkillState
-            {
-                skill = skill
-            });
-        }
+        // Enzo changes: UnitClass already sets up skillStates so I just use that instead of making another one here
+        base.Awake();
     }
 
     public virtual void BasicAttack(PlayerClass target)

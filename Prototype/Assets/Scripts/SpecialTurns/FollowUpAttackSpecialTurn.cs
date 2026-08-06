@@ -33,12 +33,14 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
     {
         runner.tracker.MarkUsed(owner, this, context.target, limit);
 
-        int damage = useOwnerAttackStat ? owner.atk : customDamage;
-        damage = SkillUtility.BuildDamage(owner, damage, false);
+        float baseDamage = useOwnerAttackStat ? owner.atk : customDamage;
 
-        Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " follow-up damage = " + damage);
+        // Enzo changes: I run follow up damage through SkillUtility so passives can still affect it
+        int finalDamage = SkillUtility.BuildDamage(owner, baseDamage, false);
 
-        SkillUtility.DealDamage(owner, context.target, damage, specialTurnName);
+        Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " follow-up damage = " + finalDamage);
+
+        SkillUtility.DealDamage(owner, context.target, finalDamage, specialTurnName);
 
         Debug.Log(owner.UnitName + " triggered " + specialTurnName + " on " + context.target.UnitName);
     }

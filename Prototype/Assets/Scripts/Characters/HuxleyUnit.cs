@@ -3,8 +3,8 @@ using UnityEngine;
 public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
 {
     [Header("Lycanthrope")]
-    public int damageNeededToTransform = 40;
-    public int damageTakenTotal = 0;
+    public float damageNeededToTransform = 40;
+    public float damageTakenTotal = 0;
     public bool isLycanthrope = false;
 
     [Header("Transformation Buffs")]
@@ -13,7 +13,7 @@ public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
     public int movementBoost = 2;
     public float transformedDamageMultiplier = 1.25f;
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
 
@@ -39,7 +39,7 @@ public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
         if (!isLycanthrope)
             return damage;
 
-        // Enzo changes: this makes all of Huxley's damage better after transforming
+        // Enzo changes: this makes Huxley hit harder after transforming
         return Mathf.RoundToInt(damage * transformedDamageMultiplier);
     }
 }

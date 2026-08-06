@@ -28,13 +28,15 @@ public class DarreneUnit : PlayerClass
             false
         );
 
+        int finalDamage = SkillUtility.BuildDamage(this, atk, false);
+
         foreach (UnitClass enemy in enemies)
         {
-            SkillUtility.DealDamage(this, enemy, atk, "Darrene Basic AoE");
+            SkillUtility.DealDamage(this, enemy, finalDamage, "Darrene Basic AoE");
         }
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
 
