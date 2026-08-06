@@ -93,10 +93,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!moving) return; // cant move if not allowed to
         HandleWASD();
+
+        /*ANIMATION TEST
         if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             PlayAttackAnimation();
         }
+        */
     }
 
     public void ActivateMovement()
