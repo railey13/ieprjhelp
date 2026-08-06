@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //ANIMATION
     private Animator animator;
-    
+
 
 
     [Header("Movement")]
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //animation
         animator = GetComponent<Animator>();
-    
+
 
 
 
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-      
+
 
 
         Debug.Log(gameObject.name + " PlayerMovement Start() running");
@@ -140,6 +140,16 @@ public class PlayerMovement : MonoBehaviour
             return;
         ////
 
+        // get camera-relative flat directions
+        Transform camT = Camera.main.transform;
+
+        Vector3 camForward = camT.forward;
+        camForward.y = 0f;
+        camForward.Normalize();
+
+        Vector3 camRight = camT.right;
+        camRight.y = 0f;
+        camRight.Normalize();
 
         if (input == Vector2.zero) return;
         // movement

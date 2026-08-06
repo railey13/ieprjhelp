@@ -33,4 +33,38 @@ public abstract class EnemyIntentBehavior
 
         return nearest;
     }
+
+    // moves as far as possible toward target, capped by movement range,
+    // and never overshoots past the target itself
+    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        Vector3 toTarget = targetPosition - fromPosition;
+        toTarget.y = 0f;
+
+        float distance = toTarget.magnitude;
+        if (distance <= 0.0001f) return fromPosition; // already on top of target, avoid NaN direction
+
+        Vector3 direction = toTarget.normalized;
+        float moveDistance = Mathf.Min(distance, movement);
+
+        return fromPosition + direction * moveDistance;
+    }
+    protected Vector3 MoveAwayFromTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        Vector3 awayFromTarget = fromPosition - targetPosition;
+        awayFromTarget.y = 0f;
+
+        if (awayFromTarget.sqrMagnitude <= 0.0001f)
+        {
+            // exactly on top of target, no defined direction to retreat in — pick something rather than NaN
+            awayFromTarget = Vector3.forward;
+        }
+        else
+        {
+            awayFromTarget.Normalize();
+        }
+
+        return fromPosition + awayFromTarget * movement;
+    }
+
 }
