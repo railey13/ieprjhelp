@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 55523872}
   m_Layer: 0
   m_Name: FreeCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -767,7 +767,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   birdsEyeCamera: {fileID: 330585545}
-  freeCam: {fileID: 55523871}
   moveSpeed: 10
   lookSpeed: 0.1
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

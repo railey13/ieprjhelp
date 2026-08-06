@@ -2,15 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 using System.Collections;
 public class TurnBasedSystemV2 : MonoBehaviour
 {
     [SerializeField] private GameObject[] PlayerPrefab;
     [SerializeField] private GameObject[] EnemyPrefab;
-
-    [SerializeField] private BattleLogger battleLogger;
 
     [SerializeField] private Transform[] PlayerSpawnPoints;
     [SerializeField] private Transform[] EnemySpawnPoints;
@@ -37,13 +34,22 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private List<EnemyClass> enemies = new List<EnemyClass>();
     private List<UnitClass> turnOrder = new();
     private float rangeBuffer = 0.5f;
+    private struct EnemyIntent
+    {
+        public EnemyClass enemy;
+        public PlayerClass targetPlayer;
+        public Vector3 destination;
+        public bool willAttack;
+        public bool willSkill;
+        public Skill chosenSkill;
+    }
+
     private List<EnemyIntent> enemyIntents = new List<EnemyIntent>();
 
 
     //////////////////// 
 
     private int currentTurnIndex = 0;
-    private bool isNewRound = false;
     private EnemyClass selectedEnemyTarget;
     private PlayerClass selectedPlayerTarget;
     private bool isTargeting = false;
@@ -70,7 +76,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         bool hitEnemy = false;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hitEnemy = hit.transform.GetComponentInParent<TargetAndHighlight>() != null;
+            hitEnemy = hit.transform.GetComponentInParent<TargetAndHighlight >() != null;
         }
 
         if (!hitEnemy)
@@ -181,7 +187,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            TargetAndHighlight previousTargetable = selectedPlayerTarget.GetComponent<TargetAndHighlight>();
+            TargetAndHighlight  previousTargetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
@@ -189,7 +195,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         selectedPlayerTarget = player;
         isTargeting = false;
 
-        TargetAndHighlight targetable = player.GetComponent<TargetAndHighlight>();
+        TargetAndHighlight  targetable = player.GetComponent<TargetAndHighlight >();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -205,19 +211,21 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
+            {
                 pm.HideAttackRange();
-            pm.HideSkillRange();
+                pm.HideSkillRange();
+            }
         }
 
         if (selectedEnemyTarget != null)
         {
-            TargetAndHighlight previousTargetable = selectedEnemyTarget.GetComponent<TargetAndHighlight>();
+            TargetAndHighlight  previousTargetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
             if (previousTargetable != null)
                 previousTargetable.SetHighlighted(false);
         }
         selectedEnemyTarget = enemy;
         isTargeting = false;
-        TargetAndHighlight targetable = enemy.GetComponent<TargetAndHighlight>();
+        TargetAndHighlight  targetable = enemy.GetComponent<TargetAndHighlight >();
         if (targetable != null)
             targetable.SetHighlighted(true);
 
@@ -271,39 +279,16 @@ public class TurnBasedSystemV2 : MonoBehaviour
         skillPanel.Clear();
         skillPanel.style.display = DisplayStyle.Flex;
 
-        //foreach (Skill skill in player.skills)
-        //{
-        //    Debug.Log("Adding skill button: " + skill.SkillName);
-        //    Button button = new Button();
-
-        //    button.text = skill.SkillName;
-
-        //    button.clicked += () =>
-        //    {
-        //        SelectSkill(skill);
-        //    };
-
-        //    skillPanel.Add(button);
-        //}
-        //Skill Menu now Shows the Cooldown
-        foreach (SkillState state in player.skillStates)
+        foreach (Skill skill in player.skills)
         {
+            Debug.Log("Adding skill button: " + skill.SkillName);
             Button button = new Button();
 
-            button.text = state.skill.SkillName;
-
-            if (!state.IsReady(TurnNumber))
-            {
-                int remaining =
-                    state.skill.cooldown - (TurnNumber - state.lastUsedTurn);
-
-                button.text += $" ({remaining} turns)";
-                button.SetEnabled(false);
-            }
+            button.text = skill.SkillName;
 
             button.clicked += () =>
             {
-                SelectSkill(state.skill);
+                SelectSkill(skill);
             };
 
             skillPanel.Add(button);
@@ -344,12 +329,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (unit == null)
             return;
-
-        if (battleLogger != null) battleLogger.AddEntry(unit.UnitName + "'s turn.");
-
+       
         Debug.Log("TURN START: " + unit.UnitName);
 
-        if (isNewRound)
+        if (currentTurnIndex == 0)
         {
             CalculateEnemyIntents(); // only recalculate at the start of a new round
         }
@@ -380,12 +363,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
     }
 
     private void onEndTurnClicked(ClickEvent evt)
-
     {
-
         if (!(CurrentUnit is PlayerClass currentPlayer))
             return;
-
 
 
         switch (selectedAction)
@@ -483,20 +463,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                     selectedSkill.Use(CurrentUnit, skillTarget);
 
-                    // Log the skill usage
-                    if (battleLogger != null)
-                        battleLogger.AddEntry($"{CurrentUnit.UnitName} used {selectedSkill.SkillName} on {skillTarget.UnitName}.");
-
-                    SkillState usedState =
-                    currentPlayer.skillStates.Find(s => s.skill == selectedSkill);
-
-                    if (usedState != null)
-                    {
-                        usedState.MarkUsed(TurnNumber);
-                    }
-
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
 
+                    
                     // Enzo changes: report the skill after it happens so special turn scripts can react
                     if (SpecialTurnRunner.Instance == null)
                     {
@@ -517,13 +486,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 else
                 {
                     Debug.Log("Skill out of range");
-                    if (battleLogger != null) battleLogger.AddEntry("Skill failed: Out of range.");
                 }
                 break;
 
             case TurnAction.Move:
                 Debug.Log("Player moves");
-                if (battleLogger != null) battleLogger.AddEntry($"{currentPlayer.UnitName} moved position.");
                 break;
 
             case TurnAction.None:
@@ -574,31 +541,14 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     selectedEnemyTarget,
                     info);
 
-                selectedEnemyTarget.TakeDamage(dmg);
-
-                if (battleLogger != null)
-                {
-                    battleLogger.AddEntry(
-                        $"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
-                }
-            }
-            else
-            {
-                Debug.Log("Attack failed");
-
-                if (battleLogger != null)
-                    battleLogger.AddEntry("Attack failed: Out of range.");
-            }
-        }
-        else
-        {
-            Debug.Log("No valid target selected");
-
-            if (battleLogger != null)
-                battleLogger.AddEntry("Attack failed: No valid target.");
-        }
+        if (isGameOver)
+            return;
 
         EndTurn();
+        // selectedAction = TurnAction.None;
+
+
+
     }
 
     private void NextTurn()
@@ -608,17 +558,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
             return;
         //chat gpt idea of safety check
         int safety = 0;
-        bool wrapped = false;
 
         do
         {
-            currentTurnIndex++;
+            currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
             safety++;
-            if (currentTurnIndex >= turnOrder.Count)
-            {
-                currentTurnIndex = 0;
-                wrapped = true;
-            }
+
             if (safety > 100)
             {
                 Debug.LogError("Infinite loop prevented in NextTurn()");
@@ -627,10 +572,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         } while (turnOrder[currentTurnIndex] == null ||
                  turnOrder[currentTurnIndex].hp <= 0);
-
-        isNewRound = wrapped;
-
-        if (wrapped)
+        if (currentTurnIndex == 0)
         {
             TurnNumber++;
             Debug.Log("===== TURN " + TurnNumber + " =====");
@@ -660,7 +602,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     private void EnemySkill(EnemyClass enemy)
     {
-
+        
     }
 
     private IEnumerator EnemyTakeTurn(EnemyClass enemy) 
@@ -670,9 +612,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             yield break;
         }
 
-        if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " moves.");
-
-        Debug.Log(enemy.UnitName + " moves. players.Count = " + players.Count);
+        Debug.Log(enemy.UnitName + " acts. players.Count = " + players.Count);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
         // find this enemy's pre-calculated intent
@@ -688,20 +628,37 @@ public class TurnBasedSystemV2 : MonoBehaviour
         // move to the pre-calculated destination regardless of where players moved
         yield return StartCoroutine(MoveEnemy(enemy, intent.destination));
         Debug.Log(enemy.UnitName + " moves to  position");
+
+        if (intent.targetPlayer == null || intent.targetPlayer.hp <= 0)
+        {
+            Debug.Log(enemy.UnitName + " target is dead, action cancelled");
+            StartCoroutine(EndTurnAfterDelay(0.5f));
+            return;
+        }
+
         float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
         // attack the pre-calculated target if it's still alive
         if (intent.willSkill && intent.chosenSkill != null)
         {
-            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= intent.chosenSkill.range + rangeBuffer)
+            float effectiveSkillRange = GetEffectiveEnemyRange(intent.chosenSkill.range, intent.targetPlayer);
+
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= effectiveSkillRange + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " used skill against " + intent.targetPlayer.UnitName);
 
-                // Log the enemy skill usage
-                if (battleLogger != null)
-                    battleLogger.AddEntry($"{enemy.UnitName} used {intent.chosenSkill.SkillName} on {intent.targetPlayer.UnitName}.");
-
+                int targetHpBefore = intent.targetPlayer.hp;
                 intent.chosenSkill.Use(enemy, intent.targetPlayer);
+
+                if (SpecialTurnRunner.Instance != null)
+                {
+                    SpecialTurnRunner.Instance.ReportSkillUse(
+                        enemy,
+                        intent.targetPlayer,
+                        intent.chosenSkill,
+                        targetHpBefore
+                    );
+                }
 
                 SkillState usedState =
                 enemy.skillStates.Find(s => s.skill == intent.chosenSkill);
@@ -714,7 +671,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
         else if (intent.willAttack)
         {
-            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= enemy.range + rangeBuffer)
+            
+            float effectiveAttackRange = GetEffectiveEnemyRange(enemy.range, intent.targetPlayer);
+
+            if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= effectiveAttackRange + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
                 DamageInfo info = new DamageInfo
@@ -734,18 +694,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
             else
             {
-                if (intent.targetPlayer == null || intent.targetPlayer.hp <= 0)
-                {
-                    Debug.Log(enemy.UnitName + " target is dead/invalid, attack cancelled");
-                    if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " cannot attack: target is invalid.");
-                }
-                else
-                {
-                    Debug.Log(enemy.UnitName + " target is out of range, attack cancelled");
-                    if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " cannot attack: target out of range.");
-                }
+                Debug.Log(enemy.UnitName + " target is dead, attack cancelled");
             }
         }
+
+
 
         WinLoseState();
 
@@ -791,14 +744,16 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
+            {
                 pm.HideAttackRange();
-            pm.HideSkillRange();
+                pm.HideSkillRange();
+            }
         }
         selectedAction = TurnAction.None;
 
         if (selectedEnemyTarget != null)
         {
-            TargetAndHighlight targetable = selectedEnemyTarget.GetComponent<TargetAndHighlight>();
+            TargetAndHighlight  targetable = selectedEnemyTarget.GetComponent<TargetAndHighlight >();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
@@ -806,7 +761,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (selectedPlayerTarget != null)
         {
-            TargetAndHighlight targetable = selectedPlayerTarget.GetComponent<TargetAndHighlight>();
+            TargetAndHighlight  targetable = selectedPlayerTarget.GetComponent<TargetAndHighlight >();
             if (targetable != null)
                 targetable.SetHighlighted(false);
         }
@@ -850,6 +805,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
 
             players.Add(player);
+
             PlayerMovement pm = playerObject.GetComponent<PlayerMovement>();
             if (pm != null)
             {
@@ -893,10 +849,6 @@ public class TurnBasedSystemV2 : MonoBehaviour
     public void OnPlayerMoveConfirmed()
     {
         Debug.Log("Player finished moving");
-
-        if (battleLogger != null)
-            battleLogger.AddEntry($"{CurrentUnit.UnitName} moves.");
-
         selectedAction = TurnAction.None;
         WinLoseState();
         if (isGameOver) return;
@@ -912,23 +864,20 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     public void WinLoseState()
     {
+        bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
+        bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
         enemies.RemoveAll(e => e == null || e.hp <= 0);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
-        bool anyPlayerAlive = players.Count > 0;
-        bool anyEnemyAlive = enemies.Count > 0;
-
-        if (!anyEnemyAlive && !isGameOver)
+        if (!anyEnemyAlive)
         {
-            Debug.Log("All enemies defeated — Loading Win Scene");
+            Debug.Log("All enemies defeated — Win!");
             isGameOver = true;
-            SceneManager.LoadScene("WinScene");
         }
-        else if (!anyPlayerAlive && !isGameOver)
+        else if (!anyPlayerAlive)
         {
-            Debug.Log("All players defeated — Loading Lose Scene");
+            Debug.Log("All players defeated — Lose.");
             isGameOver = true;
-            SceneManager.LoadScene("LoseScene");
         }
     }
 
@@ -997,8 +946,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             PlayerMovement pm = currentPlayer.GetComponent<PlayerMovement>();
             if (pm != null)
+            {
                 pm.HideAttackRange();
-            pm.HideSkillRange();
+                pm.HideSkillRange();
+            }
         }
 
         Debug.Log("Targeting cancelled — out of range");
@@ -1033,6 +984,17 @@ public class TurnBasedSystemV2 : MonoBehaviour
         }
     }
 
+    private float GetEffectiveEnemyRange(float originalRange, PlayerClass target)
+    {
+        if (target is ArnfinnUnit arnfinn)
+        {
+            // Enzo changes: Arnfinn is harder to target so enemies lose range against him
+            return Mathf.Max(1f, originalRange - arnfinn.enemyRangePenalty);
+        }
+
+        return originalRange;
+    }
+
     private void CalculateEnemyIntents()
     {
         enemyIntents.Clear();
@@ -1041,36 +1003,68 @@ public class TurnBasedSystemV2 : MonoBehaviour
         {
             if (enemy == null || enemy.hp <= 0) continue;
 
-            EnemyIntentBehavior behavior = GetIntentBehavior(enemy.enemyType);
-            EnemyIntent intent = behavior.CalculateIntent(enemy, players, TurnNumber, rangeBuffer);
+            PlayerClass target = FindNearestPlayer(enemy.transform.position); // chooses target
+            if (target == null) continue;
 
-            if (intent.targetPlayer == null) continue; // no living target found
+            Vector3 toTarget = target.transform.position - enemy.transform.position;
+            toTarget.y = 0f;
+            float distance = toTarget.magnitude;
+            Vector3 direction = toTarget.normalized;
 
-            enemyIntents.Add(intent);
+            float moveDistance = Mathf.Min(distance, enemy.movement); // makes sure not to overshoot the player
+            Vector3 destination = enemy.transform.position + direction * moveDistance;
 
-            enemy.ShowIntent(intent.willAttack, intent.willSkill, intent.targetPlayer);
+            // will they be in range to attack after moving?
+            float distanceAfterMove = Vector3.Distance(destination, target.transform.position);
+            float effectiveEnemyRange = GetEffectiveEnemyRange(enemy.range, target);
+            bool willAttack = distanceAfterMove <= effectiveEnemyRange + rangeBuffer;
+            bool willSkill = false;
+            Skill chosenSkill = null;
+
+            //if (enemy.skills.Count > 0)
+            //{
+            //    chosenSkill = enemy.skills[0];
+            //    willSkill =
+            //        distanceAfterMove <= chosenSkill.range + rangeBuffer;
+            //}
+            foreach (SkillState state in enemy.skillStates)
+            {
+                if (!state.IsReady(TurnNumber))
+                    continue;
+
+                chosenSkill = state.skill;
+
+                float effectiveSkillRange = GetEffectiveEnemyRange(chosenSkill.range, target);
+
+                willSkill =
+                    distanceAfterMove <= effectiveSkillRange + rangeBuffer;
+
+                if (willSkill)
+                {
+                    willAttack = false;
+                    break;
+                }
+            }
+
+            enemyIntents.Add(new EnemyIntent
+            {
+                enemy = enemy,
+                targetPlayer = target,
+                destination = destination,
+                willAttack = willAttack,
+                willSkill = willSkill,
+                chosenSkill = chosenSkill
+            });
+            //Debug.Log(
+            //            enemy.UnitName +
+            //            " willAttack=" + willAttack +
+            //            " willSkill=" + willSkill +
+            //            " chosenSkill=" + (chosenSkill != null ? chosenSkill.SkillName : "None")
+            //            );
+            enemy.ShowIntent(willAttack,willSkill, target);
             EnemyIntentDisplay display = enemy.GetComponent<EnemyIntentDisplay>();
             if (display != null)
-            {
-                display.UpdateIntent(intent.destination, enemy.range);
-                display.UpdateTargetLight(intent.targetPlayer.transform);
-            }
-        }
-    }
-
-    private EnemyIntentBehavior GetIntentBehavior(enemyType type)
-    {
-        switch (type)
-        {
-            case enemyType.Melee1:
-                return new Melee1();
-            case enemyType.Ranged1:
-                return new Ranged1();
-            case enemyType.Magician1:
-            case enemyType.Boss1:
-            default:
-                Debug.LogWarning(type + " has no dedicated EnemyIntentBehavior yet, using Melee1 as a fallback.");
-                return new Melee1();
+                display.UpdateIntent(destination, effectiveEnemyRange);
         }
     }
 
@@ -1083,7 +1077,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         statsPanel.style.display = DisplayStyle.Flex;
 
         statsPanel.Q<Label>("StatsName").text = unit.UnitName;
-        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp + "/" + unit.maxHp;
+        statsPanel.Q<Label>("StatsHP").text = "HP: " + unit.hp;
         statsPanel.Q<Label>("StatsATK").text = "ATK: " + unit.atk;
         statsPanel.Q<Label>("StatsRange").text = "Range: " + unit.range;
         statsPanel.Q<Label>("StatsSpeed").text = "Speed: " + unit.speed;

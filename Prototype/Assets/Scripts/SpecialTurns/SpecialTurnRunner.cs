@@ -96,21 +96,16 @@ public class SpecialTurnRunner : MonoBehaviour
             return;
         }
 
-        if (skill == null)
-        {
-            Debug.Log("FOLLOW UP DEBUG: skill is null");
-            return;
-        }
-
         tracker.BeginAction();
 
-        // Enzo changes: calculate damage by comparing HP before and after the skill
+        // Enzo changes: skill can be null here because basic attacks are not skill assets
+        string actionName = skill != null ? skill.SkillName : "Basic Attack";
+
         int damageAmount = Mathf.Max(0, targetHpBefore - target.hp);
         bool damagedTarget = damageAmount > 0;
 
-        // Enzo changes: debug logs to check if the follow-up system detected the skill damage
         Debug.Log("FOLLOW UP DEBUG: user = " + user.UnitName);
-        Debug.Log("FOLLOW UP DEBUG: skill = " + skill.SkillName);
+        Debug.Log("FOLLOW UP DEBUG: action = " + actionName);
         Debug.Log("FOLLOW UP DEBUG: target = " + target.UnitName);
         Debug.Log("FOLLOW UP DEBUG: target hp before = " + targetHpBefore + ", after = " + target.hp);
         Debug.Log("FOLLOW UP DEBUG: damage amount = " + damageAmount);
@@ -128,10 +123,9 @@ public class SpecialTurnRunner : MonoBehaviour
 
     private void ResolveSpecialTurns(SpecialTurnContext context)
     {
-        // Enzo changes: find all characters that have special turn scripts
+        // Enzo changes: find every unit that has follow-up scripts
         SpecialTurnHolder[] holders = FindObjectsOfType<SpecialTurnHolder>();
 
-        // Enzo changes: debug how many possible follow-up holders were found
         Debug.Log("FOLLOW UP DEBUG: holders found = " + holders.Length);
 
         foreach (SpecialTurnHolder holder in holders)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UnitClass : MonoBehaviour
 {
@@ -70,6 +71,22 @@ public class UnitClass : MonoBehaviour
         {
             hp = 0;
             Die();
+        }
+    }
+    //ANIMATOIN
+    public virtual void PlayHitAnimation()
+    {
+        if (animator != null && animator.runtimeAnimatorController != null) 
+        {
+            animator.SetTrigger("hurt"); //name must be the hurt condition in the animator
+        }
+    }
+
+    public virtual void PlayAttackAnimation()
+    {
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetTrigger("Attack");
         }
     }
 
