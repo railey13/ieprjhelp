@@ -92,7 +92,6 @@ public class CameraController : MonoBehaviour
 
     private void HandleFreeCamLook()
     {
-        if (!Mouse.current.rightButton.isPressed) return;
 
         float mouseX = Mouse.current.delta.x.ReadValue();
         float mouseY = Mouse.current.delta.y.ReadValue();
