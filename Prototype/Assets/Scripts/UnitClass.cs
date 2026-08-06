@@ -79,6 +79,14 @@ public class UnitClass : MonoBehaviour
         }
     }
 
+    public virtual void PlayAttackAnimation()
+    {
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetTrigger("Attack");
+        }
+    }
+
     public virtual void Heal(int amount)
     {
         hp += amount;

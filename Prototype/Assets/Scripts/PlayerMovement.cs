@@ -285,8 +285,8 @@ public class PlayerMovement : MonoBehaviour
     {
         turnSystem = system;
     }
-    public void PlayAttackAnimation()
-    {
-        animator.SetTrigger("Attack");
-    }
+    //public void PlayAttackAnimation()
+    //{
+    //    animator.SetTrigger("Attack");
+    //}
 }

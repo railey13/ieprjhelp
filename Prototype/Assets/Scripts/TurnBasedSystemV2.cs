@@ -543,7 +543,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (playerMovement != null)
         {
-            playerMovement.PlayAttackAnimation();
+            currentPlayer.PlayAttackAnimation();
         }
 
         // Wait for the animation to finish
@@ -568,6 +568,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     subtype = currentPlayer.basicAttackSubtype,
                     hitCount = currentPlayer.hitCount
                 };
+
 
                 float dmg = DamageCalculator.CalculateDamage(
                     currentPlayer,
@@ -663,11 +664,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     }
 
-    private void EnemyTakeTurn(EnemyClass enemy)
+    private IEnumerator EnemyTakeTurn(EnemyClass enemy)
     {
         if (isGameOver)
         {
-            return;
+            yield break;
         }
 
         if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " moves.");
@@ -678,15 +679,15 @@ public class TurnBasedSystemV2 : MonoBehaviour
         // find this enemy's pre-calculated intent
         EnemyIntent intent = enemyIntents.Find(i => i.enemy == enemy);
 
-        // if no intent found, skip
+        // if no intent found, skip 
         if (intent.enemy == null)
         {
             EndTurn();
-            return;
+           yield break;
         }
 
         // move to the pre-calculated destination regardless of where players moved
-        enemy.transform.position = intent.destination;
+        yield return StartCoroutine(MoveEnemy(enemy, intent.destination));
         Debug.Log(enemy.UnitName + " moves to  position");
         float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
@@ -723,6 +724,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     subtype = enemy.basicAttackSubtype,
                     hitCount = enemy.hitCount
                 };
+
+                enemy.PlayAttackAnimation();
+                yield return new WaitForSeconds(0.7f);
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
                 intent.targetPlayer.TakeDamage(dmg);
 
@@ -749,11 +753,37 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (isGameOver)
         {
             Debug.Log("Game over — halting turn loop");
-            return;
+            yield break;
         }
 
         StartCoroutine(EndTurnAfterDelay(0.5f));
         // EndTurn();
+    }
+
+
+
+    private IEnumerator MoveEnemy(EnemyClass enemy, Vector3 destination)
+    {
+        //animation
+        Animator animator = enemy.GetComponent<Animator>();
+
+        if (animator != null)
+            animator.SetBool("IsRunning", true);
+
+        while (Vector3.Distance(enemy.transform.position, destination) > 0.05f)
+        {
+            enemy.transform.position = Vector3.MoveTowards(
+                enemy.transform.position,
+                destination,
+                5f * Time.deltaTime); // Movement speed
+
+            yield return null;
+        }
+
+        enemy.transform.position = destination;
+
+        if (animator != null)
+            animator.SetBool("IsRunning", false);
     }
 
     private void EndTurn()
@@ -1068,7 +1098,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private IEnumerator StartEnemyTurnAfterDelay(EnemyClass enemy, float delay)
     {  // delay function
         yield return new WaitForSeconds(delay);
-        EnemyTakeTurn(enemy);
+        StartCoroutine(EnemyTakeTurn(enemy));
     }
     private IEnumerator EndTurnAfterDelay(float delay)
     {
