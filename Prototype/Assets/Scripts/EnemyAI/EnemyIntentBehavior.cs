@@ -43,7 +43,7 @@ public abstract class EnemyIntentBehavior
 
         if (distance <= 0.0001f)
         {
-            // no defined direction (standing exactly on target) — fallback so we don't return NaN
+            // no defined direction 
             return fromPosition + Vector3.forward * movement;
         }
 
