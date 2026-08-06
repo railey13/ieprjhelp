@@ -1,34 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum enemyType { Melee1, Ranged1, Magician1, Boss1 };
 public class EnemyClass : UnitClass
 {
-    [Header("Enemy Variables")]
-    public enemyType enemyType;
+    public List<SkillState> skillStates = new List<SkillState>();
+
+    private void Awake()
+    {
+        skillStates.Clear();
+
+        foreach (Skill skill in skills)
+        {
+            skillStates.Add(new SkillState
+            {
+                skill = skill
+            });
+        }
+    }
 
     public virtual void BasicAttack(PlayerClass target)
     {
-        target.TakeDamage(atk);
+        if (target == null)
+            return;
 
+        target.TakeDamage(atk);
     }
 
     public void ShowIntent(bool willAttack, bool willSkill, PlayerClass target)
     {
+        if (target == null)
+            return;
+
         string intentText;
+
         if (willSkill)
         {
-            intentText = "Skill used against" + target.UnitName;
+            intentText = "Skill used against " + target.UnitName;
         }
-        if (willAttack)
+        else if (willAttack)
         {
-
             intentText = "Attack " + target.UnitName;
         }
         else
         {
             intentText = "Move";
         }
+
         Debug.Log(UnitName + " intends to: " + intentText);
     }
 }
