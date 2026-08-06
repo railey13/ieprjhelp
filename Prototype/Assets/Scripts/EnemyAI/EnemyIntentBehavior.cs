@@ -34,37 +34,44 @@ public abstract class EnemyIntentBehavior
         return nearest;
     }
 
-    // moves as far as possible toward target, capped by movement range,
-    // and never overshoots past the target itself
-    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    protected Vector3 CalculateMoveDestination(Vector3 fromPosition, Vector3 targetPosition, float movement, int direction)
     {
-        Vector3 toTarget = targetPosition - fromPosition;
-        toTarget.y = 0f;
+        Vector3 delta = (targetPosition - fromPosition) * direction;
+        delta.y = 0f;
 
-        float distance = toTarget.magnitude;
-        if (distance <= 0.0001f) return fromPosition; // already on top of target, avoid NaN direction
+        float distance = delta.magnitude;
 
-        Vector3 direction = toTarget.normalized;
-        float moveDistance = Mathf.Min(distance, movement);
-
-        return fromPosition + direction * moveDistance;
-    }
-    protected Vector3 MoveAwayFromTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
-    {
-        Vector3 awayFromTarget = fromPosition - targetPosition;
-        awayFromTarget.y = 0f;
-
-        if (awayFromTarget.sqrMagnitude <= 0.0001f)
+        if (distance <= 0.0001f)
         {
-            // exactly on top of target, no defined direction to retreat in — pick something rather than NaN
-            awayFromTarget = Vector3.forward;
+            // no defined direction 
+            return fromPosition + Vector3.forward * movement;
+        }
+
+        Vector3 dir = delta.normalized;
+
+        float moveDistance;
+        if (direction > 0)
+        {
+            // moving toward the target: never overshoot past it
+            moveDistance = Mathf.Min(distance, movement);
         }
         else
         {
-            awayFromTarget.Normalize();
+            // moving away from the target: always travel the full movement distance
+            moveDistance = movement;
         }
 
-        return fromPosition + awayFromTarget * movement;
+        return fromPosition + dir * moveDistance;
+    }
+
+    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        return CalculateMoveDestination(fromPosition, targetPosition, movement, 1);
+    }
+
+    protected Vector3 MoveAwayFromTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    {
+        return CalculateMoveDestination(fromPosition, targetPosition, movement, -1);
     }
 
 }
