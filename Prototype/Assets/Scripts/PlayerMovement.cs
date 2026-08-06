@@ -90,6 +90,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+        if (attackCircleObj != null && attackCircleObj.activeSelf)
+        {
+            attackCircleObj.transform.position = new Vector3(
+                transform.position.x, transform.position.y + circleHeight, transform.position.z);
+        }
+
+        if (skillCircleObj != null && skillCircleObj.activeSelf)
+        {
+            skillCircleObj.transform.position = new Vector3(
+                transform.position.x, transform.position.y + circleHeight, transform.position.z);
+        }
+
         if (!moving) return; // cant move if not allowed to
         HandleWASD();
 
@@ -224,9 +237,6 @@ public class PlayerMovement : MonoBehaviour
         mat.color = attackRangeColor;
         attackCircleObj.GetComponent<MeshRenderer>().material = mat;
 
-        attackCircleObj.transform.SetParent(transform);
-        attackCircleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
-
         attackCircleObj.SetActive(false);
     }
     public void ShowAttackRange()
@@ -254,9 +264,6 @@ public class PlayerMovement : MonoBehaviour
         mat.color = skillRangeColor;
         skillCircleObj.GetComponent<MeshRenderer>().material = mat;
 
-        skillCircleObj.transform.SetParent(transform);
-        skillCircleObj.transform.localPosition = new Vector3(0f, circleHeight, 0f);
-
         skillCircleObj.SetActive(false);
     }
 
@@ -279,5 +286,5 @@ public class PlayerMovement : MonoBehaviour
     {
         turnSystem = system;
     }
-  
+
 }
