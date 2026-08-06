@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class UnitClass : MonoBehaviour
 {
-    protected Animator animator;
+    private Animator animator;
     [Header("UI")]
     public Sprite unitIcon;
     [Header("Basic Attack Type")]
@@ -43,7 +43,9 @@ public class UnitClass : MonoBehaviour
 
     protected virtual void Awake()
     {
+        //animation get ocmponent
         animator = GetComponent<Animator>();
+
         skillStates.Clear();
         maxHp = hp;
         foreach (Skill skill in skills)
@@ -56,7 +58,8 @@ public class UnitClass : MonoBehaviour
     }
     public virtual void TakeDamage(float damage)
     {
-        PlayHitAnimation();
+        //call hurt animation
+        PlayHurtAnimation();
         hp -= Mathf.FloorToInt(damage); // always rounds down decimal damage
         Debug.Log(UnitName + " took " + damage + " damage. Current HP: " + hp);
 
@@ -124,11 +127,19 @@ public class UnitClass : MonoBehaviour
             return 1f;
     }
 
-    void Update()
+    public virtual void PlayHurtAnimation()
     {
-        if (Keyboard.current.xKey.wasPressedThisFrame)
+        if (animator != null && animator.runtimeAnimatorController != null)
         {
-            PlayHitAnimation();
+            animator.SetTrigger("Hurt");
+        }
+    }
+
+    public virtual void PlayAttackAnimation()
+    {
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetTrigger("Attack");
         }
     }
 

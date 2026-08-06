@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a98e9d869f596e4a96bb8e797f0a825
-      internalID: 349714468
+      spriteID: f0230de196b6ca64ab166adf78bdaa20
+      internalID: 541441599
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c214f882ef7394242a0da51ca0aa88c6
-      internalID: 1167611410
+      spriteID: fb2a4d47da4c4e34fb8669f9c52f62e7
+      internalID: 2121588665
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e212156659fdd7940805086fb5c99df9
-      internalID: 462754656
+      spriteID: 5797bd7b92b6c494789b6ee814b59c76
+      internalID: 980601906
       vertices: []
       indices: 
       edges: []
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e6af19077d9583438aeb56bdaf7d108
-      internalID: 657545487
+      spriteID: def47638f10bea94ea101cc311423477
+      internalID: -1444080287
       vertices: []
       indices: 
       edges: []
@@ -201,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 777a30df33c8f4642b6e5f11c38dce5f
+    spriteID: 71cc4e8282718964d897d121e5668591
     internalID: 0
     vertices: []
     indices: 
@@ -213,10 +213,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Guard_1_stagger_anim_left_0: 349714468
-      Guard_1_stagger_anim_left_1: 1167611410
-      Guard_1_stagger_anim_left_2: 462754656
-      Guard_1_stagger_anim_left_3: 657545487
+      Guard_1_stagger_anim_left_0: 541441599
+      Guard_1_stagger_anim_left_1: 2121588665
+      Guard_1_stagger_anim_left_2: 980601906
+      Guard_1_stagger_anim_left_3: -1444080287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

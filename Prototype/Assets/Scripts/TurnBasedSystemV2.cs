@@ -371,50 +371,70 @@ public class TurnBasedSystemV2 : MonoBehaviour
         switch (selectedAction)
         {
             case TurnAction.Attack:
-                Debug.Log("Player attacks");
-                // enemies[0].TakeDamage(67); // pick a real target later
+                StartCoroutine(AttackRoutine(currentPlayer));
+                return;
 
-                if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
-                {
-                    float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
+            /*
+             * 
+            //ANIMATION
+                            PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
 
-                    // range check incase player moves AFTER targetting
-                    if (distance <= currentPlayer.range + rangeBuffer)
-                    {
-                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+                            if (playerMovement != null)
+                            {
+                                playerMovement.PlayAttackAnimation();
+                            }
 
-                        // Enzo changes: I save HP before attacking so follow-up can check if damage happened
-                        int targetHpBefore = selectedEnemyTarget.hp;
 
-                        // Enzo changes: this lets character-specific basic attacks work
-                        currentPlayer.BasicAttack(selectedEnemyTarget);
 
-                        // Enzo changes: skill is null here because this is a basic attack not a skill asset
-                        if (SpecialTurnRunner.Instance != null)
-                        {
-                            SpecialTurnRunner.Instance.ReportSkillUse(
-                                CurrentUnit,
-                                selectedEnemyTarget,
-                                null,
-                                targetHpBefore
-                            );
-                        }
-                        else
-                        {
-                            Debug.Log("FOLLOW UP DEBUG: SpecialTurnRunner.Instance is null");
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Attack failed");
-                    }
-                }
-                else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
-                {
-                    Debug.Log("No valid target selected");
 
-                }
-                break;
+
+
+                            ////////////////////
+                            Debug.Log("Player attacks");
+                            // enemies[0].TakeDamage(67); // pick a real target later
+
+                            if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
+                            {
+                                float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
+
+                                // range check incase player moves AFTER targetting
+                                if (distance <= currentPlayer.range + rangeBuffer)
+                                {
+                                    Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+
+                                    // new damage system
+                                    DamageInfo info = new DamageInfo
+                                    {
+                                        category = currentPlayer.basicAttackCategory,
+                                        subtype = currentPlayer.basicAttackSubtype,
+                                        hitCount = currentPlayer.hitCount
+
+                                    };
+                                    float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
+                                    selectedEnemyTarget.TakeDamage(dmg);
+
+                                    if (battleLogger != null)
+                                        battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
+
+                                    break;
+                                }
+                                else
+                                {
+                                    Debug.Log("Attack failed");
+                                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
+                                }
+                            }
+                            else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
+                            {
+                                Debug.Log("No valid target selected");
+                                if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
+                            }
+
+
+            break;
+            */
+
+
 
             case TurnAction.Skill:
                 if (selectedSkill == null)
@@ -477,7 +497,49 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 Debug.Log("No action selected");
                 break;
         }
-        WinLoseState();
+        EndTurn();
+        // selectedAction = TurnAction.None;
+    }
+
+
+    //ACCODMODATING ANIMATION
+    private IEnumerator AttackRoutine(PlayerClass currentPlayer)
+    {
+        // Play the attack animation
+        PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
+
+        if (playerMovement != null)
+        {
+            currentPlayer.PlayAttackAnimation();
+        }
+
+        // Wait for the animation to finish
+        yield return new WaitForSeconds(0.8f);
+
+        Debug.Log("Player attacks");
+
+        if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
+        {
+            float distance = Vector3.Distance(
+                selectedEnemyTarget.transform.position,
+                currentPlayer.transform.position);
+
+            // Range check in case player moved after selecting target
+            if (distance <= currentPlayer.range + rangeBuffer)
+            {
+                Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+
+                DamageInfo info = new DamageInfo
+                {
+                    category = currentPlayer.basicAttackCategory,
+                    subtype = currentPlayer.basicAttackSubtype,
+                    hitCount = currentPlayer.hitCount
+                };
+
+                float dmg = DamageCalculator.CalculateDamage(
+                    currentPlayer,
+                    selectedEnemyTarget,
+                    info);
 
         if (isGameOver)
             return;
@@ -543,11 +605,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
         
     }
 
-    private void EnemyTakeTurn(EnemyClass enemy)
+    private IEnumerator EnemyTakeTurn(EnemyClass enemy) 
     {
         if (isGameOver)
         {
-            return;
+            yield break;
         }
 
         Debug.Log(enemy.UnitName + " acts. players.Count = " + players.Count);
@@ -560,11 +622,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (intent.enemy == null)
         {
             EndTurn();
-            return;
+            yield break;
         }
 
         // move to the pre-calculated destination regardless of where players moved
-        enemy.transform.position = intent.destination;
+        yield return StartCoroutine(MoveEnemy(enemy, intent.destination));
         Debug.Log(enemy.UnitName + " moves to  position");
 
         if (intent.targetPlayer == null || intent.targetPlayer.hp <= 0)
@@ -615,7 +677,20 @@ public class TurnBasedSystemV2 : MonoBehaviour
             if (intent.targetPlayer != null && intent.targetPlayer.hp > 0 && distance <= effectiveAttackRange + rangeBuffer)
             {
                 Debug.Log(enemy.UnitName + " attacks " + intent.targetPlayer.UnitName);
-                enemy.BasicAttack(intent.targetPlayer);
+                DamageInfo info = new DamageInfo
+                {
+                    category = enemy.basicAttackCategory,
+                    subtype = enemy.basicAttackSubtype,
+                    hitCount = enemy.hitCount
+                };
+                enemy.PlayAttackAnimation();
+
+                yield return new WaitForSeconds(0.7f);
+                float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
+                intent.targetPlayer.TakeDamage(dmg);
+
+                if (battleLogger != null)
+                    battleLogger.AddEntry($"{enemy.UnitName} attacked {intent.targetPlayer.UnitName} for {dmg} damage.");
             }
             else
             {
@@ -630,12 +705,36 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (isGameOver)
         {
             Debug.Log("Game over — halting turn loop");
-            return;
+            yield break;
         }
 
         StartCoroutine(EndTurnAfterDelay(0.5f));
         // EndTurn();
     }
+    private IEnumerator MoveEnemy(EnemyClass enemy, Vector3 destination)
+    {
+        Animator animator = enemy.GetComponent<Animator>();
+
+        if (animator != null)
+            animator.SetBool("IsRunning", true);
+
+        while (Vector3.Distance(enemy.transform.position, destination) > 0.05f)
+        {
+            enemy.transform.position = Vector3.MoveTowards(
+                enemy.transform.position,
+                destination,
+                5f * Time.deltaTime); // Movement speed
+
+            yield return null;
+        }
+
+        enemy.transform.position = destination;
+
+        if (animator != null)
+            animator.SetBool("IsRunning", false);
+    }
+
+
     private void EndTurn()
     {
         selectedSkill = null;
@@ -675,6 +774,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         NextTurn();
     }
 
+
+
     private void SpawnPlayer()
     {
         players.Clear();
@@ -712,6 +813,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
         }
     }
+
+
+
+
 
     private void SpawnEnemy()
     {
@@ -989,7 +1094,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private IEnumerator StartEnemyTurnAfterDelay(EnemyClass enemy, float delay)
     {  // delay function
         yield return new WaitForSeconds(delay);
-        EnemyTakeTurn(enemy);
+        StartCoroutine(EnemyTakeTurn(enemy)); ;
     }
     private IEnumerator EndTurnAfterDelay(float delay)
     {
