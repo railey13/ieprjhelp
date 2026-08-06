@@ -71,8 +71,11 @@ public abstract class SpecialTurnScript : ScriptableObject
 
         if (triggerSkill != null && context.skill != triggerSkill)
         {
+            // Enzo changes: context.skill can be null if the action was just a basic attack
+            string usedSkillName = context.skill != null ? context.skill.SkillName : "Basic Attack";
+
             Debug.Log("FOLLOW UP DEBUG: cannot trigger because skill does not match triggerSkill");
-            Debug.Log("FOLLOW UP DEBUG: used skill = " + context.skill.SkillName);
+            Debug.Log("FOLLOW UP DEBUG: used action = " + usedSkillName);
             Debug.Log("FOLLOW UP DEBUG: required skill = " + triggerSkill.SkillName);
             return false;
         }

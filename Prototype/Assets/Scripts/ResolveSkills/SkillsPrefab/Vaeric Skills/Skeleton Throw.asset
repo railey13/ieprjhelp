@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc13a25c2def4e0d8c29fd719f29e71, type: 3}
+  m_Name: Skeleton Throw
+  m_EditorClassIdentifier: Assembly-CSharp::ResolveBounceDamageSkill
+  SkillName: Skeleton Throw
+  MPCost: 0
+  range: 6
+  cooldown: 0
+  damage: 30
+  addUserAtk: 0
+  extraBounces: 2
+  bounceRange: 4
+  bounceDamageMultiplier: 1

@@ -1,34 +1,41 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum enemyType { Melee1, Ranged1, Magician1, Boss1 };
 public class EnemyClass : UnitClass
 {
-    [Header("Enemy Variables")]
-    public enemyType enemyType;
+    protected override void Awake()
+    {
+        // Enzo changes: UnitClass already sets up skillStates so I just use that instead of making another one here
+        base.Awake();
+    }
 
     public virtual void BasicAttack(PlayerClass target)
     {
-        target.TakeDamage(atk);
+        if (target == null)
+            return;
 
+        target.TakeDamage(atk);
     }
 
     public void ShowIntent(bool willAttack, bool willSkill, PlayerClass target)
     {
+        if (target == null)
+            return;
+
         string intentText;
+
         if (willSkill)
         {
-            intentText = "Skill used against" + target.UnitName;
+            intentText = "Skill used against " + target.UnitName;
         }
-        if (willAttack)
+        else if (willAttack)
         {
-
             intentText = "Attack " + target.UnitName;
         }
         else
         {
             intentText = "Move";
         }
+
         Debug.Log(UnitName + " intends to: " + intentText);
     }
 }
