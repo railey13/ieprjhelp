@@ -3,26 +3,29 @@ using UnityEngine;
 
 public class DarreneUnit : PlayerClass
 {
-    [Header("Resource")]
+    [Header("Darrene Resource")]
     public int currentResource = 0;
     public int maxResource = 10;
     public int resourceGainWhenHit = 2;
     public int resourceGainWhenDealingDamage = 1;
 
-    [Header("Counter")]
+    [Header("Darrene Counter")]
     public bool counterReady = false;
     public int counterDamage = 40;
     public float counterRadius = 3f;
+
+    [Header("Basic Attack AOE")]
+    public float basicAttackAoeRadius = 2.5f;
 
     public override void BasicAttack(EnemyClass target)
     {
         if (target == null)
             return;
 
-        // Enzo changes: Darrene basic attack hits enemies near the selected target
+        // Enzo changes: Darrene basic attack hits enemies close to the target
         List<UnitClass> enemies = SkillUtility.GetUnitsAround(
             target.transform.position,
-            2.5f,
+            basicAttackAoeRadius,
             this,
             true,
             false
@@ -32,8 +35,10 @@ public class DarreneUnit : PlayerClass
 
         foreach (UnitClass enemy in enemies)
         {
-            SkillUtility.DealDamage(this, enemy, finalDamage, "Darrene Basic AoE");
+            SkillUtility.DealDamage(this, enemy, finalDamage, "Darrene Basic AOE");
         }
+
+        PlayAttackAnimation();
     }
 
     public override void TakeDamage(float damage)
@@ -47,24 +52,29 @@ public class DarreneUnit : PlayerClass
             GainResource(resourceGainWhenHit);
 
         if (counterReady)
+            TriggerCounter();
+    }
+
+    private void TriggerCounter()
+    {
+        counterReady = false;
+
+        List<UnitClass> enemies = SkillUtility.GetUnitsAround(
+            transform.position,
+            counterRadius,
+            this,
+            true,
+            false
+        );
+
+        foreach (UnitClass enemy in enemies)
         {
-            counterReady = false;
-
-            List<UnitClass> enemies = SkillUtility.GetUnitsAround(
-                transform.position,
-                counterRadius,
-                this,
-                true,
-                false
-            );
-
-            foreach (UnitClass enemy in enemies)
-            {
-                SkillUtility.DealDamage(this, enemy, counterDamage, "Counter");
-            }
-
-            Debug.Log(UnitName + " countered after being hit");
+            SkillUtility.DealDamage(this, enemy, counterDamage, "Counter");
         }
+
+        PlayAttackAnimation();
+
+        Debug.Log(UnitName + " countered after being hit");
     }
 
     public void GainResourceFromDealing(int damageDealt)
@@ -77,6 +87,9 @@ public class DarreneUnit : PlayerClass
 
     public void GainResource(int amount)
     {
+        if (amount <= 0)
+            return;
+
         currentResource = Mathf.Min(maxResource, currentResource + amount);
 
         Debug.Log(UnitName + " resource: " + currentResource + "/" + maxResource);
@@ -85,7 +98,10 @@ public class DarreneUnit : PlayerClass
     public bool SpendResource(int amount)
     {
         if (currentResource < amount)
+        {
+            Debug.Log(UnitName + " does not have enough resource");
             return false;
+        }
 
         currentResource -= amount;
 
@@ -97,5 +113,7 @@ public class DarreneUnit : PlayerClass
     public void SetCounterReady()
     {
         counterReady = true;
+
+        Debug.Log(UnitName + " is ready to counter");
     }
 }

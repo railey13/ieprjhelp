@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
 {
-    [Header("Lycanthrope")]
-    public float damageNeededToTransform = 40;
-    public float damageTakenTotal = 0;
+    [Header("Huxley Lycanthrope")]
+    public float damageNeededToTransform = 40f;
+    public float damageTakenTotal = 0f;
     public bool isLycanthrope = false;
 
     [Header("Transformation Buffs")]
@@ -20,18 +20,29 @@ public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
         if (hp <= 0)
             return;
 
+        if (damage <= 0)
+            return;
+
         damageTakenTotal += damage;
 
-        if (!isLycanthrope && damageTakenTotal >= damageNeededToTransform)
-        {
-            isLycanthrope = true;
+        TryTransform();
+    }
 
-            atk += atkBoost;
-            range += rangeBoost;
-            movement += movementBoost;
+    private void TryTransform()
+    {
+        if (isLycanthrope)
+            return;
 
-            Debug.Log(UnitName + " entered Lycanthrope form");
-        }
+        if (damageTakenTotal < damageNeededToTransform)
+            return;
+
+        isLycanthrope = true;
+
+        atk += atkBoost;
+        range += rangeBoost;
+        movement += movementBoost;
+
+        Debug.Log(UnitName + " entered Lycanthrope form");
     }
 
     public int ModifyOutgoingDamage(int damage)
@@ -39,7 +50,7 @@ public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
         if (!isLycanthrope)
             return damage;
 
-        // Enzo changes: this makes Huxley hit harder after transforming
+        // Enzo changes: transformed Huxley hits harder
         return Mathf.RoundToInt(damage * transformedDamageMultiplier);
     }
 }

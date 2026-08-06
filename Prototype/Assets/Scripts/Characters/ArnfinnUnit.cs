@@ -2,26 +2,49 @@ using UnityEngine;
 
 public class ArnfinnUnit : PlayerClass
 {
-    [Header("Fast passive")]
+    [Header("Arnfinn Passive")]
     public int speedBonus = 5;
     public int movementBonus = 2;
 
-    [Header("Harder to target")]
+    [Header("Harder To Target")]
     public int enemyRangePenalty = 1;
 
-    private bool applied = false;
+    private bool passiveApplied = false;
 
     private void Start()
     {
-        if (applied)
+        ApplyArnfinnPassive();
+    }
+
+    private void ApplyArnfinnPassive()
+    {
+        if (passiveApplied)
             return;
 
-        // Enzo changes: simple stat passive for Arnfinn
+        // Enzo changes: I only apply this once so his stats dont keep stacking
         speed += speedBonus;
         movement += movementBonus;
 
-        applied = true;
+        passiveApplied = true;
 
-        Debug.Log(UnitName + " got Arnfinn speed passive");
+        Debug.Log(UnitName + " got Arnfinn passive stats");
+    }
+
+    public override void BasicAttack(EnemyClass target)
+    {
+        if (target == null)
+            return;
+
+        int finalDamage = SkillUtility.BuildDamage(this, atk, false);
+
+        SkillUtility.DealDamage(this, target, finalDamage, "Arrow Shot");
+
+        PlayAttackAnimation();
+    }
+
+    public int GetEnemyRangePenalty()
+    {
+        // Enzo changes: enemy AI can use this later if we want enemies to have lower range against Arnfinn
+        return enemyRangePenalty;
     }
 }

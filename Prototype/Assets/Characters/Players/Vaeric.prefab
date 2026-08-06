@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6624436020302299217}
   - component: {fileID: 160610598562244901}
   - component: {fileID: 2665009565752897938}
+  - component: {fileID: 4084731425785521947}
   m_Layer: 0
   m_Name: Vaeric
   m_TagString: Untagged
@@ -130,19 +131,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VaericUnit
   unitIcon: {fileID: 0}
+  basicAttackCategory: 0
+  basicAttackSubtype: 0
+  hitCount: 0
   UnitName: Vaeric
   hp: 50
+  maxHp: 50
   atk: 15
+  mag: 0
   speed: 8
   movement: 4
   range: 2
+  physDef: 0
+  magDef: 0
+  sharpRes: 1
+  pierceRes: 1
+  bluntRes: 1
+  fireRes: 1
+  natureRes: 1
+  darkRes: 1
   skills:
   - {fileID: 11400000, guid: 73ebadd01fff2454a890a5902c94efe5, type: 2}
   - {fileID: 11400000, guid: 934d02d815e974903b27167da59cabd3, type: 2}
   - {fileID: 11400000, guid: f30516ef966a14bde99a4d04bd3b1b95, type: 2}
   - {fileID: 11400000, guid: dc2d08b7727ff409ab9adbeaeea1189b, type: 2}
   - {fileID: 11400000, guid: beb8aa21bcf264b5ca2d44bc20e096c6, type: 2}
-  maxHp: 50
+  skillStates: []
+  currentCT: 0
+  maxCT: 100
+  IsReady: 0
   selfDamagePerAction: 5
   hasRevived: 0
   reviveAtkBoost: 10
@@ -159,7 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  turnBasedSystem: {fileID: 0}
   moveSpeed: 12
   circleHeight: -5
   rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
@@ -185,3 +201,30 @@ MonoBehaviour:
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
   neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
+  arrowHeight: 1
+  arrowSize: 1.5
+  bobSpeed: 2
+  bobAmount: 0.15
+  arrowColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!95 &4084731425785521947
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007984411562465550}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 13bb99d432c427642adb30ac8f7d8629, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MariaPassive : MonoBehaviour, IOnSkillUsedPassive
 {
+    [Header("Maria Passive")]
     public int castsNeededToEnhance = 3;
     public int currentCasts = 0;
 
@@ -9,6 +10,12 @@ public class MariaPassive : MonoBehaviour, IOnSkillUsedPassive
 
     public void OnSkillUsed(UnitClass user, UnitClass target, Skill skill)
     {
+        if (user == null)
+            return;
+
+        if (user.gameObject != gameObject)
+            return;
+
         if (IsEnhanced)
             return;
 
@@ -20,7 +27,14 @@ public class MariaPassive : MonoBehaviour, IOnSkillUsedPassive
         {
             IsEnhanced = true;
 
-            Debug.Log(user.UnitName + "'s skills are now enhanced");
+            Debug.Log(user.UnitName + "'s support skills are now enhanced");
         }
+    }
+
+    public void ResetEnhanceProgress()
+    {
+        // Enzo changes: just here in case I need to reset her passive for testing
+        currentCasts = 0;
+        IsEnhanced = false;
     }
 }
