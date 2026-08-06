@@ -543,10 +543,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         // Play the attack animation
         PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
 
-        if (playerMovement != null)
-        {
-            playerMovement.PlayAttackAnimation();
-        }
+        currentPlayer.PlayAttackAnimation();
+        yield return new WaitForSeconds(0.8f);
 
         // Wait for the animation to finish
         yield return new WaitForSeconds(0.8f);
