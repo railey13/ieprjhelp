@@ -5,30 +5,55 @@ public class UnitClass : MonoBehaviour
 {
     [Header("UI")]
     public Sprite unitIcon;
-
+    [Header("Basic Attack Type")]
+    public DamageCategory basicAttackCategory = DamageCategory.Physical;
+    public DamageSubtype basicAttackSubtype = DamageSubtype.Sharp;
+    public int hitCount;
     [Header("Stats")]
     public string UnitName;
-
     public int hp;
     public int maxHp;
-    public int atk;
+    public float atk;
+    public float mag;
     public int speed;
     public int movement;
     public int range;
+    [Header("Main Defence")]
+    public float physDef;
+    public float magDef;
+    [Header ("Type Resistances")]
+    public float sharpRes = 1f;
+    public float pierceRes = 1f;
+    public float bluntRes = 1f;
+    public float fireRes = 1f;
+    public float natureRes = 1f;
+    public float darkRes = 1f;
 
-    public List<Skill> skills = new List<Skill>();
+    [Header("Skills")]
+    public List<Skill> skills = new();
+    public List<SkillState> skillStates = new();
+
+    [Header("TurnSystem")]
+    public float currentCT = 0;
+    public float maxCT = 100;
+    public bool IsReady = false;
+
 
     protected virtual void Awake()
     {
-        // Enzo changes: if I forget to set max hp it just uses the starting hp
-        if (maxHp <= 0)
-            maxHp = hp;
+        skillStates.Clear();
+        maxHp = hp;
+        foreach (Skill skill in skills)
+        {
+            skillStates.Add(new SkillState
+            {
+                skill = skill
+            });
+        }
     }
-
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
-        hp -= damage;
-
+        hp -= Mathf.FloorToInt(damage); // always rounds down decimal damage
         Debug.Log(UnitName + " took " + damage + " damage. Current HP: " + hp);
 
         HitEffect hitEffect = GetComponent<HitEffect>();
@@ -45,12 +70,6 @@ public class UnitClass : MonoBehaviour
     public virtual void Heal(int amount)
     {
         hp += amount;
-
-        // Enzo changes: healing shouldnt go over max hp
-        if (maxHp > 0)
-            hp = Mathf.Min(hp, maxHp);
-
-        Debug.Log(UnitName + " healed for " + amount + ". Current HP: " + hp);
     }
 
     protected virtual void Die()
@@ -62,4 +81,27 @@ public class UnitClass : MonoBehaviour
     {
         return hp > 0;
     }
+
+    public float GetResistance(DamageSubtype subtype)
+    {
+        // PHYSICAL SUBTYPES
+        if (subtype == DamageSubtype.Sharp)
+            return sharpRes;
+        else if (subtype == DamageSubtype.Pierce)
+            return pierceRes;
+        else if (subtype == DamageSubtype.Blunt)
+            return bluntRes;
+        // MAGICAL SUBTYPES
+        else if (subtype == DamageSubtype.Fire)
+            return fireRes;
+        else if (subtype == DamageSubtype.Nature)
+            return natureRes;
+        else if (subtype == DamageSubtype.Dark)
+            return darkRes;
+
+        // typeless
+        else
+            return 1f;
+    }
+    
 }
