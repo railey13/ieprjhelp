@@ -394,65 +394,65 @@ public class TurnBasedSystemV2 : MonoBehaviour
                 StartCoroutine(AttackRoutine(currentPlayer));
                 return;
 
-                /*
-                 * 
-                //ANIMATION
-                                PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
+            /*
+             * 
+            //ANIMATION
+                            PlayerMovement playerMovement = currentPlayer.GetComponent<PlayerMovement>();
 
-                                if (playerMovement != null)
+                            if (playerMovement != null)
+                            {
+                                playerMovement.PlayAttackAnimation();
+                            }
+
+
+
+
+
+
+                            ////////////////////
+                            Debug.Log("Player attacks");
+                            // enemies[0].TakeDamage(67); // pick a real target later
+
+                            if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
+                            {
+                                float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
+
+                                // range check incase player moves AFTER targetting
+                                if (distance <= currentPlayer.range + rangeBuffer)
                                 {
-                                    playerMovement.PlayAttackAnimation();
-                                }
+                                    Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
 
-
-
-
-
-
-                                ////////////////////
-                                Debug.Log("Player attacks");
-                                // enemies[0].TakeDamage(67); // pick a real target later
-
-                                if (selectedEnemyTarget != null && selectedEnemyTarget.hp > 0)
-                                {
-                                    float distance = Vector3.Distance(selectedEnemyTarget.transform.position, currentPlayer.transform.position);
-
-                                    // range check incase player moves AFTER targetting
-                                    if (distance <= currentPlayer.range + rangeBuffer)
+                                    // new damage system
+                                    DamageInfo info = new DamageInfo
                                     {
-                                        Debug.Log(currentPlayer.UnitName + " attacks " + selectedEnemyTarget.UnitName);
+                                        category = currentPlayer.basicAttackCategory,
+                                        subtype = currentPlayer.basicAttackSubtype,
+                                        hitCount = currentPlayer.hitCount
 
-                                        // new damage system
-                                        DamageInfo info = new DamageInfo
-                                        {
-                                            category = currentPlayer.basicAttackCategory,
-                                            subtype = currentPlayer.basicAttackSubtype,
-                                            hitCount = currentPlayer.hitCount
+                                    };
+                                    float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
+                                    selectedEnemyTarget.TakeDamage(dmg);
 
-                                        };
-                                        float dmg = DamageCalculator.CalculateDamage(currentPlayer, selectedEnemyTarget, info);
-                                        selectedEnemyTarget.TakeDamage(dmg);
+                                    if (battleLogger != null)
+                                        battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
 
-                                        if (battleLogger != null)
-                                            battleLogger.AddEntry($"{currentPlayer.UnitName} attacked {selectedEnemyTarget.UnitName} for {dmg} damage!");
-
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("Attack failed");
-                                        if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
-                                    }
+                                    break;
                                 }
-                                else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
+                                else
                                 {
-                                    Debug.Log("No valid target selected");
-                                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
+                                    Debug.Log("Attack failed");
+                                    if (battleLogger != null) battleLogger.AddEntry("Attack failed: Out of range.");
                                 }
+                            }
+                            else if (selectedEnemyTarget == null || selectedEnemyTarget.hp <= 0)
+                            {
+                                Debug.Log("No valid target selected");
+                                if (battleLogger != null) battleLogger.AddEntry("Attack failed: No valid target.");
+                            }
 
-                                
-                break;
-                */
+
+            break;
+            */
 
 
 
@@ -533,7 +533,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         EndTurn();
         // selectedAction = TurnAction.None;
     }
-    
+
 
     //ACCODMODATING ANIMATION
     private IEnumerator AttackRoutine(PlayerClass currentPlayer)
@@ -543,7 +543,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
         if (playerMovement != null)
         {
-            playerMovement.PlayAttackAnimation();
+            currentPlayer.PlayAttackAnimation();
         }
 
         // Wait for the animation to finish
@@ -663,11 +663,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     }
 
-    private void EnemyTakeTurn(EnemyClass enemy)
+    private IEnumerator EnemyTakeTurn(EnemyClass enemy) 
     {
         if (isGameOver)
         {
-            return;
+            yield break;
         }
 
         if (battleLogger != null) battleLogger.AddEntry(enemy.UnitName + " moves.");
@@ -682,11 +682,11 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (intent.enemy == null)
         {
             EndTurn();
-            return;
+            yield break;
         }
 
         // move to the pre-calculated destination regardless of where players moved
-        enemy.transform.position = intent.destination;
+        yield return StartCoroutine(MoveEnemy(enemy, intent.destination));
         Debug.Log(enemy.UnitName + " moves to  position");
         float distance = Vector3.Distance(enemy.transform.position, intent.targetPlayer.transform.position);
 
@@ -723,6 +723,9 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     subtype = enemy.basicAttackSubtype,
                     hitCount = enemy.hitCount
                 };
+                enemy.PlayAttackAnimation();
+
+                yield return new WaitForSeconds(0.7f);
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
                 intent.targetPlayer.TakeDamage(dmg);
 
@@ -749,12 +752,35 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (isGameOver)
         {
             Debug.Log("Game over — halting turn loop");
-            return;
+            yield break;
         }
 
         StartCoroutine(EndTurnAfterDelay(0.5f));
         // EndTurn();
     }
+    private IEnumerator MoveEnemy(EnemyClass enemy, Vector3 destination)
+    {
+        Animator animator = enemy.GetComponent<Animator>();
+
+        if (animator != null)
+            animator.SetBool("IsRunning", true);
+
+        while (Vector3.Distance(enemy.transform.position, destination) > 0.05f)
+        {
+            enemy.transform.position = Vector3.MoveTowards(
+                enemy.transform.position,
+                destination,
+                5f * Time.deltaTime); // Movement speed
+
+            yield return null;
+        }
+
+        enemy.transform.position = destination;
+
+        if (animator != null)
+            animator.SetBool("IsRunning", false);
+    }
+
 
     private void EndTurn()
     {
@@ -793,6 +819,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
         NextTurn();
     }
 
+
+
     private void SpawnPlayer()
     {
         players.Clear();
@@ -829,6 +857,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
             }
         }
     }
+
+
+
+
 
     private void SpawnEnemy()
     {
@@ -1068,7 +1100,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     private IEnumerator StartEnemyTurnAfterDelay(EnemyClass enemy, float delay)
     {  // delay function
         yield return new WaitForSeconds(delay);
-        EnemyTakeTurn(enemy);
+        StartCoroutine(EnemyTakeTurn(enemy)); ;
     }
     private IEnumerator EndTurnAfterDelay(float delay)
     {

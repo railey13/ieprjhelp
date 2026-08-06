@@ -93,10 +93,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!moving) return; // cant move if not allowed to
         HandleWASD();
-        if (Keyboard.current.xKey.wasPressedThisFrame)
-        {
-            PlayAttackAnimation();
-        }
+
     }
 
     public void ActivateMovement()
@@ -282,8 +279,5 @@ public class PlayerMovement : MonoBehaviour
     {
         turnSystem = system;
     }
-    public void PlayAttackAnimation()
-    {
-        animator.SetTrigger("Attack");
-    }
+  
 }

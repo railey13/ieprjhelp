@@ -303,8 +303,8 @@ MonoBehaviour:
   PlayerPrefab:
   - {fileID: 6879494447931468396, guid: 7b65ddeb4b4d5a44e93268983b179e07, type: 3}
   EnemyPrefab:
-  - {fileID: 3221063954532474276, guid: afb7f2d4c099b6f4daa9b540ed982098, type: 3}
-  battleLogger: {fileID: 631567109}
+  - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
+  battleLogger: {fileID: 0}
   PlayerSpawnPoints:
   - {fileID: 1780775755}
   - {fileID: 1177677515}
