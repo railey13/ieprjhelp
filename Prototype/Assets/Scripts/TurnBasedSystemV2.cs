@@ -755,7 +755,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
         if (isGameOver)
         {
             Debug.Log("Game over — halting turn loop");
-            return;
+            yield break;
         }
 
         StartCoroutine(EndTurnAfterDelay(0.5f));
