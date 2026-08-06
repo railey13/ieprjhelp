@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd3c04295662b604a984b73342595f63
+guid: 1b3f9546aa5b625428dd45ed9fcf4962
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ranged-Damaged-Sprite_Sheet_0
+      name: Vaeric_Hurt_Sprites_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 33
-        width: 44
-        height: 62
+        x: 61
+        y: 8
+        width: 107
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a6595b6649e0a548a56744f7ebfa950
-      internalID: -1066230704
+      spriteID: e1f8e45bdae451d46a88c9b1ae2e1a8f
+      internalID: -1786018785
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Damaged-Sprite_Sheet_1
+      name: Vaeric_Hurt_Sprites_1
       rect:
         serializedVersion: 2
-        x: 139
-        y: 33
-        width: 44
-        height: 62
+        x: 261
+        y: 8
+        width: 107
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73b2713c3b370c34f8bd168cfe8eb2ce
-      internalID: 223632196
+      spriteID: 0a8e60b71b296bf4283e423c5b90b6c8
+      internalID: -1529421338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Damaged-Sprite_Sheet_2
+      name: Vaeric_Hurt_Sprites_2
       rect:
         serializedVersion: 2
-        x: 234
-        y: 33
-        width: 44
-        height: 62
+        x: 460
+        y: 8
+        width: 107
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fefb0ddd21ef3d2478fed71964435f5b
-      internalID: -822608396
+      spriteID: a9d783fd2b67a1b429f60ab3ec84a0e5
+      internalID: -858694140
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Damaged-Sprite_Sheet_3
+      name: Vaeric_Hurt_Sprites_3
       rect:
         serializedVersion: 2
-        x: 329
-        y: 33
-        width: 44
-        height: 62
+        x: 660
+        y: 8
+        width: 107
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +191,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4a394e97a2d1144693aecab079385a2
-      internalID: 286799487
+      spriteID: 7ff4a981f8a49f242af5286148756006
+      internalID: 773949082
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ranged-Damaged-Sprite_Sheet_4
+      name: Vaeric_Hurt_Sprites_4
       rect:
         serializedVersion: 2
-        x: 424
-        y: 33
-        width: 44
-        height: 62
+        x: 861
+        y: 8
+        width: 107
+        height: 185
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,8 +213,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 628b8cde0f6f7024e8c0a69a01ae1889
-      internalID: -1802639240
+      spriteID: a0eece9150467fe41927bb861dc5e05e
+      internalID: -360355437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vaeric_Hurt_Sprites_5
+      rect:
+        serializedVersion: 2
+        x: 1061
+        y: 8
+        width: 107
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ede9a791c31805448ef8c6c04269d7d
+      internalID: -403787010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vaeric_Hurt_Sprites_6
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 8
+        width: 107
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16d231016d0817f47ba50eeb110f603c
+      internalID: -127224391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vaeric_Hurt_Sprites_7
+      rect:
+        serializedVersion: 2
+        x: 1460
+        y: 8
+        width: 107
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb67fb7602d7ab04097ea6350fa0149f
+      internalID: 1417838871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vaeric_Hurt_Sprites_8
+      rect:
+        serializedVersion: 2
+        x: 1661
+        y: 8
+        width: 107
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ef4826a0e763524ca806871394585b3
+      internalID: 1580725703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vaeric_Hurt_Sprites_9
+      rect:
+        serializedVersion: 2
+        x: 1861
+        y: 8
+        width: 107
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 183fe2bc1bfbb844fad73ae0d73098e0
+      internalID: 1349443386
       vertices: []
       indices: 
       edges: []
@@ -223,7 +333,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7edf1fff3ffb550419cba7ccd51609be
+    spriteID: b8e3506f70867b6449f9ea9104c63100
     internalID: 0
     vertices: []
     indices: 
@@ -235,11 +345,16 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Ranged-Damaged-Sprite_Sheet_0: -1066230704
-      Ranged-Damaged-Sprite_Sheet_1: 223632196
-      Ranged-Damaged-Sprite_Sheet_2: -822608396
-      Ranged-Damaged-Sprite_Sheet_3: 286799487
-      Ranged-Damaged-Sprite_Sheet_4: -1802639240
+      Vaeric_Hurt_Sprites_0: -1786018785
+      Vaeric_Hurt_Sprites_1: -1529421338
+      Vaeric_Hurt_Sprites_2: -858694140
+      Vaeric_Hurt_Sprites_3: 773949082
+      Vaeric_Hurt_Sprites_4: -360355437
+      Vaeric_Hurt_Sprites_5: -403787010
+      Vaeric_Hurt_Sprites_6: -127224391
+      Vaeric_Hurt_Sprites_7: 1417838871
+      Vaeric_Hurt_Sprites_8: 1580725703
+      Vaeric_Hurt_Sprites_9: 1349443386
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
