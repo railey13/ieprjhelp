@@ -2,11 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(PlayerClass))]
 public class PlayerMovement : MonoBehaviour
 {
     //ANIMATION
     private Animator animator;
+    public static bool AnyPlayerMoving { get; private set; }
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 12f;
@@ -14,17 +16,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Indicator")]
     [SerializeField] private float circleHeight = -5.0f; //how high above the ground the circle is
     [SerializeField] private Color rangeColor = new Color(0f, 0.6f, 1f, 0.25f); // circle color
-
     [Header("Attack Circle")]
     [SerializeField] private Color attackRangeColor = new Color(1f, 0.2f, 0.2f, 0.25f); // attack color
     private GameObject attackCircleObj;
-
     [Header("Skill Range Indicator")]
     [SerializeField] private Color skillRangeColor = new Color(0.5f, 0f, 1f, 0.25f); // skills color
     private GameObject skillCircleObj;
 
     [SerializeField] private InputActionAsset inputAsset;
-
     private PlayerClass player;
     private float range;
     private Vector3 origin; // circle anchor
@@ -36,23 +35,18 @@ public class PlayerMovement : MonoBehaviour
     private bool resetOrigin = true;
     private TurnBasedSystemV2 turnSystem;
 
+
     void Awake()
     {
         //animation
         animator = GetComponent<Animator>();
 
-        // Enzo changes: some test characters dont have animations yet so I just skip animator stuff for them
-        if (animator == null)
-            Debug.Log(gameObject.name + " has no Animator so movement animations will be skipped");
+
+
+
+
 
         player = GetComponent<PlayerClass>();
-
-        if (inputAsset == null)
-        {
-            Debug.LogError(gameObject.name + " has no inputAsset assigned in PlayerMovement");
-            return;
-        }
-
         moveAction = inputAsset.FindAction("Player/Move");
         cancelAction = inputAsset.FindAction("Player/Cancel");
         spaceAction = inputAsset.FindAction("Player/Space");
@@ -64,68 +58,41 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+
+
+
         Debug.Log(gameObject.name + " PlayerMovement Start() running");
-
-        if (player == null)
-        {
-            Debug.LogError(gameObject.name + " has no PlayerClass or child player script");
-            return;
-        }
-
         range = player.movement;
         Debug.Log(gameObject.name + " range = " + range);
-
         BuildCircleVisual();
         BuildAttackCircleVisual();
-
         Debug.Log(gameObject.name + " circleObj built? " + (circleObj != null));
-
         SetCircleVisible(false);
     }
 
     void OnEnable()
     {
-        if (moveAction != null)
-            moveAction.Enable();
-
-        if (spaceAction != null)
-        {
-            spaceAction.Enable();
-            spaceAction.performed += OnConfirmSpacePerformed;
-        }
-
-        if (cancelAction != null)
-        {
-            cancelAction.Enable();
-            cancelAction.performed += OnCancelPerformed;
-        }
+        moveAction.Enable();
+        spaceAction.Enable();
+        cancelAction.Enable();
+        spaceAction.performed += OnConfirmSpacePerformed;
+        cancelAction.performed += OnCancelPerformed;
     }
 
     void OnDisable()
     {
-        if (moveAction != null)
-            moveAction.Disable();
-
-        if (spaceAction != null)
-        {
-            spaceAction.performed -= OnConfirmSpacePerformed;
-            spaceAction.Disable();
-        }
-
-        if (cancelAction != null)
-        {
-            cancelAction.performed -= OnCancelPerformed;
-            cancelAction.Disable();
-        }
+        moveAction.Disable();
+        spaceAction.Disable();
+        spaceAction.performed -= OnConfirmSpacePerformed;
+        cancelAction.Disable();
+        cancelAction.performed -= OnCancelPerformed;
     }
 
     void Update()
     {
         if (!moving) return; // cant move if not allowed to
-
         HandleWASD();
-
-        if (Keyboard.current != null && Keyboard.current.xKey.wasPressedThisFrame)
+        if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             PlayAttackAnimation();
         }
@@ -133,38 +100,29 @@ public class PlayerMovement : MonoBehaviour
 
     public void ActivateMovement()
     {
-        // Enzo changes: debug so I know the move button actually reached this script
-        Debug.Log(gameObject.name + " movement mode opened");
-
         OpenMovement();
     }
-
     void OpenMovement()
     {
-        if (circleObj == null)
-        {
-            Debug.LogError(gameObject.name + " has no movement circle");
-            return;
-        }
-
         if (resetOrigin)
         {
             origin = transform.position;
             resetOrigin = false;
         }
-
         // when space, place circle on player
         circleObj.transform.position = new Vector3(
             origin.x, origin.y + circleHeight, origin.z);
 
         SetCircleVisible(true); // show circle during movement 
         moving = true;
+        AnyPlayerMoving = true;
     }
 
     void ConfirmMovement()
     {
         moving = false;
         SetCircleVisible(false);
+        AnyPlayerMoving = false;
 
         if (turnSystem != null)
             turnSystem.OnPlayerMoveConfirmed();
@@ -172,17 +130,15 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleWASD()
     {
-        if (moveAction == null)
-            return;
-
         Vector2 input = moveAction.ReadValue<Vector2>();
 
-        // Enzo changes: only use running animation if this character has an Animator
-        if (animator != null)
-            animator.SetBool("IsRunning", input != Vector2.zero);
+        //ANIMATION
+
+        animator.SetBool("IsRunning", input != Vector2.zero);
 
         if (input == Vector2.zero)
             return;
+        ////
 
         // get camera-relative flat directions
         Transform camT = Camera.main.transform;
@@ -195,12 +151,11 @@ public class PlayerMovement : MonoBehaviour
         camRight.y = 0f;
         camRight.Normalize();
 
-        // movement
-        Vector3 proposed = transform.position + new Vector3(input.x, 0f, input.y).normalized * moveSpeed * Time.deltaTime;
+        Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+        Vector3 proposed = transform.position + moveDir * moveSpeed * Time.deltaTime;
 
         Vector3 offset = proposed - origin;
         offset.y = 0f;
-
         if (offset.magnitude > range)
             proposed = origin + offset.normalized * range;
 
@@ -228,8 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
     void SetCircleVisible(bool visible)
     {
-        if (circleObj != null)
-            circleObj.SetActive(visible); // makes the circle appear/disappear
+        circleObj.SetActive(visible); // makes the circle appear/disappear
     }
 
     // when space is pressed, either open movement or confirm movement
@@ -246,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moving = false;
             SetCircleVisible(false);
+            AnyPlayerMoving = false;
             transform.position = origin; // reset position to original
 
             if (turnSystem != null)
@@ -277,7 +232,6 @@ public class PlayerMovement : MonoBehaviour
 
         attackCircleObj.SetActive(false);
     }
-
     public void ShowAttackRange()
     {
         if (attackCircleObj != null)
@@ -328,13 +282,8 @@ public class PlayerMovement : MonoBehaviour
     {
         turnSystem = system;
     }
-
     public void PlayAttackAnimation()
     {
-        // Enzo changes: test capsules dont have attack animations yet so I just skip this
-        if (animator == null)
-            return;
-
         animator.SetTrigger("Attack");
     }
 }
