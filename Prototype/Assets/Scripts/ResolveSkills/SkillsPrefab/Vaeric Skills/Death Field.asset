@@ -15,7 +15,11 @@ MonoBehaviour:
   SkillName: Death Field
   MPCost: 0
   range: 5
-  cooldown: 0
+  cooldown: 3
+  category: 0
+  subtype: 0
+  mode: 0
+  hitCount: 1
   damage: 20
   addUserAtk: 0
   aoeRadius: 3
