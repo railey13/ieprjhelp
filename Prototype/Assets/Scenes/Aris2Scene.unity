@@ -301,12 +301,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystemV2
   PlayerPrefab:
+  - {fileID: 510303980914126863, guid: 94a02a5b8cdb44c48af3cd3e8ecabf63, type: 3}
+  - {fileID: 8562515082166260651, guid: 46719ed18dd5aa847abc7e409c7aa9c0, type: 3}
   - {fileID: 8663933614574718382, guid: 37d9b2bcf903b504db7def5279467632, type: 3}
   - {fileID: 9186523955699430518, guid: 60e6c0eb74e738b4ca3cec9744f8b461, type: 3}
-  - {fileID: 8562515082166260651, guid: 46719ed18dd5aa847abc7e409c7aa9c0, type: 3}
+  - {fileID: 4007984411562465550, guid: 4868115c07d51c1449b7f7985016fbe7, type: 3}
   - {fileID: 3870123606287764358, guid: 1405d74e54c90b34ba722e0a5f02a409, type: 3}
-  - {fileID: 510303980914126863, guid: 94a02a5b8cdb44c48af3cd3e8ecabf63, type: 3}
-  - {fileID: 6597620200658970499, guid: 4868115c07d51c1449b7f7985016fbe7, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
   PlayerSpawnPoints:
