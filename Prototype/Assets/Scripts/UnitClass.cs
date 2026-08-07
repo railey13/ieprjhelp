@@ -83,7 +83,13 @@ public class UnitClass : MonoBehaviour
                         AudioManager.Instance.PlaySFX("Nature");
                         break;
                 }
-        
+
+        TurnBasedSystemV2 turnSystem = Object.FindFirstObjectByType<TurnBasedSystemV2>();
+        if (turnSystem != null)
+        {
+            turnSystem.WinLoseState();
+        }
+
         if (hp <= 0)
         {
             hp = 0;
