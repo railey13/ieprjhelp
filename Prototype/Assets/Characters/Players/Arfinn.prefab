@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: -5288328242691249483}
   - component: {fileID: -6875691497258027589}
   - component: {fileID: -7512212998871120047}
-  - component: {fileID: -4115221422372570267}
   - component: {fileID: 5814448541871666264}
   - component: {fileID: 8532790922127140221}
   - component: {fileID: 197098071263370374}
   - component: {fileID: 6540729784250076998}
   - component: {fileID: 2300138640487170846}
+  - component: {fileID: -4115221422372570267}
   m_Layer: 0
   m_Name: Arfinn
   m_TagString: Untagged
@@ -150,19 +150,6 @@ MonoBehaviour:
   bobSpeed: 2
   bobAmount: 0.15
   arrowColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &-4115221422372570267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8663933614574718382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d31fc172c678f442597320fef46bdc59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpecialTurnHolder
-  specialTurns: []
 --- !u!212 &5814448541871666264
 SpriteRenderer:
   serializedVersion: 2
@@ -287,3 +274,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitEffect
   vfxScaling: 2
   destroyDelay: 1
+--- !u!114 &-4115221422372570267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663933614574718382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31fc172c678f442597320fef46bdc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpecialTurnHolder
+  specialTurns:
+  - {fileID: 11400000, guid: e6ecc15fea2c8694087dea15d77c7968, type: 2}
