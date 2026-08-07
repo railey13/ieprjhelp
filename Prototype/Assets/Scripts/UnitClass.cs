@@ -52,7 +52,7 @@ public class UnitClass : MonoBehaviour
         }
     }
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, DamageSubtype subtype = DamageSubtype.Sharp)
     {
         PlayHurtAnimation();
 
@@ -61,7 +61,7 @@ public class UnitClass : MonoBehaviour
 
         HitEffect hitEffect = GetComponent<HitEffect>();
         if (hitEffect != null)
-            hitEffect.PlayHitEffect();
+            hitEffect.PlayHitEffect(subtype);
 
         if (hp <= 0)
         {

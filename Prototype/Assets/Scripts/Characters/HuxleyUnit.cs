@@ -13,9 +13,9 @@ public class HuxleyUnit : PlayerClass, IOutgoingDamageModifier
     public int movementBoost = 2;
     public float transformedDamageMultiplier = 1.25f;
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, DamageSubtype subtype)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, subtype);
 
         if (hp <= 0)
             return;

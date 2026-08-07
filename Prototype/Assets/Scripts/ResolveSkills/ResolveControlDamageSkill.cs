@@ -26,7 +26,7 @@ public class ResolveControlDamageSkill : Skill
 
         int finalDamage = SkillUtility.BuildDamage(user, damage, addUserAtk);
 
-        SkillUtility.DealDamage(user, target, finalDamage, SkillName);
+        SkillUtility.DealDamage(user, target, finalDamage, SkillName, user.basicAttackSubtype);
 
         // Enzo changes: this is the simple version of cc for now
         if (movementMinus > 0)
