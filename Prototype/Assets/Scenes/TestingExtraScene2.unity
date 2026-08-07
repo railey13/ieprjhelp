@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 289005472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.76, y: 1.75, z: 2.7}
+  m_LocalPosition: {x: 10.76, y: 1.4, z: 2.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -904,7 +904,7 @@ Transform:
   m_GameObject: {fileID: 646843165}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.5, y: 0.99, z: -23}
+  m_LocalPosition: {x: 11.5, y: 0.39, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1317,7 +1317,7 @@ Transform:
   m_GameObject: {fileID: 1780775754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.59, y: 0.99, z: -23}
+  m_LocalPosition: {x: -7.59, y: 0.39, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1391,8 +1391,43 @@ MonoBehaviour:
     loop: 0
     randomizePitch: 0
     pitchVariance: 0
-  - name: MetalHit
-    clip: {fileID: 8300000, guid: df8385e8129407645b33d460b2fab1a0, type: 3}
+  - name: Blunt
+    clip: {fileID: 8300000, guid: c223f84cfdbf097418485201a4015bdd, type: 3}
+    volume: 0.705
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Stab
+    clip: {fileID: 8300000, guid: 49739a17fb3c3fe4f95d273f0dffe817, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 0
+    pitchVariance: 0
+  - name: Slash
+    clip: {fileID: 8300000, guid: 8e2a5bea36ff5f54aa7a7dc1e81aa74d, type: 3}
+    volume: 0.901
+    pitch: 1
+    loop: 0
+    randomizePitch: 0
+    pitchVariance: 0
+  - name: Heal
+    clip: {fileID: 8300000, guid: 35e577a242360ac47ad080930efc20e2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 0
+    pitchVariance: 0
+  - name: Dark
+    clip: {fileID: 8300000, guid: 1d6dd266811233f409e6154145aa6959, type: 3}
+    volume: 1
+    pitch: 0.8
+    loop: 0
+    randomizePitch: 0
+    pitchVariance: 0
+  - name: Nature
+    clip: {fileID: 8300000, guid: dbb0a642968bdc34189c97c41f1b3d15, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -1661,7 +1696,7 @@ Transform:
   m_GameObject: {fileID: 2099932590}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.16, y: 0.99, z: -23}
+  m_LocalPosition: {x: 2.16, y: 0.64, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

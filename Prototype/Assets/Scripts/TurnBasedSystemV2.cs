@@ -1015,7 +1015,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
             float distance = toTarget.magnitude;
             Vector3 direction = toTarget.normalized;
 
-            float moveDistance = Mathf.Min(Mathf.Max(0f, distance - 1.5f), enemy.movement); // makes sure not to overshoot the player (1.5f is a stopping distance incase of intersection)
+            float moveDistance = Mathf.Min(distance, enemy.movement); // makes sure not to overshoot the player
             Vector3 destination = enemy.transform.position + direction * moveDistance;
 
             // will they be in range to attack after moving?

@@ -109,7 +109,7 @@ public class TurnBasedSystem : MonoBehaviour
         {
             case TurnAction.Attack:
                 Debug.Log("Player attacks");
-                enemies[0].TakeDamage(67); // pick a real target later
+
                 break;
 
             case TurnAction.Heal:

@@ -23,7 +23,7 @@ public class VaericDamageSkill : Skill
 
         finalDamage = VaericSkillTools.ApplyVaericBonus(user, finalDamage);
 
-        target.TakeDamage(finalDamage);
+        target.TakeDamage(finalDamage, DamageSubtype.Dark);
 
         Debug.Log(user.UnitName + " used " + SkillName + " on " + target.UnitName);
 
