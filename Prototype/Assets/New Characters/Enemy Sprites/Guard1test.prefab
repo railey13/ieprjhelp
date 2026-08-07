@@ -232,7 +232,7 @@ MonoBehaviour:
   currentCT: 0
   maxCT: 100
   IsReady: 0
-  enemyType: 1
+  enemyType: 0
 --- !u!114 &4657419581391591420
 MonoBehaviour:
   m_ObjectHideFlags: 0
