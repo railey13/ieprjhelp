@@ -63,6 +63,12 @@ public class UnitClass : MonoBehaviour
         if (hitEffect != null)
             hitEffect.PlayHitEffect(subtype);
 
+        TurnBasedSystemV2 turnSystem = Object.FindFirstObjectByType<TurnBasedSystemV2>();
+        if (turnSystem != null)
+        {
+            turnSystem.WinLoseState();
+        }
+
         if (hp <= 0)
         {
             hp = 0;
