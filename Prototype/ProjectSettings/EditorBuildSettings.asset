@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Prototype.unity
+    path: Assets/Scenes/Testing Scenes/Prototype.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
-    path: Assets/Scenes/MainMenuScene.unity
+    path: Assets/Scenes/Testing Scenes/MainMenuScene.unity
     guid: f112dddee93fc594692ac1859c259ade
   - enabled: 0
-    path: Assets/Scenes/Turn Scene.unity
+    path: Assets/Scenes/Testing Scenes/Turn Scene.unity
     guid: 7a9cfe18b2378af44babdb0dd9a7c6ac
   - enabled: 0
     path: Assets/Scenes/Controls.unity
@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 435f8ff0f0bc6be4d94fbf3e08e4cd9b
   - enabled: 1
-    path: Assets/Scenes/ValScene.unity
+    path: Assets/Scenes/Testing Scenes/ValScene.unity
     guid: 8f7e39009f6b92b429604092e3578e0c
   - enabled: 1
     path: Assets/Scenes/WinScene.unity
