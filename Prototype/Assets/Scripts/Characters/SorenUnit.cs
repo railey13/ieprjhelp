@@ -12,9 +12,9 @@ public class SorenUnit : PlayerClass, IOutgoingDamageModifier
 
     private int movementGainedFromHits = 0;
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, DamageSubtype subtype)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, subtype);
 
         if (hp <= 0)
             return;

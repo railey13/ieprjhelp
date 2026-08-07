@@ -20,7 +20,7 @@ public class ResolveDamageSkill : Skill
 
         int finalDamage = SkillUtility.BuildDamage(user, damage, addUserAtk);
 
-        SkillUtility.DealDamage(user, target, finalDamage, SkillName);
+        SkillUtility.DealDamage(user, target, finalDamage, SkillName, user.basicAttackSubtype);
 
         // Enzo changes: I let passives happen after the skill resolves
         SkillUtility.NotifySkillUsed(user, target, this);
