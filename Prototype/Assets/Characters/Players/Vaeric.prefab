@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6597620200658970499
+--- !u!1 &4007984411562465550
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,15 +8,13 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 883912623551762337}
-  - component: {fileID: 5051086435089809320}
-  - component: {fileID: -6075401848024340260}
-  - component: {fileID: 7404413709682043845}
-  - component: {fileID: 7445967079893775231}
-  - component: {fileID: -6238909417280777769}
-  - component: {fileID: -3378626632317043768}
-  - component: {fileID: 4028249286952276506}
-  - component: {fileID: 7592147590639918929}
+  - component: {fileID: 4778557833153342643}
+  - component: {fileID: 9205881236159119081}
+  - component: {fileID: 6624436020302299217}
+  - component: {fileID: 160610598562244901}
+  - component: {fileID: 2665009565752897938}
+  - component: {fileID: 4084731425785521947}
+  - component: {fileID: 6119247224443368195}
   m_Layer: 0
   m_Name: Vaeric
   m_TagString: Untagged
@@ -24,28 +22,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &883912623551762337
+--- !u!4 &4778557833153342643
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.86361, y: 0, z: -11.59917}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5051086435089809320
+--- !u!136 &9205881236159119081
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -62,32 +60,32 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6075401848024340260
+--- !u!114 &6624436020302299217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 358956f96bd034aeda2d24f7a00e9098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VaericUnit
-  unitIcon: {fileID: -214032271, guid: acb6f32533ab4594fa3ba2d13e0e7993, type: 3}
-  basicAttackCategory: 0
-  basicAttackSubtype: 0
+  unitIcon: {fileID: 0}
+  basicAttackCategory: 1
+  basicAttackSubtype: 5
   hitCount: 1
   UnitName: Vaeric
-  hp: 65
-  maxHp: 65
-  atk: 20
-  mag: 0
-  speed: 10
-  movement: 5
-  range: 6
-  physDef: 1
-  magDef: 1
+  hp: 50
+  maxHp: 50
+  atk: 15
+  mag: 15
+  speed: 8
+  movement: 6
+  range: 4
+  physDef: 0
+  magDef: 0
   sharpRes: 1
   pierceRes: 1
   bluntRes: 1
@@ -96,9 +94,9 @@ MonoBehaviour:
   darkRes: 1
   skills:
   - {fileID: 11400000, guid: 73ebadd01fff2454a890a5902c94efe5, type: 2}
-  - {fileID: 11400000, guid: dc2d08b7727ff409ab9adbeaeea1189b, type: 2}
-  - {fileID: 11400000, guid: f30516ef966a14bde99a4d04bd3b1b95, type: 2}
   - {fileID: 11400000, guid: 934d02d815e974903b27167da59cabd3, type: 2}
+  - {fileID: 11400000, guid: f30516ef966a14bde99a4d04bd3b1b95, type: 2}
+  - {fileID: 11400000, guid: dc2d08b7727ff409ab9adbeaeea1189b, type: 2}
   - {fileID: 11400000, guid: beb8aa21bcf264b5ca2d44bc20e096c6, type: 2}
   skillStates: []
   currentCT: 0
@@ -108,13 +106,31 @@ MonoBehaviour:
   hasRevived: 0
   reviveAtkBoost: 10
   revivedDamageMultiplier: 1.3
---- !u!114 &7404413709682043845
+--- !u!114 &160610598562244901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  moveSpeed: 12
+  circleHeight: -0.9
+  rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
+  attackRangeColor: {r: 1, g: 0.2, b: 0.2, a: 0.25}
+  skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
+  inputAsset: {fileID: -944628639613478452, guid: 29ad2aa47a540334e952d969ce70c8dc, type: 3}
+--- !u!114 &2665009565752897938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007984411562465550}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81a89004954388942b9b9e0790a71bd3, type: 3}
@@ -123,7 +139,7 @@ MonoBehaviour:
   targetLight: {fileID: 0}
   highlightObjects: []
   circleRadius: 0.8
-  circleHeight: 0.05
+  circleHeight: -0.9
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
   neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
@@ -132,64 +148,14 @@ MonoBehaviour:
   bobSpeed: 2
   bobAmount: 0.15
   arrowColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &7445967079893775231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 249d77f151b758145943867900914ac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 12
-  circleHeight: -5
-  rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
-  attackRangeColor: {r: 1, g: 0.2, b: 0.2, a: 0.25}
-  skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
-  inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
---- !u!114 &-6238909417280777769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83f8681077b3ac49b216a6cb47adc40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitEffect
-  vfxScale: 2
-  vfxYOffset: 1
-  destroyDelay: 1
---- !u!114 &-3378626632317043768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 801f8e2eb3ae13443be975ee59eca05c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitTargetable
-  targetLight: {fileID: 0}
-  circleRadius: 0.8
-  circleHeight: 0.05
-  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
-  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
---- !u!95 &4028249286952276506
+--- !u!95 &4084731425785521947
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 22100000, guid: 13bb99d432c427642adb30ac8f7d8629, type: 2}
@@ -204,14 +170,14 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!212 &7592147590639918929
+--- !u!212 &6119247224443368195
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597620200658970499}
+  m_GameObject: {fileID: 4007984411562465550}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
