@@ -18,7 +18,7 @@ public class VaericRemoteBasicAttackSkill : Skill
         float finalDamage = user.atk + bonusDamage;
         finalDamage = VaericSkillTools.ApplyVaericBonus(user, finalDamage);
 
-        target.TakeDamage(finalDamage);
+        target.TakeDamage(finalDamage, DamageSubtype.Dark);
 
         Debug.Log(user.UnitName + " used " + SkillName + " as a remote basic attack on " + target.UnitName);
 

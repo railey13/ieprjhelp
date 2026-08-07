@@ -13,7 +13,11 @@ public struct EnemyIntent
 
 public abstract class EnemyIntentBehavior
 {
+    // How close an enemy is allowed to get to a target before stopping, to avoid overlapping.
+    protected const float minStoppingDistance = 1.5f;
+
     public abstract EnemyIntent CalculateIntent(EnemyClass enemy, List<PlayerClass> players, int turnNumber, float rangeBuffer);
+
     protected PlayerClass FindNearestPlayer(Vector3 fromPosition, List<PlayerClass> players)
     {
         PlayerClass nearest = null;
@@ -34,7 +38,7 @@ public abstract class EnemyIntentBehavior
         return nearest;
     }
 
-    protected Vector3 CalculateMoveDestination(Vector3 fromPosition, Vector3 targetPosition, float movement, int direction)
+    protected Vector3 CalculateMoveDestination(Vector3 fromPosition, Vector3 targetPosition, float movement, int direction, float stoppingDistance = 0f)
     {
         Vector3 delta = (targetPosition - fromPosition) * direction;
         delta.y = 0f;
@@ -52,8 +56,9 @@ public abstract class EnemyIntentBehavior
         float moveDistance;
         if (direction > 0)
         {
-            // moving toward the target: never overshoot past it
-            moveDistance = Mathf.Min(distance, movement);
+            // moving toward the target: never overshoot past it, and stop short by stoppingDistance
+            float maxTravel = Mathf.Max(0f, distance - stoppingDistance);
+            moveDistance = Mathf.Min(maxTravel, movement);
         }
         else
         {
@@ -64,9 +69,9 @@ public abstract class EnemyIntentBehavior
         return fromPosition + dir * moveDistance;
     }
 
-    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)
+    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement, float stoppingDistance)
     {
-        return CalculateMoveDestination(fromPosition, targetPosition, movement, 1);
+        return CalculateMoveDestination(fromPosition, targetPosition, movement, 1, stoppingDistance);
     }
 
     protected Vector3 MoveAwayFromTarget(Vector3 fromPosition, Vector3 targetPosition, float movement)

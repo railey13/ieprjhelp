@@ -52,7 +52,7 @@ public class UnitClass : MonoBehaviour
         }
     }
 
-    public virtual void TakeDamage(float damage, DamageSubtype subtype = DamageSubtype.Sharp)
+    public virtual void TakeDamage(float damage, DamageSubtype subtype)
     {
         PlayHurtAnimation();
 
@@ -62,6 +62,27 @@ public class UnitClass : MonoBehaviour
         HitEffect hitEffect = GetComponent<HitEffect>();
         if (hitEffect != null)
             hitEffect.PlayHitEffect(subtype);
+                switch (subtype)
+                {
+                    case DamageSubtype.Sharp:
+                        AudioManager.Instance.PlaySFX("Sharp");
+                        break;
+                    case DamageSubtype.Pierce:
+                        AudioManager.Instance.PlaySFX("Stab");
+                        break;
+                    case DamageSubtype.Blunt:
+                        AudioManager.Instance.PlaySFX("Blunt");
+                        break;
+                    case DamageSubtype.Fire:
+                        AudioManager.Instance.PlaySFX("Fireball");
+                        break;
+                    case DamageSubtype.Dark:
+                        AudioManager.Instance.PlaySFX("Dark");
+                        break;
+                    case DamageSubtype.Nature:
+                        AudioManager.Instance.PlaySFX("Nature");
+                        break;
+                }
 
         TurnBasedSystemV2 turnSystem = Object.FindFirstObjectByType<TurnBasedSystemV2>();
         if (turnSystem != null)
