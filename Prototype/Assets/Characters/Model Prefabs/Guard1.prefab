@@ -308,10 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83f8681077b3ac49b216a6cb47adc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitEffect
-  hitVFXPrefab: {fileID: 8443315704496310910, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
+  vfxScaling: 2
   destroyDelay: 2
-  vfxScale: 25
-  vfxYOffset: 1.5
 --- !u!114 &6343626068632989610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +404,7 @@ Animator:
   m_GameObject: {fileID: 3221063954532474276}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: fb9da9668d537ae47a3111520249f5d3, type: 2}
+  m_Controller: {fileID: 22100000, guid: 1c6789e219d1f184fa2ecc9e2548919e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
