@@ -302,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystemV2
   PlayerPrefab:
   - {fileID: 6879494447931468396, guid: 7b65ddeb4b4d5a44e93268983b179e07, type: 3}
+  - {fileID: 6879494447931468396, guid: 94b38fe2adb9ed245a6a2d785ba6fb39, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
   PlayerSpawnPoints:
@@ -1052,7 +1053,7 @@ Transform:
   m_GameObject: {fileID: 1177677514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.47, y: 1.34, z: -0.52}
+  m_LocalPosition: {x: 6.29, y: 1.34, z: -25.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
