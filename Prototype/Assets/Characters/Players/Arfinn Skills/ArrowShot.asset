@@ -15,7 +15,7 @@ MonoBehaviour:
   SkillName: ArrowShot
   MPCost: 0
   range: 7
-  cooldown: 25
+  cooldown: 3
   category: 0
   subtype: 0
   mode: 0

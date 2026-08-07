@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a0ad654cfa64ee9b613fdaa54bae5c, type: 3}
   m_Name: ArfinnSpecialTurn
   m_EditorClassIdentifier: Assembly-CSharp::FollowUpAttackSpecialTurn
-  specialTurnName: Special Turn
+  specialTurnName: Followup Attack
   triggerSkill: {fileID: 0}
   requireDamage: 1
   requireEnemyTarget: 1
@@ -21,5 +21,5 @@ MonoBehaviour:
   useOwnerRange: 1
   customRange: 3
   rangeBuffer: 0.5
-  useOwnerAttackStat: 1
+  useOwnerAttackStat: 0
   customDamage: 10
