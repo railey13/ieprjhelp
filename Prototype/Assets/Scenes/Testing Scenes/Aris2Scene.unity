@@ -998,6 +998,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleLogger
   logText: {fileID: 2065122104}
   maxLines: 8
+--- !u!1 &766719095
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 766719097}
+  - component: {fileID: 766719096}
+  m_Layer: 0
+  m_Name: HitEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &766719096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766719095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be11d69de5d7114c9cdf15d4c21b6f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitEffectManager
+  hitEffects:
+  - subtype: 2
+    vfxPrefab: {fileID: 8443315704496310910, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
+  - subtype: 0
+    vfxPrefab: {fileID: 2955623459812423943, guid: f5507a8c6a22c404ab324980c4e8a11b, type: 3}
+  - subtype: 1
+    vfxPrefab: {fileID: 5024009746357069194, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
+  - subtype: 3
+    vfxPrefab: {fileID: 162584487599433031, guid: 39f852c28f9c3fd45a427c24f3564ba7, type: 3}
+  - subtype: 5
+    vfxPrefab: {fileID: 362261158077530393, guid: 20fda529c996a334da7fd65b48ea40df, type: 3}
+  - subtype: 4
+    vfxPrefab: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
+  defaultVFXPrefab: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
+--- !u!4 &766719097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766719095}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.56205, y: -0, z: -7.12931}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,8 +1485,43 @@ MonoBehaviour:
     loop: 0
     randomizePitch: 0
     pitchVariance: 0
-  - name: MetalHit
-    clip: {fileID: 8300000, guid: df8385e8129407645b33d460b2fab1a0, type: 3}
+  - name: Nature
+    clip: {fileID: 8300000, guid: dbb0a642968bdc34189c97c41f1b3d15, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Blunt
+    clip: {fileID: 8300000, guid: c223f84cfdbf097418485201a4015bdd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Stab
+    clip: {fileID: 8300000, guid: 49739a17fb3c3fe4f95d273f0dffe817, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Sharp
+    clip: {fileID: 8300000, guid: 8e2a5bea36ff5f54aa7a7dc1e81aa74d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Heal
+    clip: {fileID: 8300000, guid: 35e577a242360ac47ad080930efc20e2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    randomizePitch: 1
+    pitchVariance: 0
+  - name: Dark
+    clip: {fileID: 8300000, guid: 1d6dd266811233f409e6154145aa6959, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -1728,3 +1821,4 @@ SceneRoots:
   - {fileID: 1898928098}
   - {fileID: 334606367}
   - {fileID: 1010423912}
+  - {fileID: 766719097}
