@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc01342a92d04d5db648da69a567a31, type: 3}
-  m_Name: Skeleton Hand
-  m_EditorClassIdentifier: Assembly-CSharp::ResolveDamageSkill
-  SkillName: Skeleton Hand
-  MPCost: 5
-  range: 5
-  cooldown: 3
+  m_Script: {fileID: 11500000, guid: 3fb434186617448f69aaecf39ff63c4a, type: 3}
+  m_Name: HuxleyBasicAttack
+  m_EditorClassIdentifier: Assembly-CSharp::HuxleyDamageSkill
+  SkillName: Basic Attack
+  MPCost: 0
+  range: 2
+  cooldown: 1
   category: 0
   subtype: 0
   mode: 0
   hitCount: 1
-  damage: 35
-  addUserAtk: 0
+  damage: 20
+  addUserAtk: 1
   enemiesOnly: 1

@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc01342a92d04d5db648da69a567a31, type: 3}
-  m_Name: Skeleton Hand
-  m_EditorClassIdentifier: Assembly-CSharp::ResolveDamageSkill
-  SkillName: Skeleton Hand
-  MPCost: 5
-  range: 5
+  m_Script: {fileID: 11500000, guid: f5ef16d7e9da64ec1931aad8a13be0ea, type: 3}
+  m_Name: Cleave
+  m_EditorClassIdentifier: Assembly-CSharp::SorenDamageSkill
+  SkillName: Cleave
+  MPCost: 0
+  range: 10
   cooldown: 3
   category: 0
   subtype: 0
   mode: 0
   hitCount: 1
   damage: 35
-  addUserAtk: 0
+  addUserAtk: 1
   enemiesOnly: 1

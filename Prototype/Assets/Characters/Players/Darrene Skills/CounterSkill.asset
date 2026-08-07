@@ -9,17 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc01342a92d04d5db648da69a567a31, type: 3}
-  m_Name: Skeleton Hand
-  m_EditorClassIdentifier: Assembly-CSharp::ResolveDamageSkill
-  SkillName: Skeleton Hand
-  MPCost: 5
-  range: 5
-  cooldown: 3
+  m_Script: {fileID: 11500000, guid: e13420e759a0d4e798d2eb3c722045e1, type: 3}
+  m_Name: CounterSkill
+  m_EditorClassIdentifier: Assembly-CSharp::DarreneNewCounterSkill
+  SkillName: CounterSkill
+  MPCost: 0
+  range: 10
+  cooldown: 2
   category: 0
   subtype: 0
   mode: 0
   hitCount: 1
-  damage: 35
-  addUserAtk: 0
-  enemiesOnly: 1

@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc01342a92d04d5db648da69a567a31, type: 3}
-  m_Name: Skeleton Hand
-  m_EditorClassIdentifier: Assembly-CSharp::ResolveDamageSkill
-  SkillName: Skeleton Hand
-  MPCost: 5
-  range: 5
+  m_Script: {fileID: 11500000, guid: ad5dcbc535a5b4a4a91803ec63f9b8d1, type: 3}
+  m_Name: BeakHelmetStab
+  m_EditorClassIdentifier: Assembly-CSharp::ArnfinnDamageSkill
+  SkillName: Beak Helmet Stab
+  MPCost: 0
+  range: 2
   cooldown: 3
   category: 0
   subtype: 0
   mode: 0
   hitCount: 1
-  damage: 35
-  addUserAtk: 0
+  damage: 25
+  addUserAtk: 1
   enemiesOnly: 1
