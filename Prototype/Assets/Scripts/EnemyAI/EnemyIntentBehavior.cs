@@ -69,7 +69,7 @@ public abstract class EnemyIntentBehavior
         return fromPosition + dir * moveDistance;
     }
 
-    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement, float stoppingDistance = 0f)
+    protected Vector3 MoveTowardTarget(Vector3 fromPosition, Vector3 targetPosition, float movement, float stoppingDistance)
     {
         return CalculateMoveDestination(fromPosition, targetPosition, movement, 1, stoppingDistance);
     }

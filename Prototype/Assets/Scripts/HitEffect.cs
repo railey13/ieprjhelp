@@ -4,7 +4,7 @@ public class HitEffect : MonoBehaviour
 {
     private float vfxScale = 2f;
     [SerializeField] private float vfxScaling = 2.0f;
-    private float vfxYOffset = -0.5f;
+    private float vfxYOffset = 0f;
     
     [SerializeField] private float destroyDelay = 1.0f;
 

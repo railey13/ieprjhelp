@@ -14,7 +14,7 @@ public class Melee1 : EnemyIntentBehavior
             return intent;
         }
 
-        Vector3 destination = MoveTowardTarget(enemy.transform.position, target.transform.position, enemy.movement);
+        Vector3 destination = MoveTowardTarget(enemy.transform.position, target.transform.position, enemy.movement, minStoppingDistance);
 
         // will they be in range to attack after moving?
         float distanceAfterMove = Vector3.Distance(destination, target.transform.position);

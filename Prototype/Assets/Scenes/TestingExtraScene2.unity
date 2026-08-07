@@ -333,7 +333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurnBasedSystemV2
   PlayerPrefab:
   - {fileID: 6879494447931468396, guid: 7b65ddeb4b4d5a44e93268983b179e07, type: 3}
-  - {fileID: 4007984411562465550, guid: 205b2cd739c3044b4ae11dc6f6dfb0b4, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
   PlayerSpawnPoints:
@@ -345,6 +344,8 @@ MonoBehaviour:
   - {fileID: 67364030}
   - {fileID: 1877002358}
   battleLogger: {fileID: 0}
+  winSceneName: WinScene
+  loseSceneName: LoseScene
   doc: {fileID: 388397738}
 --- !u!1 &289005472
 GameObject:
@@ -1405,7 +1406,7 @@ MonoBehaviour:
     loop: 0
     randomizePitch: 0
     pitchVariance: 0
-  - name: Slash
+  - name: Sharp
     clip: {fileID: 8300000, guid: 8e2a5bea36ff5f54aa7a7dc1e81aa74d, type: 3}
     volume: 0.901
     pitch: 1
