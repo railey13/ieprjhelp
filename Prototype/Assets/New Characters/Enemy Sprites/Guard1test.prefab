@@ -204,11 +204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef00994c46abf2748bf8bb56b2833c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
-  unitIcon: {fileID: 21300000, guid: e73f7cfb9b50a984199606186bd81924, type: 3}
+  unitIcon: {fileID: 1125757496, guid: f342874c09fbf794982573bd5507561f, type: 3}
   basicAttackCategory: 0
   basicAttackSubtype: 0
   hitCount: 1
-  UnitName: Angry Thief
+  UnitName: 'Guard '
   hp: 50
   maxHp: 0
   atk: 10
