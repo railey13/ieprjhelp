@@ -40,7 +40,7 @@ public class FollowUpAttackSpecialTurn : SpecialTurnScript
 
         Debug.Log("FOLLOW UP DEBUG: " + owner.UnitName + " follow-up damage = " + finalDamage);
 
-        SkillUtility.DealDamage(owner, context.target, finalDamage, specialTurnName);
+        SkillUtility.DealDamage(owner, context.target, finalDamage, specialTurnName, owner.basicAttackSubtype);
 
         Debug.Log(owner.UnitName + " triggered " + specialTurnName + " on " + context.target.UnitName);
     }

@@ -15,10 +15,14 @@ MonoBehaviour:
   SkillName: Skeleton Hold
   MPCost: 0
   range: 5
-  cooldown: 0
+  cooldown: 3
+  category: 0
+  subtype: 0
+  mode: 0
+  hitCount: 1
   damage: 15
   addUserAtk: 0
-  enemiesOnly: 1
+  enemiesOnly: 0
   movementMinus: 999
   rangeMinus: 0
   minimumMovement: 0

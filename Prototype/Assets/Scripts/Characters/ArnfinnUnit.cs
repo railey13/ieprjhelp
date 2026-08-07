@@ -37,7 +37,7 @@ public class ArnfinnUnit : PlayerClass
 
         int finalDamage = SkillUtility.BuildDamage(this, atk, false);
 
-        SkillUtility.DealDamage(this, target, finalDamage, "Arrow Shot");
+        SkillUtility.DealDamage(this, target, finalDamage, "Arrow Shot", basicAttackSubtype);
 
         PlayAttackAnimation();
     }

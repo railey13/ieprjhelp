@@ -31,7 +31,7 @@ public class ResolveAoeControlDamageSkill : Skill
 
         foreach (UnitClass enemy in enemies)
         {
-            SkillUtility.DealDamage(user, enemy, finalDamage, SkillName);
+            SkillUtility.DealDamage(user, enemy, finalDamage, SkillName, user.basicAttackSubtype);
 
             // Enzo changes: death field slows right away instead of doing damage over time
             if (movementMinus > 0)

@@ -35,15 +35,15 @@ public class DarreneUnit : PlayerClass
 
         foreach (UnitClass enemy in enemies)
         {
-            SkillUtility.DealDamage(this, enemy, finalDamage, "Darrene Basic AOE");
+            SkillUtility.DealDamage(this, enemy, finalDamage, "Darrene Basic AOE", this.basicAttackSubtype);
         }
 
         PlayAttackAnimation();
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, DamageSubtype subtype)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, subtype);
 
         if (hp <= 0)
             return;
@@ -69,7 +69,7 @@ public class DarreneUnit : PlayerClass
 
         foreach (UnitClass enemy in enemies)
         {
-            SkillUtility.DealDamage(this, enemy, counterDamage, "Counter");
+            SkillUtility.DealDamage(this, enemy, counterDamage, "Counter", this.basicAttackSubtype);
         }
 
         PlayAttackAnimation();

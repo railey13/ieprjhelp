@@ -59,7 +59,7 @@ public static class SkillUtility
         return Mathf.Max(0, finalDamage);
     }
 
-    public static int DealDamage(UnitClass user, UnitClass target, int damage, string skillName)
+    public static int DealDamage(UnitClass user, UnitClass target, int damage, string skillName, DamageSubtype subtype)
     {
         if (user == null || target == null)
             return 0;
@@ -67,7 +67,7 @@ public static class SkillUtility
         int hpBefore = target.hp;
 
         // Enzo changes: UnitClass takes float damage but int still works because C# can pass int as float
-        target.TakeDamage(damage);
+        target.TakeDamage(damage, subtype);
 
         int damageDealt = Mathf.Max(0, hpBefore - target.hp);
 

@@ -35,7 +35,7 @@ public class ResolveBounceDamageSkill : Skill
 
             int currentDamage = Mathf.RoundToInt(baseDamage * Mathf.Pow(bounceDamageMultiplier, i));
 
-            SkillUtility.DealDamage(user, currentTarget, currentDamage, SkillName);
+            SkillUtility.DealDamage(user, currentTarget, currentDamage, SkillName, user.basicAttackSubtype);
 
             hitUnits.Add(currentTarget);
 

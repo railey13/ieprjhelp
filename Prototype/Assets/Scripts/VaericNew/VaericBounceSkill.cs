@@ -39,7 +39,7 @@ public class VaericBounceSkill : Skill
 
             float finalDamage = VaericSkillTools.ApplyVaericBonus(user, currentDamage);
 
-            currentTarget.TakeDamage(finalDamage);
+            currentTarget.TakeDamage(finalDamage, DamageSubtype.Dark);
             hitTargets.Add(currentTarget);
 
             Debug.Log(user.UnitName + " bounced " + SkillName + " to " + currentTarget.UnitName);

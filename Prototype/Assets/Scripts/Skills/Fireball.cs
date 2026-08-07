@@ -16,6 +16,8 @@ public class FireballSkill : Skill
 
         float baseDamage = DamageCalculator.CalculateDamage(user, target, info);
         float finalDamage = baseDamage * Multiplier; // Apply the skill's damage multiplier
-        target.TakeDamage(finalDamage);
+        
+        target.TakeDamage(finalDamage, subtype);
+        AudioManager.Instance.PlaySFXAtPoint("Fireball", target.transform.position);
     }
 }

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2665009565752897938}
   - component: {fileID: 4084731425785521947}
   - component: {fileID: 6119247224443368195}
+  - component: {fileID: -5962685596300699324}
+  - component: {fileID: -7156607414937314622}
   m_Layer: 0
   m_Name: Vaeric
   m_TagString: Untagged
@@ -31,8 +33,8 @@ Transform:
   m_GameObject: {fileID: 4007984411562465550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.44439, y: 0, z: -2.91756}
-  m_LocalScale: {x: 0.2434, y: 0.2434, z: 0.2434}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -72,18 +74,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358956f96bd034aeda2d24f7a00e9098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VaericUnit
-  unitIcon: {fileID: 0}
-  basicAttackCategory: 0
-  basicAttackSubtype: 0
-  hitCount: 0
+  unitIcon: {fileID: -214032271, guid: acb6f32533ab4594fa3ba2d13e0e7993, type: 3}
+  basicAttackCategory: 1
+  basicAttackSubtype: 5
+  hitCount: 1
   UnitName: Vaeric
   hp: 50
   maxHp: 50
   atk: 15
-  mag: 0
+  mag: 15
   speed: 8
-  movement: 4
-  range: 2
+  movement: 6
+  range: 4
   physDef: 0
   magDef: 0
   sharpRes: 1
@@ -119,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 12
-  circleHeight: -5
+  circleHeight: -0.9
   rangeColor: {r: 0, g: 0.6, b: 1, a: 0.25}
   attackRangeColor: {r: 1, g: 0.2, b: 0.2, a: 0.25}
   skillRangeColor: {r: 0.5, g: 0, b: 1, a: 0.25}
@@ -139,7 +141,7 @@ MonoBehaviour:
   targetLight: {fileID: 0}
   highlightObjects: []
   circleRadius: 0.8
-  circleHeight: 0.05
+  circleHeight: -0.9
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
   neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}
@@ -229,3 +231,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-5962685596300699324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007984411562465550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83f8681077b3ac49b216a6cb47adc40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitEffect
+  vfxScaling: 2
+  destroyDelay: 1
+--- !u!114 &-7156607414937314622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007984411562465550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801f8e2eb3ae13443be975ee59eca05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitTargetable
+  targetLight: {fileID: 0}
+  circleRadius: 0.8
+  circleHeight: 0.05
+  enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
+  playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
