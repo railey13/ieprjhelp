@@ -265,7 +265,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
     {
         VisualElement skillPanel =
     doc.rootVisualElement.Q<VisualElement>("SkillPanel");
-
+                
         if (skillPanel == null)
         {
             Debug.LogError("SkillPanel not found");
@@ -278,6 +278,12 @@ public class TurnBasedSystemV2 : MonoBehaviour
         foreach (SkillState state in player.skillStates)
         {
             Debug.Log("Adding skill button: " + state.skill.SkillName);
+            Debug.Log(state.skill.SkillName +
+            " Turn=" + TurnNumber +
+            " LastUsed=" + state.lastUsedTurn +
+            " Remaining=" +
+            (state.skill.cooldown - (TurnNumber - state.lastUsedTurn))
+        );
 
             Button button = new Button();
 
