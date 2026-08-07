@@ -165,11 +165,11 @@ MonoBehaviour:
   maxHp: 100
   atk: 20
   mag: 0
-  speed: 5
+  speed: 3
   movement: 5
   range: 3
-  physDef: 2
-  magDef: 2
+  physDef: 25
+  magDef: 25
   sharpRes: 1
   pierceRes: 1
   bluntRes: 1

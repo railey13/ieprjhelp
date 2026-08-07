@@ -212,12 +212,12 @@ MonoBehaviour:
   hp: 50
   maxHp: 0
   atk: 10
-  mag: 10000
+  mag: 0
   speed: 40
   movement: 5
-  range: 10
-  physDef: 50
-  magDef: 10
+  range: 5
+  physDef: 15
+  magDef: 15
   sharpRes: 2
   pierceRes: 1
   bluntRes: 1

@@ -167,9 +167,9 @@ MonoBehaviour:
   mag: 0
   speed: 7
   movement: 6
-  range: 7
-  physDef: 1
-  magDef: 1
+  range: 10
+  physDef: 10
+  magDef: 10
   sharpRes: 1
   pierceRes: 1
   bluntRes: 1
@@ -181,7 +181,7 @@ MonoBehaviour:
   currentCT: 0
   maxCT: 100
   IsReady: 0
-  enemyType: 0
+  enemyType: 1
 --- !u!114 &1861416529545921736
 MonoBehaviour:
   m_ObjectHideFlags: 0
