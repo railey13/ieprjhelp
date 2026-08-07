@@ -9,11 +9,11 @@
     <ui:VisualElement name="TurnOrderContainer" style="flex-grow: 1; position: absolute; bottom: 20px; top: auto; left: auto; right: auto; flex-direction: row; align-items: center; justify-content: center; width: 100%; background-image: none;"/>
     <ui:VisualElement name="SkillPanel" style="flex-grow: 1; position: absolute; height: auto; width: 250px; top: 187px; left: 178px; display: none; background-image: none;"/>
     <ui:VisualElement name="StatsPanel" style="flex-grow: 1; align-items: flex-end; position: absolute; right: 10px; top: 130px; width: 200px; background-color: rgba(0, 0, 0, 0); -unity-text-align: upper-right; font-size: 20px; background-image: url(&quot;project://database/Assets/Material/Materials/Button-removebg-preview.png?fileID=2800000&amp;guid=f0719b3a4b8c4b24ea6bdd54232965d7&amp;type=3#Button-removebg-preview&quot;); background-size: 125% 125%;">
-        <ui:Label text="Label" name="StatsName"/>
+        <ui:Label text="Label" name="StatsName" style="margin-top: 35px;"/>
         <ui:Label text="Label" name="StatsHP"/>
         <ui:Label text="Label" name="StatsATK"/>
         <ui:Label text="Label" name="StatsRange"/>
         <ui:Label text="Label" name="StatsSpeed"/>
-        <ui:Label text="Label" name="StatsMovement"/>
+        <ui:Label text="Label" name="StatsMovement" style="margin-bottom: 35px;"/>
     </ui:VisualElement>
 </ui:UXML>
