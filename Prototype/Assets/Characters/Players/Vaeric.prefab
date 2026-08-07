@@ -14,8 +14,12 @@ GameObject:
   - component: {fileID: 160610598562244901}
   - component: {fileID: 2665009565752897938}
   - component: {fileID: 4084731425785521947}
+<<<<<<< HEAD
   - component: {fileID: -7954510236861175843}
   - component: {fileID: 7701670516125012201}
+=======
+  - component: {fileID: 6119247224443368195}
+>>>>>>> main
   m_Layer: 0
   m_Name: Vaeric
   m_TagString: Untagged
@@ -33,7 +37,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.44439, y: 0, z: -2.91756}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2434, y: 0.2434, z: 0.2434}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -171,7 +175,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+<<<<<<< HEAD
 --- !u!212 &-7954510236861175843
+=======
+--- !u!212 &6119247224443368195
+>>>>>>> main
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -225,11 +233,16 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
+<<<<<<< HEAD
   m_Size: {x: 1.07, y: 1.84}
+=======
+  m_Size: {x: 1.07, y: 1.85}
+>>>>>>> main
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+<<<<<<< HEAD
 --- !u!114 &7701670516125012201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,3 +255,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f756aed92da744040985f3040133f501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Billboard
+=======
+>>>>>>> main
