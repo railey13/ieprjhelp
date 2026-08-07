@@ -31,7 +31,7 @@ public class VaericAoeControlDamageSkill : Skill
 
             finalDamage = VaericSkillTools.ApplyVaericBonus(user, finalDamage);
 
-            unit.TakeDamage(finalDamage);
+            unit.TakeDamage(finalDamage, DamageSubtype.Dark);
 
             unit.movement = Mathf.Max(minimumMovement, unit.movement - movementMinus);
 

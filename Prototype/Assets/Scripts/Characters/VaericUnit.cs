@@ -16,12 +16,12 @@ public class VaericUnit : PlayerClass
         float damage = ApplyVaericDamageBonus(atk);
 
         // Enzo changes: I override this so Vaeric basic attacks also use his revived damage bonus
-        target.TakeDamage(damage);
+        target.TakeDamage(damage, basicAttackSubtype);
 
         TakeSelfDamageFromAction();
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, DamageSubtype subtype)
     {
         int damageInt = Mathf.FloorToInt(damage);
 
@@ -36,7 +36,7 @@ public class VaericUnit : PlayerClass
 
             HitEffect hitEffect = GetComponent<HitEffect>();
             if (hitEffect != null)
-                hitEffect.PlayHitEffect();
+                hitEffect.PlayHitEffect(subtype);
 
             return;
         }
@@ -47,7 +47,7 @@ public class VaericUnit : PlayerClass
 
         HitEffect normalHitEffect = GetComponent<HitEffect>();
         if (normalHitEffect != null)
-            normalHitEffect.PlayHitEffect();
+            normalHitEffect.PlayHitEffect(subtype);
 
         if (hp <= 0)
         {
@@ -62,7 +62,7 @@ public class VaericUnit : PlayerClass
             return;
 
         // Enzo changes: I keep this separate so Vaeric skills can call it after the action resolves
-        TakeDamage(selfDamagePerAction);
+        TakeDamage(selfDamagePerAction, DamageSubtype.Dark);
     }
 
     public float ApplyVaericDamageBonus(float damage)

@@ -26,7 +26,7 @@ public class ResolveAoeDamageSkill : Skill
 
         foreach (UnitClass unit in units)
         {
-            SkillUtility.DealDamage(user, unit, finalDamage, SkillName);
+            SkillUtility.DealDamage(user, unit, finalDamage, SkillName, user.basicAttackSubtype);
         }
 
         // Enzo changes: the whole aoe resolves first then passives react

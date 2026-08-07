@@ -20,7 +20,7 @@ public class ResolveRemoteBasicAttackSkill : Skill
         // Enzo changes: this is like the skeleton hand doing the basic attack for Vaeric
         int finalDamage = SkillUtility.BuildDamage(user, user.atk + bonusDamage, false);
 
-        SkillUtility.DealDamage(user, target, finalDamage, SkillName);
+        SkillUtility.DealDamage(user, target, finalDamage, SkillName, user.basicAttackSubtype);
 
         SkillUtility.NotifySkillUsed(user, target, this);
     }

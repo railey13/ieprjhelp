@@ -542,6 +542,8 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     selectedEnemyTarget,
                     info);
 
+                selectedEnemyTarget.TakeDamage(dmg, currentPlayer.basicAttackSubtype);
+                
                 if (isGameOver)
                     yield break;
 
@@ -689,7 +691,7 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
                 yield return new WaitForSeconds(0.7f);
                 float dmg = DamageCalculator.CalculateDamage(enemy, intent.targetPlayer, info);
-                intent.targetPlayer.TakeDamage(dmg);
+                intent.targetPlayer.TakeDamage(dmg, enemy.basicAttackSubtype);
 
                 if (battleLogger != null)
                     battleLogger.AddEntry($"{enemy.UnitName} attacked {intent.targetPlayer.UnitName} for {dmg} damage.");

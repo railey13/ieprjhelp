@@ -15,7 +15,7 @@ public class EnemyClass : UnitClass
         if (target == null)
             return;
 
-        target.TakeDamage(atk);
+        target.TakeDamage(atk, basicAttackSubtype);
     }
 
     public void ShowIntent(bool willAttack, bool willSkill, PlayerClass target)

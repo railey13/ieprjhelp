@@ -309,10 +309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83f8681077b3ac49b216a6cb47adc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitEffect
-  hitVFXPrefab: {fileID: 8443315704496310910, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
-  destroyDelay: 2
   vfxScale: 25
-  vfxYOffset: 1.5
+  vfxYOffset: 0.5
+  destroyDelay: 2
 --- !u!114 &6343626068632989610
 MonoBehaviour:
   m_ObjectHideFlags: 0

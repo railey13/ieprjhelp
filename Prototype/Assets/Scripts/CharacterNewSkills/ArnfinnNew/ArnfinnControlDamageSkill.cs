@@ -21,7 +21,7 @@ public class ArnfinnControlDamageSkill : Skill
 
         int finalDamage = SkillUtility.BuildDamage(user, damage, addUserAtk);
 
-        SkillUtility.DealDamage(user, target, finalDamage, SkillName);
+        SkillUtility.DealDamage(user, target, finalDamage, SkillName, user.basicAttackSubtype);
 
         target.movement = Mathf.Max(minimumMovement, target.movement - movementMinus);
 
