@@ -73,17 +73,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VaericUnit
   unitIcon: {fileID: 0}
-  basicAttackCategory: 0
-  basicAttackSubtype: 0
+  basicAttackCategory: 1
+  basicAttackSubtype: 5
   hitCount: 1
   UnitName: Vaeric
   hp: 50
   maxHp: 50
   atk: 15
-  mag: 0
+  mag: 15
   speed: 8
-  movement: 4
-  range: 2
+  movement: 6
+  range: 4
   physDef: 0
   magDef: 0
   sharpRes: 1
