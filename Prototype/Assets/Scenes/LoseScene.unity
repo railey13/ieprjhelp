@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd084719202d184b8f0c991c0f78d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  mainGameSceneName: ValScene
+  mainGameSceneName: MainGameScene
   mainMenuSceneName: MainMenu
 --- !u!4 &203440474
 Transform:
