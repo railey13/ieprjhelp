@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5dcbc535a5b4a4a91803ec63f9b8d1, type: 3}
+  m_Name: ArrowShot
+  m_EditorClassIdentifier: Assembly-CSharp::ArnfinnDamageSkill
+  SkillName: ArrowShot
+  MPCost: 0
+  range: 7
+  cooldown: 25
+  category: 0
+  subtype: 0
+  mode: 0
+  hitCount: 1
+  damage: 25
+  addUserAtk: 1
+  enemiesOnly: 1

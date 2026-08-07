@@ -3,5 +3,9 @@
 
 .unity-button {
     text-shadow: 0 0 0 rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/Material/Materials/Button-removebg-preview.png?fileID=2800000&guid=f0719b3a4b8c4b24ea6bdd54232965d7&type=3#Button-removebg-preview");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    color: rgb(250, 235, 215);
 }

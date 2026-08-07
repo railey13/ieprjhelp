@@ -12,6 +12,10 @@ public class TurnBasedSystemV2 : MonoBehaviour
     [SerializeField] private Transform[] PlayerSpawnPoints;
     [SerializeField] private Transform[] EnemySpawnPoints;
     [SerializeField] private BattleLogger battleLogger;
+
+    [SerializeField] private string winSceneName = "WinScene";
+    [SerializeField] private string loseSceneName = "LoseScene";
+
     private float playerSpawnYOffset = 1f;
 
     [SerializeField] private UIDocument doc;
@@ -280,12 +284,26 @@ public class TurnBasedSystemV2 : MonoBehaviour
         skillPanel.Clear();
         skillPanel.style.display = DisplayStyle.Flex;
 
-        foreach (Skill skill in player.skills)
+        foreach (SkillState state in player.skillStates)
         {
-            Debug.Log("Adding skill button: " + skill.SkillName);
+            Debug.Log("Adding skill button: " + state.skill.SkillName);
+
             Button button = new Button();
 
-            button.text = skill.SkillName;
+            if (state.IsReady(TurnNumber))
+            {
+                button.text = state.skill.SkillName;
+            }
+            else
+            {
+                int remaining =
+                    state.skill.cooldown - (TurnNumber - state.lastUsedTurn);
+
+                button.text = state.skill.SkillName + " (" + remaining + ")";
+                button.SetEnabled(false);
+            }
+
+            Skill skill = state.skill;
 
             button.clicked += () =>
             {
@@ -463,7 +481,13 @@ public class TurnBasedSystemV2 : MonoBehaviour
                     int targetHpBefore = skillTarget.hp;
 
                     selectedSkill.Use(CurrentUnit, skillTarget);
+                    SkillState usedState =
+                    currentPlayer.skillStates.Find(s => s.skill == selectedSkill);
 
+                    if (usedState != null)
+                    {
+                        usedState.MarkUsed(TurnNumber);
+                    }
                     Debug.Log(CurrentUnit.UnitName + " used " + selectedSkill.SkillName + " on " + skillTarget.UnitName);
 
                     
@@ -868,20 +892,31 @@ public class TurnBasedSystemV2 : MonoBehaviour
 
     public void WinLoseState()
     {
-        bool anyPlayerAlive = players.Exists(p => p != null && p.hp > 0);
-        bool anyEnemyAlive = enemies.Exists(e => e != null && e.hp > 0);
         enemies.RemoveAll(e => e == null || e.hp <= 0);
         players.RemoveAll(p => p == null || p.hp <= 0);
 
-        if (!anyEnemyAlive)
+        bool anyPlayerAlive = players.Count > 0;
+        bool anyEnemyAlive = enemies.Count > 0;
+
+        if (!anyEnemyAlive && !isGameOver)
         {
-            Debug.Log("All enemies defeated — Win!");
+            Debug.Log("All enemies defeated — Loading Win Scene: " + winSceneName);
             isGameOver = true;
+
+            if (!string.IsNullOrEmpty(winSceneName))
+                SceneManager.LoadScene(winSceneName);
+            else
+                Debug.LogError("Win Scene name is not set in the Inspector!");
         }
-        else if (!anyPlayerAlive)
+        else if (!anyPlayerAlive && !isGameOver)
         {
-            Debug.Log("All players defeated — Lose.");
+            Debug.Log("All players defeated — Loading Lose Scene: " + loseSceneName);
             isGameOver = true;
+
+            if (!string.IsNullOrEmpty(loseSceneName))
+                SceneManager.LoadScene(loseSceneName);
+            else
+                Debug.LogError("Lose Scene name is not set in the Inspector!");
         }
     }
 

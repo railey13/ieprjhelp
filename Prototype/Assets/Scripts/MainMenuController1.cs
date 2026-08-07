@@ -6,7 +6,7 @@ public class MainMenuController1 : MonoBehaviour
     // Existing Load method
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("ValScene");
+        SceneManager.LoadScene("Aris2Scene");
     }
 
     // New method for Quit

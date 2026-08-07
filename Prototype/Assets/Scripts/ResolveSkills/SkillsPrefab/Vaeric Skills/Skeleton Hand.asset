@@ -15,7 +15,11 @@ MonoBehaviour:
   SkillName: Skeleton Hand
   MPCost: 5
   range: 5
-  cooldown: 0
+  cooldown: 3
+  category: 0
+  subtype: 0
+  mode: 0
+  hitCount: 1
   damage: 35
   addUserAtk: 0
   enemiesOnly: 1

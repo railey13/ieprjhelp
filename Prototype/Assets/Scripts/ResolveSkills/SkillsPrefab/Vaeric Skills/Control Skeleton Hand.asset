@@ -16,5 +16,9 @@ MonoBehaviour:
   MPCost: 0
   range: 6
   cooldown: 0
+  category: 0
+  subtype: 0
+  mode: 0
+  hitCount: 1
   enemiesOnly: 1
   bonusDamage: 0
