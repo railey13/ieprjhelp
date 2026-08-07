@@ -305,13 +305,15 @@ MonoBehaviour:
   - {fileID: 4007984411562465550, guid: 4868115c07d51c1449b7f7985016fbe7, type: 3}
   EnemyPrefab:
   - {fileID: 3221063954532474276, guid: c033068d7d6a1604b944aa618b1f6503, type: 3}
+  - {fileID: 6119456067551312543, guid: b7245d975819d4e4b875d61a1382d162, type: 3}
+  - {fileID: 5436750640294354276, guid: 48080905de7fe6b4a8420710353ab993, type: 3}
   PlayerSpawnPoints:
   - {fileID: 1780775755}
   - {fileID: 1177677515}
   EnemySpawnPoints:
   - {fileID: 289005473}
   - {fileID: 338284151}
-  - {fileID: 338284151}
+  - {fileID: 1243758170}
   battleLogger: {fileID: 631567109}
   winSceneName: WinScene
   loseSceneName: LoseScene
@@ -1176,6 +1178,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1243758169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1243758170}
+  m_Layer: 0
+  m_Name: Enemy Position (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1243758170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243758169}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2, y: 1.6, z: -13.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1372866896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,6 +1635,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 289005473}
   - {fileID: 338284151}
+  - {fileID: 1243758170}
   - {fileID: 388397739}
   - {fileID: 72908617}
   - {fileID: 1780775755}
