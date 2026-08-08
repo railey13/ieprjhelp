@@ -36,7 +36,7 @@ public class MainMenuController : MonoBehaviour
     private void onStartClicked(ClickEvent evt)
     {
         
-        SceneManager.LoadScene("ValScene");
+        SceneManager.LoadScene("Aris2Scene");
         isPlay = true;
     }
     private void onExitClicked(ClickEvent evt)

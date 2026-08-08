@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArnfinnUnit
   unitIcon: {fileID: 634268446, guid: a1f7bdf8b9a154f40a36a183ade5cdbc, type: 3}
   basicAttackCategory: 0
-  basicAttackSubtype: 0
+  basicAttackSubtype: 1
   hitCount: 1
   UnitName: Arfinn
   hp: 55

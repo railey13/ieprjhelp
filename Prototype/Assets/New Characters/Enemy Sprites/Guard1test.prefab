@@ -327,7 +327,7 @@ MonoBehaviour:
   highlightObjects:
   - {fileID: 2512670096849447539}
   circleRadius: 0.8
-  circleHeight: -1.15
+  circleHeight: -1.3
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
   neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}

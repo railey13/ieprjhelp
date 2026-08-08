@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyClass
   unitIcon: {fileID: 978125826, guid: feff400eb75b5164b979ac85cb5fc2e1, type: 3}
   basicAttackCategory: 0
-  basicAttackSubtype: 0
+  basicAttackSubtype: 1
   hitCount: 1
   UnitName: Ranged Guard
   hp: 55
@@ -230,7 +230,7 @@ MonoBehaviour:
   targetLight: {fileID: 0}
   highlightObjects: []
   circleRadius: 0.8
-  circleHeight: 0.05
+  circleHeight: -1.3
   enemyTargetColor: {r: 1, g: 0.2, b: 0.2, a: 0.4}
   playerTargetColor: {r: 0.2, g: 0.6, b: 1, a: 0.4}
   neutralTargetColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.4}

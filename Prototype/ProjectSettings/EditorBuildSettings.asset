@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Testing Scenes/ValScene.unity
     guid: 8f7e39009f6b92b429604092e3578e0c
   - enabled: 1
+    path: Assets/Scenes/Aris2Scene.unity
+    guid: 27b5a7d64c1eadb4f850d1d03f9970ea
+  - enabled: 1
     path: Assets/Scenes/WinScene.unity
     guid: df9612d4e9f92394cbc868fab55f4725
   - enabled: 1
