@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using UnityEngine.InputSystem;
 
 
 public class TurnBasedSystemV3 : MonoBehaviour
@@ -64,10 +64,28 @@ public class TurnBasedSystemV3 : MonoBehaviour
             return;
 
         if (waitingForPlayer)
+        {
+            Debug.Log("WAITING FOR PLAYER - CT STOPPED");
+            if (Keyboard.current.xKey.wasPressedThisFrame)
+            {
+                TestEndTurn();
+            }
+
             return;
+        }
 
         TickChargeTime();
     }
+
+    private void TestEndTurn()
+    {
+    Debug.Log("Skipped turn");
+
+        EndTurn();
+
+    }
+
+
 
     private void BuildUnitList()
     {
@@ -124,21 +142,6 @@ public class TurnBasedSystemV3 : MonoBehaviour
 
         currentUnit = null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     ///////////// PLACEHOLDERS////////////
    
@@ -227,7 +230,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
             }
         }
     }
-
+        
     private void SpawnEnemies()
     {
         enemies.Clear();
