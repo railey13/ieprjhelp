@@ -65,11 +65,11 @@ public class TurnBasedSystemV3 : MonoBehaviour
 
         if (waitingForPlayer)
         {
-            Debug.Log("WAITING FOR PLAYER - CT STOPPED");
+            Debug.Log("WAITING FOR PLAYER CT STOPPED");
             if (Keyboard.current.xKey.wasPressedThisFrame)
             {
                 TestEndTurn();
-            }
+            }   
 
             return;
         }
@@ -77,6 +77,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
         TickChargeTime();
     }
 
+    //PRESS x
     private void TestEndTurn()
     {
     Debug.Log("Skipped turn");
