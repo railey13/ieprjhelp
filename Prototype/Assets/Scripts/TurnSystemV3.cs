@@ -1,10 +1,9 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-#if UNITY_EDITOR
-using static UnityEditor.Experimental.GraphView.GraphView;
-#endif
+
 
 public class TurnBasedSystemV3 : MonoBehaviour
 {
@@ -126,26 +125,105 @@ public class TurnBasedSystemV3 : MonoBehaviour
         currentUnit = null;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////// PLACEHOLDERS////////////
+   
+
+    private void OnAttackClicked()
+    {
+        Debug.Log("Attack clicked");
+    }
+
+    private void OnMoveClicked()
+    {
+        Debug.Log("Move clicked");
+    }
+
+    private void OnSkillsClicked()
+    {
+        Debug.Log("Skills clicked");
+    }
+
+    private void OnEndTurnClicked()
+    {
+        Debug.Log("End Turn clicked");
+    }
+
+
+
+    ///////////// PLACEHOLDERS////////////
+
     private void SetupUI()
     {
-        // we'll do this later
+   
+        VisualElement root = uiDocument.rootVisualElement;
+
+        attackButton = root.Q<Button>("Attack");
+        moveButton = root.Q<Button>("Move");
+        skillsButton = root.Q<Button>("Skills");
+        endTurnButton = root.Q<Button>("EndTurnBtn");
+
+        if (attackButton == null)
+            Debug.LogError("Attack button not found!");
+
+        if (moveButton == null)
+            Debug.LogError("Move button not found!");
+
+        if (skillsButton == null)
+            Debug.LogError("Skills button not found!");
+
+        if (endTurnButton == null)
+            Debug.LogError("EndTurnBtn not found!");
+
+        attackButton.clicked += OnAttackClicked;
+        moveButton.clicked += OnMoveClicked;
+        skillsButton.clicked += OnSkillsClicked;
+        endTurnButton.clicked += OnEndTurnClicked;
     }
 
     private void SpawnPlayers()
     {
-       players.Clear();
+        players.Clear();
+
         for (int i = 0; i < playerPrefabs.Length; i++)
         {
             if (i >= playerSpawnPoints.Length)
                 break;
 
-            GameObject obj = Instantiate(playerPrefabs[i], playerSpawnPoints[i].position, playerSpawnPoints[i].rotation);
+            GameObject obj = Instantiate(
+                playerPrefabs[i],
+                playerSpawnPoints[i].position,
+                playerSpawnPoints[i].rotation
+            );
 
-            PlayerClass player = obj.GetComponent<PlayerClass>();
+            PlayerClass player =
+                obj.GetComponent<PlayerClass>()
+                ?? obj.GetComponentInChildren<PlayerClass>();
 
-            if(player != null)
+            if (player != null)
             {
                 players.Add(player);
+            }
+            else
+            {
+                Debug.LogError(
+                    "Player prefab does not contain PlayerClass: "
+                    + obj.name
+                );
             }
         }
     }
