@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,13 @@ public class TurnBasedSystemV3 : MonoBehaviour
     [Header("UI")]
     [SerializeField] private UIDocument uiDocument;
 
+    [Header("GameScreenNames")]
+    [SerializeField] private string winSceneName = "WinScene";
+    [SerializeField] private string loseSceneName = "LoseScene";
+
+    [Header("BattleSystem")]
+    [SerializeField] private BattleLogger battleLogger;
+
     private Button attackButton;
     private Button moveButton;
     private Button skillsButton;
@@ -33,8 +41,22 @@ public class TurnBasedSystemV3 : MonoBehaviour
     private EnemyClass selectedTarget;
     private Skill selectedSkill;
 
+    private EnemyActions enemyAction;
+
     private bool battleRunning = false;
+
     private bool waitingForPlayer = false;
+
+    private float rangeBuffer = 0.5f;
+    private int TurnNumber = 1;
+
+    public BattleLogger GetBattleLogger { get { return battleLogger; } }
+    public List<PlayerClass> GetPlayerList { get { return players; } }
+    public List<EnemyClass> GetEnemyList { get { return enemies; } }
+    public float GetRangeBuffer { get {return rangeBuffer;} }
+    public int GetTurnNumber { get { return TurnNumber; } }
+
+    public bool IsBattleRunning { get { return battleRunning; } }
 
     private enum TurnState
     {
@@ -45,15 +67,22 @@ public class TurnBasedSystemV3 : MonoBehaviour
     }
 
     private TurnState currentState = TurnState.Waiting;
+
     void Start()
     {
         Debug.Log("TurnBasedSystemV3 Start");
         SetupUI();
 
+        // make sure enemyaction script is attached to the same object as turnsystem
+        enemyAction = this.GetComponent<EnemyActions>();
+
         SpawnPlayers();
         SpawnEnemies();
 
         BuildUnitList();
+
+        if(enemyAction) 
+            enemyAction.CalculateEnemyIntents();
 
         battleRunning = true;
     }
@@ -144,8 +173,48 @@ public class TurnBasedSystemV3 : MonoBehaviour
         currentUnit = null;
     }
 
+    public void WinLoseState() {
+        enemies.RemoveAll(e => e == null || e.hp <= 0);
+        players.RemoveAll(p => p == null || p.hp <= 0);
+
+        bool anyPlayerAlive = players.Count > 0;
+        bool anyEnemyAlive = enemies.Count > 0;
+
+        if (!anyEnemyAlive && battleRunning) {
+            Debug.Log("All enemies defeated � Loading Win Scene: " + winSceneName);
+            battleRunning = false;
+
+            if (!string.IsNullOrEmpty(winSceneName))
+                SceneManager.LoadScene(winSceneName);
+            else
+                Debug.LogError("Win Scene name is not set in the Inspector!");
+        }
+        else if (!anyPlayerAlive && battleRunning) {
+            Debug.Log("All players defeated � Loading Lose Scene: " + loseSceneName);
+            battleRunning = false;
+
+            if (!string.IsNullOrEmpty(loseSceneName))
+                SceneManager.LoadScene(loseSceneName);
+            else
+                Debug.LogError("Lose Scene name is not set in the Inspector!");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ///////////// PLACEHOLDERS////////////
-   
+
 
     private void OnAttackClicked()
     {
@@ -165,6 +234,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
     private void OnEndTurnClicked()
     {
         Debug.Log("End Turn clicked");
+        EndTurn();
     }
 
 
@@ -263,6 +333,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
     {
         Debug.Log(enemy.UnitName + " acts.");
 
-        EndTurn();
+        if(enemyAction) 
+            StartCoroutine(enemyAction.EnemyTakeTurn(enemy));
     }
 }
