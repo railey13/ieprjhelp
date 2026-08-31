@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-
+using UnityEngine.InputSystem;
 
 
 public class TurnBasedSystemV3 : MonoBehaviour
@@ -93,10 +93,29 @@ public class TurnBasedSystemV3 : MonoBehaviour
             return;
 
         if (waitingForPlayer)
+        {
+            Debug.Log("WAITING FOR PLAYER CT STOPPED");
+            if (Keyboard.current.xKey.wasPressedThisFrame)
+            {
+                TestEndTurn();
+            }   
+
             return;
+        }
 
         TickChargeTime();
     }
+
+    //PRESS x
+    private void TestEndTurn()
+    {
+    Debug.Log("Skipped turn");
+
+        EndTurn();
+
+    }
+
+
 
     private void BuildUnitList()
     {
@@ -162,7 +181,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
         bool anyEnemyAlive = enemies.Count > 0;
 
         if (!anyEnemyAlive && battleRunning) {
-            Debug.Log("All enemies defeated — Loading Win Scene: " + winSceneName);
+            Debug.Log("All enemies defeated ï¿½ Loading Win Scene: " + winSceneName);
             battleRunning = false;
 
             if (!string.IsNullOrEmpty(winSceneName))
@@ -171,7 +190,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
                 Debug.LogError("Win Scene name is not set in the Inspector!");
         }
         else if (!anyPlayerAlive && battleRunning) {
-            Debug.Log("All players defeated — Loading Lose Scene: " + loseSceneName);
+            Debug.Log("All players defeated ï¿½ Loading Lose Scene: " + loseSceneName);
             battleRunning = false;
 
             if (!string.IsNullOrEmpty(loseSceneName))
@@ -282,7 +301,7 @@ public class TurnBasedSystemV3 : MonoBehaviour
             }
         }
     }
-
+        
     private void SpawnEnemies()
     {
         enemies.Clear();
